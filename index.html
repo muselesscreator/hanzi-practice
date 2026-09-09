@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hanzi Practice</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Hanzi">
+<meta name="theme-color" content="#FAF9F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#191713" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<!-- ── the path ─────────────────────────────────────────────────────── -->
+<main id="path" class="screen path" hidden>
+  <header class="path-head">
+    <div class="stat">
+      <b id="streak-n">0</b>
+      <span>day streak</span>
+    </div>
+    <div class="ring" id="goal-ring"><span id="goal-text"></span></div>
+    <div class="path-links">
+      <button class="linkish" data-go="practice">Practice</button>
+      <button class="linkish" data-go="settings">Settings</button>
+    </div>
+  </header>
+
+  <p id="path-note" class="path-note" hidden></p>
+  <div id="sections" class="sections"></div>
+</main>
+
+<!-- ── lesson ───────────────────────────────────────────────────────── -->
+<main id="lesson" class="screen lesson" hidden>
+  <header class="lesson-head">
+    <button id="lesson-quit" class="quit" aria-label="Leave the lesson">&times;</button>
+    <div class="bar"><div id="lesson-bar" class="bar-fill"></div></div>
+  </header>
+  <p id="lesson-tag" class="lesson-tag" aria-live="polite"></p>
+
+  <div id="ex" class="ex"></div>
+
+  <footer class="lesson-foot">
+    <div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+    <button id="lesson-hint" class="hint-ask" hidden>Hint</button>
+    <button id="lesson-go" class="press" hidden></button>
+  </footer>
+</main>
+
+<!-- ── lesson summary ───────────────────────────────────────────────── -->
+<main id="done" class="screen done" hidden>
+  <h2 id="done-title" class="done-title">Lesson complete</h2>
+  <p id="done-xp" class="done-xp"></p>
+  <p id="done-line" class="done-line"></p>
+  <div id="done-shaky" class="done-shaky"></div>
+  <p id="done-note" class="done-note"></p>
+  <div class="field-stack">
+    <button id="done-again" class="press">Next lesson</button>
+    <button class="linkish" data-go="path">Back to the path</button>
+  </div>
+</main>
+
+<!-- ── practice hub ─────────────────────────────────────────────────── -->
+<main id="practice" class="screen" hidden>
+  <header class="deck-head">
+    <h1>Practice</h1>
+    <button class="linkish" data-go="path">Course</button>
+  </header>
+
+  <ol id="lanes" class="lanes"></ol>
+
+  <p class="lane-note">
+    Practice never moves the path along. It works from what the scheduler says
+    you are closest to forgetting.
+  </p>
+</main>
+
+<!-- ── writing ──────────────────────────────────────────────────────── -->
+<main id="deck" class="screen" hidden>
+  <header class="deck-head">
+    <h1>Writing</h1>
+    <button class="linkish" data-go="practice">Practice</button>
+  </header>
+
+  <section class="queue">
+    <div id="queue-glyphs" class="queue-glyphs" aria-hidden="true"></div>
+    <p id="queue-line" class="queue-line"></p>
+    <button id="start" class="press">Start writing</button>
+  </section>
+
+  <section class="progress">
+    <div class="rule"></div>
+    <p id="progress-line" class="progress-line"></p>
+    <ol id="units" class="units"></ol>
+    <p id="progress-note" class="progress-line"></p>
+  </section>
+</main>
+
+<!-- ── session ──────────────────────────────────────────────────────── -->
+<main id="session" class="screen session" hidden>
+  <nav class="rail" id="rail" aria-label="Session progress"></nav>
+  <p id="batch-tag" class="batch-tag" aria-live="polite"></p>
+
+  <div class="prompt">
+    <p id="prompt-meaning" class="prompt-meaning"></p>
+    <p id="prompt-pinyin" class="prompt-pinyin"></p>
+  </div>
+
+  <div class="stage">
+    <div class="mizige" id="mizige">
+      <svg class="grid" viewBox="0 0 100 100" aria-hidden="true">
+        <rect x="0.5" y="0.5" width="99" height="99" class="grid-edge"/>
+        <path d="M50 0V100M0 50H100M0 0L100 100M100 0L0 100" class="grid-line"/>
+      </svg>
+      <div id="target" class="target"></div>
+      <div id="seal" class="seal" aria-hidden="true"></div>
+    </div>
+    <div id="choices" class="choices" hidden></div>
+  </div>
+
+  <div class="card-meta" id="card-meta"></div>
+
+  <footer class="actions" id="actions"></footer>
+</main>
+
+<!-- ── summary ──────────────────────────────────────────────────────── -->
+<main id="summary" class="screen" hidden>
+  <h2 class="summary-title">Done</h2>
+  <p id="summary-line" class="summary-line"></p>
+  <div id="summary-shaky" class="summary-shaky"></div>
+  <p id="summary-note" class="summary-note"></p>
+  <button class="press" data-go="practice">Back to practice</button>
+</main>
+
+<!-- ── settings ─────────────────────────────────────────────────────── -->
+<main id="settings" class="screen" hidden>
+  <header class="deck-head">
+    <h2>Settings</h2>
+    <button class="linkish" data-go="path">Done</button>
+  </header>
+
+  <label class="field">
+    <span>Daily XP goal</span>
+    <input id="set-goal" type="number" min="10" max="200" step="10" inputmode="numeric">
+  </label>
+
+  <div class="rule"></div>
+
+  <label class="field">
+    <span>New characters per day</span>
+    <input id="set-new" type="number" min="0" max="40" step="1" inputmode="numeric">
+  </label>
+
+  <label class="field field-check">
+    <span>Also quiz reading<em>Show the character, recall its sound and meaning</em></span>
+    <input id="set-read" type="checkbox">
+  </label>
+
+  <div class="rule"></div>
+
+  <div class="field-stack">
+    <button class="linkish" id="export">Save a backup file</button>
+    <label class="linkish" for="import-file">Restore from a backup</label>
+    <input id="import-file" type="file" accept="application/json" hidden>
+    <button class="linkish danger" id="reset">Erase all progress</button>
+  </div>
+
+  <p class="colophon">
+    Lesson order, topics and word lists follow <em>HSK Standard Course</em>
+    (Beijing Language and Culture University Press). Grammar points are indexed
+    against the
+    <a href="https://resources.allsetlearning.com/chinese/grammar/">AllSet
+    Learning Chinese Grammar Wiki</a> (CC BY-NC-SA 3.0). Word data from
+    complete-hsk-vocabulary (MIT), including CC BY-SA glosses from CC-CEDICT.
+    Character order for the writing deck is generated from HSK 3.0 bands,
+    corpus frequency, and component dependency. Stroke data from Make Me a
+    Hanzi. Scheduling by FSRS.
+  </p>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="vendor/hanzi-writer.min.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>

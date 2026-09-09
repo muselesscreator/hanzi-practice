@@ -1,0 +1,6 @@
+node_modules/
+.DS_Store
+
+# Large third-party datasets, re-downloaded on first build
+tools/cache/hsk-complete.json
+tools/cache/makemeahanzi-dictionary.txt

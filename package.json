@@ -1,0 +1,17 @@
+{
+  "name": "hanzi-practice",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Offline hanzi handwriting practice for iPhone, ordered by component dependency.",
+  "scripts": {
+    "build": "node tools/build-curriculum.mjs && node tools/build-course.mjs",
+    "build:course": "node tools/build-course.mjs",
+    "test": "node tools/check.mjs",
+    "serve": "node tools/serve.mjs",
+    "exposure": "node tools/exposure-report.mjs"
+  },
+  "devDependencies": {
+    "hanzi-writer-data": "^2.0.1"
+  }
+}

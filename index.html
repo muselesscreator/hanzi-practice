@@ -33,6 +33,39 @@
   <div id="sections" class="sections"></div>
 </main>
 
+<!-- ── guidebook ────────────────────────────────────────────────────── -->
+<main id="guide" class="screen guide" hidden>
+  <header class="deck-head">
+    <h1 id="guide-title" class="guide-title"></h1>
+    <button class="linkish" data-go="path">Path</button>
+  </header>
+
+  <p id="guide-sub" class="guide-sub"></p>
+  <p id="guide-topic" class="guide-topic"></p>
+  <p id="guide-book" class="guide-book"></p>
+
+  <section class="guide-section">
+    <h2>Words</h2>
+    <ol id="guide-words" class="guide-words"></ol>
+  </section>
+
+  <section class="guide-section">
+    <h2>Grammar</h2>
+    <div id="guide-grammar" class="guide-grammar"></div>
+  </section>
+
+  <section class="guide-section">
+    <h2>Writing</h2>
+    <p id="guide-writing" class="guide-writing"></p>
+    <p class="guide-note">Building blocks are dimmed. They are pieces of other
+    characters, never words on their own.</p>
+  </section>
+
+  <footer class="guide-foot">
+    <button id="guide-go" class="press"></button>
+  </footer>
+</main>
+
 <!-- ── lesson ───────────────────────────────────────────────────────── -->
 <main id="lesson" class="screen lesson" hidden>
   <header class="lesson-head">
@@ -158,6 +191,19 @@
     <span>Also quiz reading<em>Show the character, recall its sound and meaning</em></span>
     <input id="set-read" type="checkbox">
   </label>
+
+  <div class="rule"></div>
+
+  <div class="field field-voice">
+    <span>Voice<em id="voice-line"></em></span>
+    <button id="voice-test" class="linkish">Test</button>
+  </div>
+  <p id="voice-note" class="voice-note" hidden>
+    Sound uses the phone's own speech synthesis. On an iPhone, add a Chinese
+    voice under Settings › Accessibility › Spoken Content › Voices › Chinese,
+    then come back here. Until then lessons are silent and skip the listening
+    and tone exercises.
+  </p>
 
   <div class="rule"></div>
 

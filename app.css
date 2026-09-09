@@ -505,6 +505,20 @@ button, label.linkish {
 }
 
 .field-stack { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.field-voice span { display: block; }
+.field-voice em {
+  display: block;
+  font-style: normal;
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin-top: 2px;
+}
+.voice-note {
+  margin: 4px 0 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
 
 .colophon {
   margin-top: auto;
@@ -646,11 +660,30 @@ button, label.linkish {
 
 .node {
   display: grid;
-  gap: 3px;
+  grid-template-columns: 1fr auto;
+  gap: 3px 14px;
+  align-items: start;
   padding: 14px 0;
   border-top: 1px solid var(--rule);
 }
 .node:last-child { border-bottom: 1px solid var(--rule); }
+.node > span { grid-column: 1; }
+
+/* The guidebook sits beside the node, so the row itself still starts the lesson. */
+.node-guide {
+  grid-column: 2;
+  grid-row: 1 / span 4;
+  align-self: center;
+  padding: 7px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-soft);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+.node-guide:active { background: var(--paper-sunk); }
+
 .node-title {
   font-family: var(--han);
   font-size: 20px;
@@ -665,7 +698,7 @@ button, label.linkish {
   color: var(--ink-faint);
 }
 .node.open:active { opacity: 0.6; }
-.node.locked, .node.pending { opacity: 0.38; }
+.node.locked > span, .node.pending { opacity: 0.38; }
 .node.now .node-title { color: var(--seal); }
 
 .dots {
@@ -681,6 +714,156 @@ button, label.linkish {
 }
 .dots i.on { background: var(--ink); border-color: var(--ink); }
 .node.full .dots i.on { background: var(--jade); border-color: var(--jade); }
+
+/* ── guidebook ────────────────────────────────────────────────────── */
+
+.guide { justify-content: flex-start; }
+.guide .deck-head { margin-bottom: 6px; }
+.guide-title {
+  font-family: var(--han);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.guide-sub {
+  margin: 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink-soft);
+}
+.guide-topic {
+  margin: 10px 0 0;
+  font-size: 15px;
+  max-width: 34ch;
+}
+.guide-book {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+
+.guide-section { margin-top: 30px; }
+.guide-section h2 {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.guide-words {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.guide-words li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 14px;
+  align-items: baseline;
+  padding: 9px 0;
+  border-top: 1px solid var(--rule);
+}
+.guide-words li:last-child { border-bottom: 1px solid var(--rule); }
+.guide-words b {
+  grid-row: 1 / span 2;
+  font-family: var(--han);
+  font-size: 26px;
+  font-weight: 400;
+  min-width: 2.2em;
+  color: var(--ink-faint);
+}
+.guide-words li.met b { color: var(--ink); }
+.guide-words i {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink-soft);
+}
+.guide-words span {
+  font-size: 14px;
+}
+
+.tip-card + .tip-card {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--rule);
+}
+.tip-card h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+.tip-pattern {
+  margin: 4px 0 0;
+  font-family: var(--han);
+  font-size: 17px;
+  color: var(--seal);
+}
+.tip-text {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.tip-examples {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0 0 0 12px;
+  border-left: 2px solid var(--rule);
+}
+.tip-examples li + li { margin-top: 8px; }
+.tip-examples b {
+  display: block;
+  font-family: var(--han);
+  font-size: 18px;
+  font-weight: 400;
+}
+.tip-examples i {
+  display: block;
+  font-family: var(--serif);
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.tip-examples span {
+  display: block;
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+.tip-more {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  text-decoration-color: var(--rule);
+  text-underline-offset: 3px;
+}
+
+.guide-writing {
+  margin: 0;
+  font-family: var(--han);
+  font-size: 30px;
+  line-height: 1.45;
+  letter-spacing: 0.1em;
+  word-break: break-all;
+  color: var(--ink-faint);
+}
+.guide-writing .met { color: var(--ink); }
+.guide-writing .block { opacity: 0.45; }
+.guide-note {
+  margin: 10px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-faint);
+  max-width: 34ch;
+}
+
+.guide-foot {
+  margin-top: auto;
+  padding-top: 30px;
+}
 
 /* ── lesson ───────────────────────────────────────────────────────── */
 
@@ -802,6 +985,48 @@ button, label.linkish {
   font-style: normal;
   color: var(--ink-faint);
 }
+
+/* ── sound ────────────────────────────────────────────────────────── */
+
+/* The replay button. Big when it is the whole cue, inline beside pinyin. */
+.play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 0;
+}
+.play svg { width: 55%; height: 55%; fill: currentColor; }
+.play .wave { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.play:active { background: var(--paper-sunk); }
+.play.big { width: 96px; height: 96px; }
+.play.inline {
+  width: 34px;
+  height: 34px;
+  margin-left: 12px;
+  vertical-align: middle;
+}
+.cue-audio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+}
+.cue-audio .cue-hanzi { text-align: center; }
+.cue-audio .cue-pinyin { text-align: center; }
+.tone-at {
+  font-weight: 400;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 8px;
+  text-decoration-color: var(--jade);
+}
+.ex-tone .tiles button { font-family: var(--serif); font-size: 22px; }
+.ex-tone .tiles button:last-child { flex-basis: 100%; }
 
 /* ── answer tiles ─────────────────────────────────────────────────── */
 

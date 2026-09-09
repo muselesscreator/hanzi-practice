@@ -8,6 +8,7 @@ import {
   keyOf,
 } from './store.js';
 import { buildLesson, buildPractice, checkBank } from './exercises.js';
+import * as audio from './audio.js';
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) =>
@@ -23,6 +24,7 @@ let misses = new Map(); // exercise -> how many times it was answered wrong
 let unit = null;
 let level = 1;
 let mode = 'lesson'; // 'lesson' advances the path; 'practice' just reviews
+let hard = false; // a replay of a finished unit: no hints, more to choose between
 let title = '';
 let onLeave = () => {};
 let stats = null;
@@ -39,18 +41,25 @@ const HINTS = {
   bankZh: 'reveal',
   selectHanzi: 'narrow',
   cloze: 'narrow',
+  listenWord: 'reveal',
+  listenSent: 'reveal',
+  tone: 'reveal',
 };
 
 const XP_LESSON = 10;
 const XP_CLEAN = 5;
+const XP_HARD = 5;
 const XP_PRACTICE_ITEM = 1;
 
-export function startLesson(u, lv, { onExit }) {
+// `hard` replays a finished unit: the path does not move, the hint button is
+// gone, and the exercises lean on production with more to choose between.
+export function startLesson(u, lv, { onExit, hard: isHard = false }) {
   unit = u;
   level = lv;
   mode = 'lesson';
-  title = `${u.textbook} · level ${lv} of ${u.levels}`;
-  begin(buildLesson(u, lv), onExit);
+  hard = isHard;
+  title = hard ? `${u.textbook} · hard replay` : `${u.textbook} · level ${lv} of ${u.levels}`;
+  begin(buildLesson(u, lv, { hard }), onExit);
 }
 
 // A practice set is the same runner over a queue FSRS picked, so a missed item
@@ -60,6 +69,7 @@ export function startPractice(label, items, { onExit }) {
   unit = null;
   level = 0;
   mode = 'practice';
+  hard = false;
   title = label;
   begin(buildPractice(items), onExit);
 }
@@ -151,21 +161,30 @@ function render(ex) {
     match: renderMatch,
     bankZh: renderBank,
     bankEn: renderBank,
+    listenSent: renderBank,
     cloze: renderCloze,
+    listenWord: renderListenWord,
+    tone: renderTone,
   }[ex.type];
   draw(ex, box);
   armHint(ex, box);
+  // Every exercise that is about a sound plays it as it comes up. This runs
+  // inside the tap that advanced the lesson, which is what iOS requires.
+  if (ex.audio) audio.speak(ex.say);
 }
 
+// An audio exercise's hint is its pinyin, and it stays on offer in a hard
+// replay: it is the way through when the voice has died, not a leg up.
 function armHint(ex, box) {
   const kind = HINTS[ex.type];
   const btn = $('lesson-hint');
-  if (!kind) {
+  if (!kind || (hard && !ex.audio)) {
     btn.hidden = true;
     return;
   }
   btn.hidden = false;
   btn.disabled = false;
+  btn.textContent = ex.audio ? 'Show pinyin' : 'Hint';
   btn.onclick = () => {
     if (answered) return;
     ex.hinted = true;
@@ -176,11 +195,31 @@ function armHint(ex, box) {
 }
 
 // Show the sound of what is on screen. Never the meaning, which is the answer.
+// An audio exercise names what to show: its pinyin, or for a tone question
+// the pinyin with the tone marks off.
 function revealHint(ex, box) {
   const cue = box.querySelector('.cue');
   if (!cue || cue.querySelector('.cue-pinyin')) return;
-  const pinyin = ex.type === 'bankZh' ? ex.sentence.pinyin : ex.word.pinyin;
+  const pinyin = ex.fallback ?? (ex.type === 'bankZh' ? ex.sentence.pinyin : ex.word.pinyin);
   if (pinyin) cue.insertAdjacentHTML('beforeend', `<p class="cue-pinyin">${esc(pinyin)}</p>`);
+}
+
+// The replay button: the one control every audio exercise must have, because
+// an utterance can be cut off by anything from a notification to the screen
+// dimming. Wherever a voice is on hand, a word's sound is one tap away.
+function playButton(text, cls = '') {
+  return `<button class="play ${cls}" data-say="${esc(text)}" aria-label="Play again">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="wave" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/></svg>
+  </button>`;
+}
+
+function armPlay(box) {
+  box.querySelectorAll('[data-say]').forEach((btn) => {
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      audio.speak(btn.dataset.say);
+    };
+  });
 }
 
 // Take one wrong tile out of play, so an honest "I am not sure" beats a guess.
@@ -209,14 +248,17 @@ function renderMeet(ex, box) {
         }</span>`
     )
     .join('');
+  const hear = audio.available();
   box.innerHTML =
     ask('A new word') +
     `<div class="meet">
        <p class="meet-word">${esc(w.word)}</p>
-       <p class="meet-pinyin">${esc(w.pinyin)}</p>
+       <p class="meet-pinyin">${esc(w.pinyin)}${hear ? playButton(w.word, 'inline') : ''}</p>
        <p class="meet-meaning">${esc(w.meaning)}</p>
        ${parts ? `<div class="meet-parts">${parts}</div>` : ''}
      </div>`;
+  armPlay(box);
+  if (hear) audio.speak(w.word);
   const go = $('lesson-go');
   go.hidden = false;
   go.className = 'press';
@@ -267,10 +309,14 @@ function tiles(box, options, label, onPick) {
 }
 
 function renderSelectHanzi(ex, box) {
+  const hear = audio.available();
   box.innerHTML =
     ask('Which one is this?') +
-    `<div class="cue"><p class="cue-pinyin">${esc(ex.prompt)}</p>
+    `<div class="cue"><p class="cue-pinyin">${esc(ex.prompt)}${
+      hear ? playButton(ex.word.word, 'inline') : ''
+    }</p>
      <p class="cue-hint">${esc(ex.hint)}</p></div>`;
+  armPlay(box);
   tiles(box, ex.options, (w) => esc(w.word), (w, btn, wrap) => {
     const ok = w.id === ex.answer;
     btn.className = ok ? 'right' : 'wrong';
@@ -287,6 +333,38 @@ function renderSelectMeaning(ex, box) {
     const ok = w.id === ex.answer;
     btn.className = ok ? 'right' : 'wrong';
     if (!ok) markCorrect(wrap, ex.options, (x) => x.id === ex.answer);
+    resolve(ok, `${ex.word.word} ${ex.word.pinyin} — ${ex.word.meaning}`);
+  });
+}
+
+// Hear it, pick it. The cue is nothing but the replay button until the learner
+// asks for the pinyin.
+function renderListenWord(ex, box) {
+  box.innerHTML =
+    ask('What did you hear?') + `<div class="cue cue-audio">${playButton(ex.say, 'big')}</div>`;
+  armPlay(box);
+  tiles(box, ex.options, (w) => esc(w.word), (w, btn, wrap) => {
+    const ok = w.id === ex.answer;
+    btn.className = ok ? 'right' : 'wrong';
+    if (!ok) markCorrect(wrap, ex.options, (x) => x.id === ex.answer);
+    resolve(ok, `${ex.word.word} ${ex.word.pinyin} — ${ex.word.meaning}`);
+  });
+}
+
+// Hear the word, name the tone of the marked syllable. The word is on screen
+// so the learner knows which syllable is asked about; its pinyin is not.
+function renderTone(ex, box) {
+  const chars = [...ex.word.word]
+    .map((ch, i) => (i === ex.at ? `<b class="tone-at">${esc(ch)}</b>` : esc(ch)))
+    .join('');
+  box.innerHTML =
+    ask(ex.word.tones.length > 1 ? 'Which tone is the marked syllable?' : 'Which tone?') +
+    `<div class="cue cue-audio"><p class="cue-hanzi">${chars}</p>${playButton(ex.say, 'big')}</div>`;
+  armPlay(box);
+  tiles(box, ex.options, (o) => esc(o.label), (o, btn, wrap) => {
+    const ok = o.tone === ex.answer;
+    btn.className = ok ? 'right' : 'wrong';
+    if (!ok) markCorrect(wrap, ex.options, (x) => x.tone === ex.answer);
     resolve(ok, `${ex.word.word} ${ex.word.pinyin} — ${ex.word.meaning}`);
   });
 }
@@ -357,12 +435,20 @@ function renderMatch(ex, box) {
 }
 
 // Word bank: tap tiles to build the answer, tap a placed tile to take it back.
+// A listening bank is the Chinese one with the sentence heard instead of read
+// in English.
 function renderBank(ex, box) {
-  const zh = ex.type === 'bankZh';
+  const zh = ex.type !== 'bankEn';
+  const cue =
+    ex.type === 'listenSent'
+      ? `<div class="cue cue-audio">${playButton(ex.say, 'big')}</div>`
+      : `<div class="cue"><p class="${zh ? 'cue-en' : 'cue-hanzi'}">${esc(ex.prompt)}</p>
+     ${!zh && ex.sentence.pinyin ? `<p class="cue-pinyin">${esc(ex.sentence.pinyin)}</p>` : ''}</div>`;
+  const question =
+    ex.type === 'listenSent' ? 'What did you hear?' : zh ? 'Say this in Chinese' : 'Say this in English';
   box.innerHTML =
-    ask(zh ? 'Say this in Chinese' : 'Say this in English') +
-    `<div class="cue"><p class="${zh ? 'cue-en' : 'cue-hanzi'}">${esc(ex.prompt)}</p>
-     ${!zh && ex.sentence.pinyin ? `<p class="cue-pinyin">${esc(ex.sentence.pinyin)}</p>` : ''}</div>
+    ask(question) +
+    `${cue}
      <div class="line" id="bank-line"></div>
      <div class="tiles" id="bank-tiles">${ex.tiles
        .map((t, i) => `<button data-i="${i}">${esc(t)}</button>`)
@@ -407,6 +493,7 @@ function renderBank(ex, box) {
       refresh();
     };
   });
+  armPlay(box);
   refresh();
 }
 
@@ -479,10 +566,12 @@ function finish() {
   const clean = stats.wrong === 0;
   const xp =
     mode === 'lesson'
-      ? XP_LESSON + (clean ? XP_CLEAN : 0)
+      ? XP_LESSON + (hard ? XP_HARD : 0) + (clean ? XP_CLEAN : 0)
       : plan.length * XP_PRACTICE_ITEM;
   addXp(xp);
-  const done = mode === 'lesson' ? completeLevel(unit.id, unit.levels) : 0;
+  // A hard replay is only offered once the unit is finished, so it has no
+  // level to complete.
+  const done = mode === 'lesson' && !hard ? completeLevel(unit.id, unit.levels) : 0;
 
   const secs = Math.round((Date.now() - stats.began) / 1000);
   const accuracy = Math.round((plan.length / Math.max(1, stats.answers)) * 100);
@@ -496,14 +585,16 @@ function finish() {
   ];
 
   $('done-title').textContent =
-    mode === 'lesson' ? 'Lesson complete' : 'Practice complete';
+    mode !== 'lesson' ? 'Practice complete' : hard ? 'Hard replay complete' : 'Lesson complete';
   $('done-again').textContent = mode === 'lesson' ? 'Next lesson' : 'Back to practice';
   $('done-xp').textContent = `+${xp} XP`;
   $('done-line').textContent =
     `${accuracy}% accuracy · ${Math.floor(secs / 60)}m ${secs % 60}s` +
-    (mode === 'lesson'
-      ? ` · level ${done} of ${unit.levels}`
-      : ` · ${plan.length} item${plan.length === 1 ? '' : 's'}`);
+    (mode !== 'lesson'
+      ? ` · ${plan.length} item${plan.length === 1 ? '' : 's'}`
+      : hard
+        ? ` · ${unit.textbook}`
+        : ` · level ${done} of ${unit.levels}`);
   $('done-shaky').innerHTML = shaky.length
     ? shaky.map((s) => `<span>${esc(s)}</span>`).join('')
     : '';
@@ -520,3 +611,4 @@ export function quitLesson() {
 export const lessonUnit = () => unit;
 export const lessonLevel = () => level;
 export const lessonMode = () => mode;
+export const lessonHard = () => hard;

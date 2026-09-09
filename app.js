@@ -7,8 +7,10 @@ import {
   introduce,
   due,
   lapsed,
+  seen,
   isWordKey,
   isSentKey,
+  kindOf,
   today,
   xpToday,
   goalMet,
@@ -20,6 +22,7 @@ import {
 } from './js/store.js';
 import * as C from './js/course.js';
 import * as W from './js/writing.js';
+import * as audio from './js/audio.js';
 import { startLesson, startPractice, lessonMode } from './js/lesson.js';
 
 const $ = (id) => document.getElementById(id);
@@ -90,12 +93,13 @@ function buildBatches() {
 // ── screens ───────────────────────────────────────────────────────────
 
 const screens = [
-  'path', 'lesson', 'done', 'practice', 'deck', 'session', 'summary', 'settings',
+  'path', 'guide', 'lesson', 'done', 'practice', 'deck', 'session', 'summary', 'settings',
 ];
 function go(name) {
   for (const s of screens) $(s).hidden = s !== name;
   window.scrollTo(0, 0);
   if (name === 'path') paintPath();
+  if (name === 'guide') paintGuide();
   if (name === 'practice') paintPractice();
   if (name === 'deck') paintDeck();
   if (name === 'settings') paintSettings();
@@ -136,10 +140,11 @@ function paintPath() {
           }
           const done = Math.min(u.levels, store.course.progress[u.id]?.done ?? 0);
           const open = C.unlocked(u);
+          const full = done >= u.levels;
           const cls = [
             'node',
             open ? 'open' : 'locked',
-            done >= u.levels ? 'full' : '',
+            full ? 'full' : '',
             u.id === current?.id ? 'now' : '',
           ]
             .filter(Boolean)
@@ -151,8 +156,9 @@ function paintPath() {
           return `<li class="${cls}" data-unit="${u.id}">
             <span class="node-title">${esc(u.title)}</span>
             <span class="node-sub">${esc(u.titleEn)} · ${esc(u.textbook)}</span>
-            <span class="node-topic">${esc(u.topic)}</span>
+            <span class="node-topic">${full ? 'Finished · tap for a hard replay' : esc(u.topic)}</span>
             <span class="dots">${dots}</span>
+            <button class="node-guide" data-guide="${u.id}" aria-label="Guidebook for ${esc(u.textbook)}">Guide</button>
           </li>`;
         })
         .join('');
@@ -170,29 +176,143 @@ function paintPath() {
       openLesson(u);
     };
   });
+  $('sections').querySelectorAll('[data-guide]').forEach((el) => {
+    el.onclick = (e) => {
+      e.stopPropagation();
+      openGuide(C.unit(el.dataset.guide));
+    };
+  });
 }
 
+// A finished unit replays on hard: the same fifteen slots, production first,
+// no hints, more to choose between. The path does not move.
 function openLesson(u) {
+  const hard = C.unitDone(u);
   go('lesson');
-  startLesson(u, C.nextLevel(u), {
+  startLesson(u, hard ? u.levels : C.nextLevel(u), {
+    hard,
     onExit: (how) => go(how === 'done' ? 'done' : 'path'),
   });
+}
+
+// ── the guidebook ─────────────────────────────────────────────────────
+
+// What a unit teaches, laid out to read alongside the textbook: its words,
+// its grammar points with the course sentences that show them, and the
+// characters its writing track will ask for. Readable for any unit that has
+// content, locked or not -- it is the page you look at before deciding to
+// play, and the page you come back to when a sentence did not make sense.
+let guideUnit = null;
+
+function openGuide(u) {
+  guideUnit = u;
+  go('guide');
+}
+
+function paintGuide() {
+  const u = guideUnit;
+  if (!u) return go('path');
+  const done = Math.min(u.levels, store.course.progress[u.id]?.done ?? 0);
+  const open = C.unlocked(u);
+
+  $('guide-title').textContent = u.title;
+  $('guide-sub').textContent = `${u.titlePinyin} · ${u.titleEn}`;
+  $('guide-topic').textContent = u.topic;
+  $('guide-book').textContent =
+    `${u.textbook}` + (u.page ? `, from page ${u.page}` : '') +
+    (C.course.spine.verified ? '' : ' · word list unverified against the book');
+
+  $('guide-words').innerHTML = u.words
+    .map(C.word)
+    .filter(Boolean)
+    .map(
+      (w) => `<li class="${seen(w.id, 'r') ? 'met' : ''}">
+        <b>${esc(w.word)}</b>
+        <i>${esc(w.pinyin)}</i>
+        <span>${esc(w.meaning)}</span>
+      </li>`
+    )
+    .join('');
+
+  const tips = u.grammar.map(C.grammar).filter(Boolean);
+  $('guide-grammar').innerHTML = tips.length
+    ? tips
+        .map((g) => {
+          const examples = g.examples
+            .map(C.sentence)
+            .filter(Boolean)
+            .slice(0, 3)
+            .map(
+              (s) => `<li><b>${esc(s.zh)}</b><i>${esc(s.pinyin)}</i><span>${esc(s.en)}</span></li>`
+            )
+            .join('');
+          return `<article class="tip-card">
+            <h3>${esc(g.title)}</h3>
+            <p class="tip-pattern">${esc(g.pattern)}</p>
+            <p class="tip-text">${esc(g.tip)}</p>
+            ${examples ? `<ul class="tip-examples">${examples}</ul>` : ''}
+            ${
+              g.wikiUrl
+                ? `<a class="tip-more" href="${esc(g.wikiUrl)}" target="_blank" rel="noopener">More on the Grammar Wiki</a>`
+                : ''
+            }
+          </article>`;
+        })
+        .join('')
+    : '<p class="guide-note">No grammar points in this lesson.</p>';
+
+  $('guide-writing').innerHTML = u.writing
+    .map((ch) => {
+      const card = W.card(ch);
+      const cls = [card?.block ? 'block' : '', W.started(ch) ? 'met' : ''].filter(Boolean).join(' ');
+      return `<span class="${cls}" title="${esc(card?.pinyin ?? '')} ${esc(card?.meaning ?? '')}">${esc(ch)}</span>`;
+    })
+    .join('');
+
+  const btn = $('guide-go');
+  btn.disabled = !open;
+  btn.textContent = !open
+    ? 'Finish the unit before this one first'
+    : done >= u.levels
+      ? 'Replay on hard'
+      : done === 0
+        ? 'Start the lesson'
+        : `Continue · level ${C.nextLevel(u)} of ${u.levels}`;
+  btn.onclick = () => open && openLesson(u);
 }
 
 function paintSettings() {
   $('set-new').value = store.settings.newPerDay;
   $('set-read').checked = store.settings.readCards;
   $('set-goal').value = store.settings.dailyGoal;
+  paintVoice();
+}
+
+// Which voice the lessons will speak with, or the fact that there is none and
+// where to get one. The list can arrive after boot, so this repaints on
+// change as well as on entry.
+function paintVoice() {
+  const v = audio.voice();
+  $('voice-line').textContent = v ? `${v.name} (${v.lang})` : 'No Chinese voice on this device';
+  $('voice-test').disabled = !v;
+  $('voice-note').hidden = Boolean(v);
 }
 
 // ── the practice hub ──────────────────────────────────────────────────
 
-// Three lanes over one scheduler. Mistakes is what you got wrong and have not
+// Four lanes over one scheduler. Mistakes is what you got wrong and have not
 // yet put right; Words is everything the scheduler says is closest to being
-// forgotten; Writing is the handwriting queue on its own screen.
+// forgotten; Listening is the words whose sound is due, and needs a voice;
+// Writing is the handwriting queue on its own screen.
 function lanes() {
   const wordItems = [...due(['r'], isWordKey), ...due(['b'], isSentKey)];
-  const missed = lapsed((k) => isWordKey(k) || isSentKey(k));
+  const listenItems = due(['l'], isWordKey);
+  const hear = audio.available();
+  // A lapsed listening card can only be put right by ear, so in silence it
+  // waits rather than counting toward a lane that could not play it.
+  const missed = lapsed(
+    (k) => (isWordKey(k) || isSentKey(k)) && (hear || kindOf(k) !== 'l')
+  );
   const chars = W.dueChars().length;
   const words = W.wordItems().length;
   const fresh = W.newChars().length;
@@ -215,6 +335,17 @@ function lanes() {
         ? `${wordItems.length} due`
         : 'Nothing due — play a lesson to add more',
       run: () => runPractice('Words and sentences', wordItems),
+    },
+    {
+      id: 'listening',
+      title: 'Listening',
+      n: hear ? listenItems.length : 0,
+      line: !hear
+        ? 'Needs a Chinese voice — see Settings'
+        : listenItems.length
+          ? `${listenItems.length} due`
+          : 'Nothing due — listening exercises in lessons feed this',
+      run: () => runPractice('Listening', listenItems),
     },
     {
       id: 'writing',
@@ -898,6 +1029,15 @@ $('set-goal').addEventListener('change', (e) => {
   store.settings.dailyGoal = Math.max(10, Math.min(200, Number(e.target.value) || 10));
   e.target.value = store.settings.dailyGoal;
   save();
+});
+
+$('voice-test').addEventListener('click', () => {
+  if (!audio.speak('你好！我是中国人。')) toast('No Chinese voice to test');
+});
+
+audio.onChange(() => {
+  if (!$('settings').hidden) paintVoice();
+  if (!$('practice').hidden) paintPractice();
 });
 
 $('export').addEventListener('click', () => {

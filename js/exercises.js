@@ -1,5 +1,6 @@
 import { keyOf, exposureOf, LIFETIME_TARGET } from './store.js';
 import * as C from './course.js';
+import * as audio from './audio.js';
 
 export function shuffle(a) {
   for (let i = a.length - 1; i > 0; i--) {
@@ -14,6 +15,14 @@ const sample = (a, n) => shuffle([...a]).slice(0, n);
 
 export const LESSON_SIZE = 15;
 const TYPE_CAP = 4; // no exercise type may fill more than this many slots
+
+// A hard replay is the same lesson shape with more to choose between: five
+// wrong answers beside the right one instead of three, and five spare tiles in
+// the word bank. The flag is module state because it is read deep inside the
+// makers, and a lesson is built in one synchronous pass.
+let hard = false;
+const DISTRACTORS = () => (hard ? 5 : 3);
+const EXTRA_TILES = () => (hard ? 5 : 3);
 
 // Wrong answers should be plausible: a word of the same length and, where we
 // can manage it, the same part of speech. Falling back through the whole
@@ -99,7 +108,7 @@ const makers = {
     word: w,
     prompt: w.pinyin,
     hint: w.meaning,
-    options: shuffle([w, ...distractorWords(w, pool, 3)]),
+    options: shuffle([w, ...distractorWords(w, pool, DISTRACTORS())]),
     answer: w.id,
   }),
 
@@ -108,7 +117,7 @@ const makers = {
     key: keyOf(w.id, 'r'),
     word: w,
     prompt: w.word,
-    options: shuffle([w, ...distractorWords(w, pool, 3)]),
+    options: shuffle([w, ...distractorWords(w, pool, DISTRACTORS())]),
     answer: w.id,
   }),
 
@@ -132,7 +141,7 @@ const makers = {
     prompt: s.en,
     answer: s.tokens,
     accepted: [s.tokens, ...s.alt],
-    tiles: bankTiles(s.tokens, pool, 3),
+    tiles: bankTiles(s.tokens, pool, EXTRA_TILES()),
     // The card graded is the sentence's, but the words are what the learner
     // had to retrieve, so exposure is counted over them.
     wordKeys: wordKeysOf(s.tokens),
@@ -145,7 +154,7 @@ const makers = {
     prompt: s.zh,
     answer: s.enTokens,
     accepted: [s.enTokens, ...s.enAlt],
-    tiles: enBankTiles(s.enTokens, poolSentences, 3),
+    tiles: enBankTiles(s.enTokens, poolSentences, EXTRA_TILES()),
   }),
 
   // Fill the blank: hide one token of a sentence, preferring a token the
@@ -162,8 +171,8 @@ const makers = {
     const at = s.tokens.indexOf(target);
     const w = C.word(`w:${target}`);
     const options = w
-      ? shuffle([w, ...distractorWords(w, pool, 3)]).map((x) => x.word)
-      : shuffle([target, ...sample(s.tokens.filter((t) => t !== target), 3)]);
+      ? shuffle([w, ...distractorWords(w, pool, DISTRACTORS())]).map((x) => x.word)
+      : shuffle([target, ...sample(s.tokens.filter((t) => t !== target), DISTRACTORS())]);
     return {
       type: 'cloze',
       key: keyOf(s.id, 'b'),
@@ -175,7 +184,86 @@ const makers = {
       tip: s.grammar.map((gid) => C.grammar(gid)).filter(Boolean)[0] ?? null,
     };
   },
+
+  // -- the two types that need sound ------------------------------------
+  //
+  // Both grade the word's listening card, `word:l`: can the learner tell the
+  // word by ear. They are built only when a Mandarin voice is available, and
+  // every one of them carries `fallback`, the pinyin the runner shows when
+  // the learner asks for it -- priced like a hint, because for a listening
+  // exercise the pinyin is most of the answer.
+
+  // Hear the word, pick the hanzi. The audio form of selectHanzi.
+  listenWord: (w, pool) => ({
+    type: 'listenWord',
+    audio: true,
+    key: keyOf(w.id, 'l'),
+    word: w,
+    say: w.word,
+    fallback: w.pinyin,
+    options: shuffle([w, ...distractorWords(w, pool, DISTRACTORS())]),
+    answer: w.id,
+  }),
+
+  // Hear the sentence, build it from tiles. The words' listening cards are
+  // graded; the words' reading is what was exercised, so exposure counts
+  // there, the way it does for bankZh.
+  listenSent: (s, pool) => ({
+    type: 'listenSent',
+    audio: true,
+    key: null,
+    keys: wordKeysOf(s.tokens).map((k) => k.replace(/:r$/, ':l')),
+    sentence: s,
+    say: s.zh,
+    fallback: s.pinyin,
+    answer: s.tokens,
+    accepted: [s.tokens, ...s.alt],
+    tiles: bankTiles(s.tokens, pool, EXTRA_TILES()),
+    wordKeys: wordKeysOf(s.tokens),
+  }),
+
+  // Hear the word, name the tone of one of its syllables. The five tiles are
+  // that syllable under each tone, so the learner reads the mark as they pick
+  // it rather than translating "third" in their head. Null when the word has
+  // no syllable whose written tone is what the voice will say.
+  tone: (w) => {
+    const targets = toneTargets(w);
+    if (!targets.length) return null;
+    const at = pick(targets);
+    const syllable = w.pinyin.split(/\s+/)[at];
+    return {
+      type: 'tone',
+      audio: true,
+      key: keyOf(w.id, 'l'),
+      word: w,
+      at,
+      say: w.word,
+      fallback: w.pinyin.split(/\s+/).map(audio.bare).join(' '),
+      options: TONES.map((t) => ({ tone: t, label: audio.mark(syllable, t) })),
+      answer: w.tones[at],
+    };
+  },
 };
+
+const TONES = [1, 2, 3, 4, 0];
+
+// Which syllables of a word are fair to ask the tone of: those the voice will
+// say with the tone the dictionary writes. Tone sandhi breaks that in two
+// places a beginner meets at once -- a third tone before another third tone
+// is said as a second, and 不 and 一 change tone with what follows -- so
+// those syllables are left out rather than marked wrong for hearing right.
+function toneTargets(w) {
+  const chars = [...w.word];
+  return w.tones
+    .map((t, i) => i)
+    .filter((i) => !(w.tones[i] === 3 && w.tones[i + 1] === 3))
+    .filter((i) => chars.length === 1 || !['不', '一'].includes(chars[i]));
+}
+
+// The types that cannot be built without a voice. A lesson generated in
+// silence never contains them; one generated with a voice may.
+const AUDIO_TYPES = new Set(['listenWord', 'listenSent', 'tone']);
+const canHear = () => audio.available();
 
 // -- the lesson recipe --------------------------------------------------
 
@@ -269,7 +357,13 @@ function reserve(slots, at, n = MIN_RETRIEVALS) {
 // FALLBACKS if the type it wants is capped or has no data behind it.
 function retrieval(w, step, at, ctx) {
   const want = LADDER[Math.min(step, LADDER.length - 1)];
-  for (const type of FALLBACKS[want]) {
+  // The sound-to-hanzi rung is played by ear half the time when there is a
+  // voice to play it: the same recognition, without the pinyin as a crutch.
+  const order =
+    want === 'selectHanzi' && canHear() && Math.random() < 0.5
+      ? ['listenWord', ...FALLBACKS[want]]
+      : FALLBACKS[want];
+  for (const type of order) {
     const ex = buildFor(type, w, at, ctx);
     if (ex && ctx.room(ex.type)) return ex;
   }
@@ -277,7 +371,7 @@ function retrieval(w, step, at, ctx) {
 }
 
 function buildFor(type, w, at, ctx) {
-  if (type === 'selectHanzi' || type === 'selectMeaning') {
+  if (type === 'selectHanzi' || type === 'selectMeaning' || type === 'listenWord') {
     return makers[type](w, ctx.poolAt(at));
   }
   if (type === 'match') {
@@ -301,8 +395,14 @@ function buildFor(type, w, at, ctx) {
   return makers.bankZh(s, ctx.poolAt(at));
 }
 
-export function buildLesson(u, level) {
-  return C.isTeachLevel(u, level) ? teachLesson(u, level) : reviewLesson(u, level);
+export function buildLesson(u, level, opts = {}) {
+  hard = Boolean(opts.hard);
+  try {
+    if (hard) return hardLesson(u);
+    return C.isTeachLevel(u, level) ? teachLesson(u, level) : reviewLesson(u, level);
+  } finally {
+    hard = false;
+  }
 }
 
 // A teaching level: introduce this level's batch, interleaved rather than
@@ -400,16 +500,23 @@ function fillRest(slots, ctx, counts, put) {
       const n = Math.min(4, words.length);
       return n >= 3 ? makers.match(sample(words, n), pick(['pinyin', 'meaning'])) : null;
     }
-    if (type === 'selectHanzi' || type === 'selectMeaning') {
+    if (type === 'selectHanzi' || type === 'selectMeaning' || type === 'listenWord') {
       return words.length ? makers[type](nextWord(), ctx.poolAt(i)) : null;
     }
+    if (type === 'tone') return words.length ? makers.tone(nextWord()) : null;
     const s = nextSentence();
     if (!s) return null;
     if (type === 'bankEn') return makers.bankEn(s, sents);
     if (type === 'bankZh') return makers.bankZh(s, ctx.poolAt(i));
+    if (type === 'listenSent') return makers.listenSent(s, ctx.poolAt(i));
     return s.tokens.length >= 3 ? makers.cloze(s, ctx.poolAt(i)) : null;
   };
-  const types = ['match', 'bankEn', 'bankZh', 'cloze', 'selectHanzi', 'selectMeaning'];
+  // The silent types lead, so on a tie a lesson rounds out the way it always
+  // has and the audio types take what is left.
+  const types = [
+    'match', 'bankEn', 'bankZh', 'cloze', 'selectHanzi', 'selectMeaning',
+    ...(canHear() ? ['listenWord', 'tone', 'listenSent'] : []),
+  ];
 
   for (let i = 0; i < slots.length; i++) {
     if (slots[i]) continue;
@@ -423,18 +530,35 @@ function fillRest(slots, ctx, counts, put) {
 // Which exercise types a review level leans on. The first reviews the unit;
 // the last also brings back the units before it and leans on production.
 const REVIEW_RECIPE = [
-  ['selectHanzi', 'selectMeaning', 'match', 'bankZh', 'cloze'],
-  ['bankZh', 'cloze', 'bankEn', 'match', 'selectHanzi'],
+  ['selectHanzi', 'selectMeaning', 'match', 'bankZh', 'cloze', 'listenWord', 'tone'],
+  ['bankZh', 'cloze', 'bankEn', 'match', 'listenSent', 'selectHanzi', 'tone'],
 ];
+
+// A hard replay is all production for as long as the sentences hold out.
+// Recognition only turns up once every production type has hit its cap.
+const HARD_RECIPE = ['bankZh', 'cloze', 'bankEn', 'listenSent', 'tone', 'selectHanzi', 'match'];
 
 // A review level: no introductions, fifteen slots of practice, least-practised
 // words first.
 function reviewLesson(u, level) {
   const r = level - C.introBatches(u).length; // 1-based among review levels
-  const wide = r >= 2;
+  return drill(u, {
+    wide: r >= 2,
+    recipe: REVIEW_RECIPE[Math.min(r, REVIEW_RECIPE.length) - 1],
+  });
+}
+
+// Replaying a finished unit: everything taught up to it, production first,
+// and -- through the module flag above -- more to choose between.
+function hardLesson(u) {
+  return drill(u, { wide: true, recipe: HARD_RECIPE });
+}
+
+// Fifteen slots walked off a recipe. `wide` widens the pool from the unit's
+// own words and sentences to everything taught up to and including it.
+function drill(u, { wide, recipe }) {
   const pool = C.wordsThrough(u.id);
   const poolSentences = C.sentencesThrough(u.id);
-  const recipe = REVIEW_RECIPE[Math.min(r, REVIEW_RECIPE.length) - 1];
 
   const wordBag = (wide ? pool : u.words).slice().sort(byPractice).map(C.word).filter(Boolean);
   const sentBag = shuffle([...(wide ? poolSentences : u.sentences)]).map(C.sentence);
@@ -457,20 +581,25 @@ function reviewLesson(u, level) {
   // not, so a type that has hit its cap cannot stall the whole lesson.
   let step = 0;
   let guard = 0;
+  // A recipe names the audio types in silence too; they are skipped here.
+  const hear = canHear();
   while (items.length < LESSON_SIZE && guard++ < LESSON_SIZE * 12) {
     const type = recipe[step++ % recipe.length];
     if (!room(type)) continue;
+    if (AUDIO_TYPES.has(type) && !hear) continue;
     if (type === 'match') {
       const n = Math.min(4, wordBag.length);
       if (n < 3) continue;
       push(makers.match(sample(wordBag, n), pick(['pinyin', 'meaning'])));
-    } else if (type === 'bankZh' || type === 'bankEn' || type === 'cloze') {
+    } else if (['bankZh', 'bankEn', 'cloze', 'listenSent'].includes(type)) {
       const s = nextSentence();
       if (!s) continue;
       if (type === 'cloze' && s.tokens.length < 3) continue;
       push(
         type === 'bankEn' ? makers.bankEn(s, poolSentences) : makers[type](s, pool)
       );
+    } else if (type === 'tone') {
+      push(makers.tone(nextWord()));
     } else {
       push(makers[type](nextWord(), pool));
     }
@@ -485,7 +614,8 @@ function reviewLesson(u, level) {
 // due item, in due order, drawing distractors from everything taught so far.
 // A word alternates between the two select types; a sentence rotates through
 // the ways of producing it, so the same sentence does not always come back as
-// the same exercise.
+// the same exercise. A listening card rotates through hearing the word,
+// naming a tone in it, and hearing a sentence that uses it.
 export function buildPractice(items, size = LESSON_SIZE) {
   const pool = C.readyUnits().flatMap((u) => u.words);
   const poolSentences = C.readyUnits().flatMap((u) => u.sentences);
@@ -494,7 +624,11 @@ export function buildPractice(items, size = LESSON_SIZE) {
 
   for (const it of items) {
     if (out.length >= size) break;
-    if (it.id.startsWith('w:')) {
+    if (it.id.startsWith('w:') && it.kind === 'l') {
+      const w = C.word(it.id);
+      if (!w || !canHear()) continue;
+      out.push(listenPractice(w, n++, pool, poolSentences));
+    } else if (it.id.startsWith('w:')) {
       const w = C.word(it.id);
       if (!w) continue;
       out.push((n++ % 2 ? makers.selectMeaning : makers.selectHanzi)(w, pool));
@@ -509,6 +643,19 @@ export function buildPractice(items, size = LESSON_SIZE) {
     }
   }
   return out;
+}
+
+function listenPractice(w, n, pool, poolSentences) {
+  const turn = n % 3;
+  if (turn === 1) {
+    const ex = makers.tone(w);
+    if (ex) return ex;
+  }
+  if (turn === 2) {
+    const ids = poolSentences.filter((id) => C.sentence(id).tokens.includes(w.word));
+    if (ids.length) return makers.listenSent(C.sentence(pick(ids)), pool);
+  }
+  return makers.listenWord(w, pool);
 }
 
 export function checkBank(ex, given) {

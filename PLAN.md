@@ -1,8 +1,9 @@
 # Plan: from handwriting drill to a Duolingo-style Mandarin course
 
-Status: the five decisions in the last section are settled. Phases 1 and 2 are
-built and run against Book 1, Lessons 1 to 3 as fixture data. Phases 0, 3 and 4
-are still proposals. Audio stays last, by the reasoning under the phase table.
+Status: the five decisions in the last section are settled. Phases 1 to 4
+are built and run against Book 1, Lessons 1 to 3 as fixture data. Phase 0
+waits on the owner's word-list transcription. Audio was last, by the
+reasoning under the phase table, and depends on a voice the phone provides.
 
 ## 1. Goal
 
@@ -117,8 +118,9 @@ Generated at runtime from unit data, no hand-authored exercises.
 | Write the word | two or three characters in sequence | stroke data |
 
 Listen and Tone are the only two types that cannot be built without sound, so
-they wait for Phase 4. Meet and Select take audio as an addition, not a
-requirement: they read from pinyin until then.
+they are generated only when a Mandarin voice is available. Meet and Select
+take audio as an addition, not a requirement: they read from pinyin, and speak
+as well where they can.
 
 Grading rules: word bank compares token sequences against an accepted list.
 Listen and select are exact. Tone and select are exact. Writing keeps the
@@ -131,7 +133,7 @@ appears more than 4 times per lesson.
 ## 6. Audio
 
 Last phase, by choice. See the note under the phase table for why. Nothing
-before it may assume sound exists.
+before it may assume sound exists. Built: see 9d.
 
 Primary: `speechSynthesis` with a zh-CN voice. iOS voices run on device, so it
 works offline once a Chinese voice is installed in Settings → Accessibility →
@@ -188,7 +190,7 @@ the word list, and single-character cards should prefer the common gloss.
    screen becomes Writing due. A Listening lane joins them in Phase 4.
 6. **Settings**: existing items, plus daily XP goal, pinyin display
    (always, on tap, never), tone marks vs numbers. The voice test button
-   belongs to Phase 4.
+   arrived with Phase 4; the two display settings are still open.
 
 ## 9. Phases and cost
 
@@ -200,8 +202,8 @@ human time. Content authoring dominates.
 | 0. Spine data | `tools/build-course.mjs`; lesson word lists for 50 lessons; grammar point list with tips; 20 to 30 sentences per unit; `check.mjs` coverage rules (every sentence uses only taught words) | 600k to 1M across several agents, plus owner review of word lists against the book |
 | 1. Course runner | **built.** Path screen, lesson runner, exercise generator (Meet, Select, Match, Word bank both ways, Fill blank), requeue, XP, streak, daily goal, store v2 migration | ~250k |
 | 2. Writing track and Practice hub | **built.** Building-block cards, per-unit writing order, Write-the-word, Practice hub with FSRS across item kinds | ~150k |
-| 3. Guidebook and polish | Guidebook screen, unit review lesson, hard-mode replay, service worker precache updates, README rewrite | ~100k |
-| 4. Audio and tones | TTS wrapper with replay and pinyin fallback, Listen exercises, Tone exercise, voice test in settings | ~80k |
+| 3. Guidebook and polish | **built.** Guidebook screen, hard-mode replay, service worker precache from the course, README rewrite. The unit review lesson arrived earlier, as the two review levels of 9b | ~100k |
+| 4. Audio and tones | **built.** TTS wrapper with replay and pinyin fallback, Listen exercises (word and sentence), Tone exercise, Listening lane, voice test in settings | ~80k |
 
 Phase 0 and Phase 1 can run in parallel once the `course.json` schema is fixed.
 Phase 1 can start against Book 1, Lessons 1 to 3 as fixture data.
@@ -209,8 +211,9 @@ Phase 1 can start against Book 1, Lessons 1 to 3 as fixture data.
 Audio is deliberately last. It is the one part of the app that depends on
 something we do not control — whether iOS has a zh-CN voice installed and
 whether it survives a PWA — so everything that works without it gets built
-first. Until Phase 4 the course is silent and fully playable: pinyin is always
-on screen, and the two exercise types that need sound are simply not generated.
+first. Without a voice the course is silent and fully playable: pinyin is
+always on screen, and the two exercise types that need sound are simply not
+generated.
 
 ## 9a. What Phase 2 settled
 
@@ -257,6 +260,55 @@ summarised here because it changed the shape of a unit.
   prefer the least-practised eligible word.
 - **Nothing shows up before it is taught**, per level and per slot. The old
   generator drew distractors from the whole unit.
+
+## 9c. What Phase 3 settled
+
+- **The guidebook opens from a button beside the path node**, not a long
+  press. iOS swallows long presses on a page that has disabled the touch
+  callout, and a visible control is one fewer thing to discover. It is
+  readable for any unit that has content, locked or not, and its one button
+  does whatever tapping the node would.
+- **A hard replay is what a finished unit plays.** It is the wide review
+  recipe with production first, five distractors instead of three, five spare
+  tiles instead of three, and no hint button. It earns 5 XP over a lesson and
+  never calls `completeLevel`. The difficulty lives in a module flag inside
+  the generator, set for the one synchronous build and cleared after, because
+  it is read deep inside the makers.
+- **The service worker reads its unit bundles off `course.json`** at install
+  instead of listing them, so adding a unit to the spine needs only the
+  `VERSION` bump. The legacy deck's stroke bundles are no longer precached;
+  they are cached the first time a card from that deck comes up.
+- **`check.mjs` now covers the worker**: every precached file exists, every
+  file the shell references is precached, and the unit list is not hard-coded.
+
+## 9d. What Phase 4 settled
+
+- **One module owns the voice.** `js/audio.js` reads the system voice list
+  lazily, keeps Mandarin voices only (mainland first, Cantonese excluded),
+  and exposes `available()`, `speak()` and `onChange()`. Reading lazily is
+  what lets the checks drop a stub in and run the generator's second shape.
+- **The listening card is the word's, `word:l`.** Every audio exercise grades
+  it: hearing the word and picking it, naming a tone in it, and hearing a
+  sentence that uses it (which grades every word in the sentence). Nothing
+  starts the card early; the first listening exercise a word appears in
+  creates it, so the Listening lane fills only with words that have been
+  heard.
+- **By ear is recognition.** In a teaching level the sound-to-hanzi rung of
+  the ladder is played by ear half the time when there is a voice. It is the
+  same recognition without the pinyin crutch, so the teaching invariants
+  (recognised before produced, retrievals inside the window) hold with or
+  without sound, and `check.mjs` runs them both ways.
+- **Tone questions dodge sandhi.** A third tone before a third tone, and 不
+  or 一 inside a word, are said differently from the way the dictionary
+  writes them, so those syllables are never asked. The five tiles are the
+  syllable written under each tone rather than the words "first" to
+  "fourth".
+- **The pinyin fallback is a hint and is priced like one**, but unlike a
+  hint it stays on offer in a hard replay: it is the recovery path when the
+  voice has died, not help with the answer.
+- **The recipes name the audio types and the generator skips them in
+  silence**, so a review level or hard replay has one shape, with the audio
+  slots filled by the next type in the loop when there is no voice.
 
 ## 10. Licensing summary
 

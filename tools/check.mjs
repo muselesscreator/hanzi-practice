@@ -275,7 +275,9 @@ await C.loadCourse(co);
 
 const KNOWN = new Set([
   'meet', 'selectHanzi', 'selectMeaning', 'match', 'bankZh', 'bankEn', 'cloze',
+  'listenWord', 'listenSent', 'tone',
 ]);
+const AUDIO = new Set(['listenWord', 'listenSent', 'tone']);
 
 // Is this exercise playable: right type, enough options, and an answer the
 // learner can actually give?
@@ -284,13 +286,29 @@ function faults(ex, where) {
   const bad = (msg) => out.push(`${where}: ${msg}`);
   if (!KNOWN.has(ex.type)) bad(`type ${ex.type}`);
   if (ex.options && ex.options.length < 2) bad(`${ex.type} thin options`);
-  if (ex.type === 'selectHanzi' || ex.type === 'selectMeaning') {
+  if (ex.type === 'selectHanzi' || ex.type === 'selectMeaning' || ex.type === 'listenWord') {
     if (!ex.options.some((o) => o.id === ex.answer)) bad(`${ex.type} has no right answer`);
   }
   if (ex.type === 'cloze' && !ex.options.includes(ex.answer)) {
     bad('cloze has no right answer');
   }
-  if (ex.type === 'bankZh' || ex.type === 'bankEn') {
+  if (AUDIO.has(ex.type)) {
+    if (!ex.audio || !ex.say || !ex.fallback) bad(`${ex.type} lacks a sound or a pinyin fallback`);
+  }
+  if (ex.type === 'tone') {
+    const w = ex.word;
+    if (ex.options.length !== 5 || !ex.options.some((o) => o.tone === ex.answer)) {
+      bad('tone has no right answer');
+    }
+    if (ex.answer !== w.tones[ex.at]) bad(`tone asks ${ex.answer} for ${w.word}[${ex.at}]`);
+    // never a syllable whose spoken tone differs from the written one
+    if (w.tones[ex.at] === 3 && w.tones[ex.at + 1] === 3) bad(`tone asks a sandhi third in ${w.word}`);
+    if (w.tones.length > 1 && ['不', '一'].includes([...w.word][ex.at])) {
+      bad(`tone asks ${[...w.word][ex.at]} inside ${w.word}`);
+    }
+    if (/[\u0304\u0301\u030c\u0300]/.test(ex.fallback.normalize('NFD'))) bad('tone fallback gives the tone away');
+  }
+  if (ex.type === 'bankZh' || ex.type === 'bankEn' || ex.type === 'listenSent') {
     const bank = [...ex.tiles];
     const buildable = ex.answer.every((t) => {
       const i = bank.indexOf(t);
@@ -307,24 +325,43 @@ function faults(ex, where) {
   return out;
 }
 
-const genFail = [];
-for (const u of readyUnits) {
-  for (let level = 1; level <= u.levels; level++) {
-    const items = E.buildLesson(u, level);
-    if (items.length !== E.LESSON_SIZE) {
-      genFail.push(`${u.id} L${level}: ${items.length} items`);
-      continue;
-    }
-    for (const ex of items) genFail.push(...faults(ex, `${u.id} L${level}`));
-    const counts = {};
-    for (const ex of items) counts[ex.type] = (counts[ex.type] ?? 0) + 1;
-    for (const [type, n] of Object.entries(counts)) {
-      if (type !== 'meet' && n > 4) genFail.push(`${u.id} L${level}: ${n}x ${type}`);
+// Every level of every unit, checked for playability and the type cap. Run
+// once in silence and again with a voice, since the generator has two shapes.
+function generationFaults() {
+  const out = [];
+  for (const u of readyUnits) {
+    for (let level = 1; level <= u.levels; level++) {
+      const items = E.buildLesson(u, level);
+      if (items.length !== E.LESSON_SIZE) {
+        out.push(`${u.id} L${level}: ${items.length} items`);
+        continue;
+      }
+      for (const ex of items) out.push(...faults(ex, `${u.id} L${level}`));
+      const counts = {};
+      for (const ex of items) counts[ex.type] = (counts[ex.type] ?? 0) + 1;
+      for (const [type, n] of Object.entries(counts)) {
+        if (type !== 'meet' && n > 4) out.push(`${u.id} L${level}: ${n}x ${type}`);
+      }
     }
   }
+  return out;
 }
+const genFail = generationFaults();
 check(`lessons generate for all ${readyUnits.length} units at every level`,
   genFail.length === 0, genFail.slice(0, 5).join('; '));
+
+// Every exercise a run of the generator can produce, for looking at what a
+// mode contains rather than whether it is playable.
+function everyExercise(opts = {}) {
+  const out = [];
+  for (const u of readyUnits) {
+    for (let level = 1; level <= u.levels; level++) out.push(...E.buildLesson(u, level, opts));
+  }
+  return out;
+}
+check('a silent lesson never asks for sound',
+  !everyExercise().some((ex) => AUDIO.has(ex.type)) &&
+  !everyExercise({ hard: true }).some((ex) => AUDIO.has(ex.type)));
 
 // 20a. the batches a unit teaches line up with its word list and level count
 const schedFail = [];
@@ -359,6 +396,10 @@ function retrieved(ex) {
   if (ex.type === 'match') return { ids: ex.left.map((x) => x.id), produced: false };
   if (ex.type === 'cloze') return { ids: [w(ex.answer)], produced: true };
   if (ex.type === 'bankZh') return { ids: ex.sentence.tokens.map(w), produced: true };
+  // Hearing a word and picking it is recognition, by ear instead of by
+  // pinyin. Naming a tone is not a retrieval of the word.
+  if (ex.type === 'listenWord') return { ids: [ex.word.id], produced: false };
+  if (ex.type === 'listenSent') return { ids: ex.sentence.tokens.map(w), produced: false };
   return { ids: [], produced: false };
 }
 
@@ -370,74 +411,80 @@ function shown(ex) {
     return ex.options.map((o) => o.id);
   }
   if (ex.type === 'match') return [...ex.left, ...ex.right].map((x) => x.id);
-  if (ex.type === 'bankZh') return ex.tiles.map(w);
+  if (ex.type === 'bankZh' || ex.type === 'listenSent') return ex.tiles.map(w);
   if (ex.type === 'cloze') return [...ex.sentence.tokens.map(w), ...ex.options.map(w)];
   if (ex.type === 'bankEn') return ex.sentence.tokens.map(w);
+  if (ex.type === 'listenWord') return ex.options.map((o) => o.id);
+  if (ex.type === 'tone') return [ex.word.id];
   return [];
 }
 
-const teachFail = [];
-const bump = (msg) => {
-  if (!teachFail.includes(msg)) teachFail.push(msg);
-};
+function teachingFaults() {
+  const teachFail = [];
+  const bump = (msg) => {
+    if (!teachFail.includes(msg)) teachFail.push(msg);
+  };
 
-for (const u of readyUnits) {
-  const earlier = [];
-  for (const x of readyUnits) {
-    if (x.id === u.id) break;
-    earlier.push(...x.words);
-  }
-  for (let level = 1; level <= u.levels; level++) {
-    const batch = u.intro[level - 1] ?? [];
-    const taught = new Set([...earlier, ...u.intro.slice(0, level).flat()]);
-    for (let run = 0; run < RUNS; run++) {
-      mem.clear();
-      const items = E.buildLesson(u, level);
-      const where = `${u.id} L${level}`;
-      const intros = items.filter((ex) => ex.type === 'meet').map((ex) => ex.word.id);
-      if (intros.join('|') !== batch.join('|')) bump(`${where}: introduces ${intros.length}, expected ${batch.length}`);
+  for (const u of readyUnits) {
+    const earlier = [];
+    for (const x of readyUnits) {
+      if (x.id === u.id) break;
+      earlier.push(...x.words);
+    }
+    for (let level = 1; level <= u.levels; level++) {
+      const batch = u.intro[level - 1] ?? [];
+      const taught = new Set([...earlier, ...u.intro.slice(0, level).flat()]);
+      for (let run = 0; run < RUNS; run++) {
+        mem.clear();
+        const items = E.buildLesson(u, level);
+        const where = `${u.id} L${level}`;
+        const intros = items.filter((ex) => ex.type === 'meet').map((ex) => ex.word.id);
+        if (intros.join('|') !== batch.join('|')) bump(`${where}: introduces ${intros.length}, expected ${batch.length}`);
 
-      // nothing on screen before it has been taught, and nothing from this
-      // lesson's batch before its own introduction
-      const introAt = new Map(
-        items.map((ex, i) => [ex.type === 'meet' ? ex.word.id : null, i]).filter(([id]) => id)
-      );
-      items.forEach((ex, i) => {
-        for (const id of shown(ex)) {
-          if (!C.word(id)) continue;
-          if (!taught.has(id)) bump(`${where}: ${id} shown but not taught`);
-          else if (introAt.has(id) && i < introAt.get(id)) {
-            bump(`${where}: ${id} shown at ${i}, introduced at ${introAt.get(id)}`);
-          }
-        }
-      });
-
-      // per introduced word: enough retrievals, near one, far one, and no
-      // production before a recognition
-      for (const id of batch) {
-        const at = introAt.get(id);
-        const hits = [];
-        let firstProduced = -1;
-        let firstRecognised = -1;
+        // nothing on screen before it has been taught, and nothing from this
+        // lesson's batch before its own introduction
+        const introAt = new Map(
+          items.map((ex, i) => [ex.type === 'meet' ? ex.word.id : null, i]).filter(([id]) => id)
+        );
         items.forEach((ex, i) => {
-          const r = retrieved(ex);
-          if (i <= at || !r.ids.includes(id)) return;
-          hits.push(i);
-          if (r.produced && firstProduced < 0) firstProduced = i;
-          if (!r.produced && firstRecognised < 0) firstRecognised = i;
+          for (const id of shown(ex)) {
+            if (!C.word(id)) continue;
+            if (!taught.has(id)) bump(`${where}: ${id} shown but not taught`);
+            else if (introAt.has(id) && i < introAt.get(id)) {
+              bump(`${where}: ${id} shown at ${i}, introduced at ${introAt.get(id)}`);
+            }
+          }
         });
-        if (hits.length < MIN_RETRIEVALS) bump(`${where}: ${id} retrieved ${hits.length}x`);
-        if (!hits.length) continue;
-        if (hits[0] - at > NEAR_MAX) bump(`${where}: ${id} first retrieval at lag ${hits[0] - at}`);
-        if (hits[0] - at < 2) bump(`${where}: ${id} retrieved in the very next slot`);
-        if (!hits.some((i) => i - at >= FAR)) bump(`${where}: ${id} has no retrieval at lag ${FAR}+`);
-        if (firstProduced >= 0 && (firstRecognised < 0 || firstProduced < firstRecognised)) {
-          bump(`${where}: ${id} produced before it was recognised`);
+
+        // per introduced word: enough retrievals, near one, far one, and no
+        // production before a recognition
+        for (const id of batch) {
+          const at = introAt.get(id);
+          const hits = [];
+          let firstProduced = -1;
+          let firstRecognised = -1;
+          items.forEach((ex, i) => {
+            const r = retrieved(ex);
+            if (i <= at || !r.ids.includes(id)) return;
+            hits.push(i);
+            if (r.produced && firstProduced < 0) firstProduced = i;
+            if (!r.produced && firstRecognised < 0) firstRecognised = i;
+          });
+          if (hits.length < MIN_RETRIEVALS) bump(`${where}: ${id} retrieved ${hits.length}x`);
+          if (!hits.length) continue;
+          if (hits[0] - at > NEAR_MAX) bump(`${where}: ${id} first retrieval at lag ${hits[0] - at}`);
+          if (hits[0] - at < 2) bump(`${where}: ${id} retrieved in the very next slot`);
+          if (!hits.some((i) => i - at >= FAR)) bump(`${where}: ${id} has no retrieval at lag ${FAR}+`);
+          if (firstProduced >= 0 && (firstRecognised < 0 || firstProduced < firstRecognised)) {
+            bump(`${where}: ${id} produced before it was recognised`);
+          }
         }
       }
     }
   }
+  return teachFail;
 }
+const teachFail = teachingFaults();
 check(`every taught word is drilled ${MIN_RETRIEVALS}x in the lesson that teaches it`,
   teachFail.length === 0, teachFail.slice(0, 5).join('; '));
 
@@ -448,6 +495,36 @@ check('a hinted answer is Hard', L.ratingFor(0, true) === Rating.Hard);
 check('one slip is Hard', L.ratingFor(1, false) === Rating.Hard);
 check('a hinted slip is Again', L.ratingFor(1, true) === Rating.Again);
 check('two slips are Again', L.ratingFor(2, false) === Rating.Again);
+
+// 20d. a hard replay is a full lesson with no introductions, leaning on
+//      production, with more to choose between than the level it replays
+const hardFail = [];
+let hardProduction = 0;
+let hardSlots = 0;
+for (const u of readyUnits) {
+  const items = E.buildLesson(u, u.levels, { hard: true });
+  if (items.length !== E.LESSON_SIZE) hardFail.push(`${u.id}: ${items.length} items`);
+  for (const ex of items) hardFail.push(...faults(ex, `${u.id} hard`));
+  if (items.some((ex) => ex.type === 'meet')) hardFail.push(`${u.id}: introduces a word`);
+  hardSlots += items.length;
+  hardProduction += items.filter((ex) => ['bankZh', 'bankEn', 'cloze'].includes(ex.type)).length;
+}
+check(`a hard replay generates for all ${readyUnits.length} units`, hardFail.length === 0,
+  hardFail.slice(0, 5).join('; '));
+check('a hard replay is mostly production', hardProduction >= hardSlots * 0.5,
+  `${hardProduction} of ${hardSlots}`);
+
+const lastUnit = readyUnits[readyUnits.length - 1];
+const widest = (type, opts) =>
+  Math.max(0, ...E.buildLesson(lastUnit, lastUnit.levels, opts)
+    .filter((ex) => ex.type === type)
+    .map((ex) => (ex.tiles ?? ex.options).length - (ex.answer.length ?? 1)));
+check('a hard replay puts more tiles on the board',
+  widest('bankZh', { hard: true }) > widest('bankZh', {}) &&
+  widest('selectHanzi', { hard: true }) > widest('selectHanzi', {}),
+  `${widest('bankZh', { hard: true })} spare tiles vs ${widest('bankZh', {})}`);
+check('the hard flag does not leak into the next lesson',
+  widest('bankZh', {}) <= 3);
 
 // 21. the writing track: locked until a lesson is played, then one unit at a
 //     time, in track order, with whole words only once their characters are up
@@ -519,6 +596,103 @@ check('a freeze covers one missed day', S2.store.course.streak.n === 6 &&
 S2.store.course.streak = { n: 6, last: S2.dayOffset(-2), freeze: 0 };
 S2.addXp(10);
 check('without a freeze the streak restarts', S2.store.course.streak.n === 1);
+
+// ── sound ─────────────────────────────────────────────────────────────
+
+process.stdout.write('\nsound\n');
+
+// 26. the audio layer reads the system voices lazily, so a stub dropped in
+//     here turns the generator's second shape on for the rest of the run
+const A = await import('../js/audio.js');
+check('without a voice nothing is available', !A.available() && A.speak('你好') === false);
+check('a listening card is dropped from practice in silence',
+  E.buildPractice([{ id: readyUnits[0].words[0], kind: 'l' }]).length === 0);
+
+const spoken = [];
+globalThis.SpeechSynthesisUtterance = class {
+  constructor(text) {
+    this.text = text;
+  }
+};
+globalThis.speechSynthesis = {
+  getVoices: () => [
+    { name: 'Sin-ji', lang: 'zh-HK', default: false },
+    { name: 'Mei-Jia', lang: 'zh-TW', default: false },
+    { name: 'Ting-Ting', lang: 'zh_CN', default: true },
+    { name: 'Samantha', lang: 'en-US', default: true },
+  ],
+  cancel: () => spoken.push(null),
+  speak: (u) => spoken.push(u),
+};
+check('Mandarin voices are found, mainland first, Cantonese left out',
+  A.voices().map((v) => v.name).join(' ') === 'Ting-Ting Mei-Jia');
+check('speaking cancels what was playing and uses the Mandarin voice',
+  A.speak('你好') === true && spoken[0] === null && spoken[1].text === '你好' &&
+  spoken[1].voice.name === 'Ting-Ting');
+check('pinyin helpers read, strip and write tone marks',
+  A.toneOf('hǎo') === 3 && A.toneOf('ma') === 0 && A.bare('nǚ') === 'nü' &&
+  A.mark('hao', 4) === 'hào' && A.mark('xie', 2) === 'xié' && A.mark('gou', 3) === 'gǒu' &&
+  A.mark('lü', 3) === 'lǚ' && A.mark('ma', 0) === 'ma');
+
+// with a voice, every level still generates and still teaches -- and now
+// some of it is heard
+const heardGen = generationFaults();
+check('lessons still generate for every level with a voice',
+  heardGen.length === 0, heardGen.slice(0, 5).join('; '));
+const heardTeach = teachingFaults();
+check('a lesson with a voice still drills every taught word',
+  heardTeach.length === 0, heardTeach.slice(0, 5).join('; '));
+
+const heard = everyExercise();
+const heardTypes = new Set(heard.filter((ex) => AUDIO.has(ex.type)).map((ex) => ex.type));
+check('a lesson with a voice asks by ear',
+  ['listenWord', 'listenSent', 'tone'].every((t) => heardTypes.has(t)),
+  [...heardTypes].join(' '));
+const heardHard = readyUnits.flatMap((u) => E.buildLesson(u, u.levels, { hard: true }));
+check('a hard replay with a voice asks by ear too',
+  heardHard.some((ex) => AUDIO.has(ex.type)) && heardHard.every((ex) => !faults(ex, 'hard').length));
+check('an audio exercise grades the listening card',
+  heard.filter((ex) => AUDIO.has(ex.type)).every((ex) =>
+    (ex.keys ?? [ex.key]).every((k) => k.endsWith(':l') && k.startsWith('w:'))));
+
+// a listening practice set rotates through the three ways of hearing a word
+const listenSet = E.buildPractice(readyUnits[0].words.map((id) => ({ id, kind: 'l' })));
+check('a listening practice set is answerable and all by ear',
+  listenSet.length === readyUnits[0].words.length &&
+  listenSet.every((ex) => AUDIO.has(ex.type) && !faults(ex, 'listening').length),
+  listenSet.map((ex) => ex.type).join(' '));
+check('a listening set hears words and sentences and names tones',
+  new Set(listenSet.map((ex) => ex.type)).size === 3, listenSet.map((ex) => ex.type).join(' '));
+
+// tone questions never land on a syllable the voice says differently
+const toneExs = [...heard, ...heardHard, ...listenSet].filter((ex) => ex.type === 'tone');
+check('no tone question is asked of 你 in 你好',
+  toneExs.length > 0 && !toneExs.some((ex) => ex.word.word === '你好' && ex.at === 0));
+check('a tone question about a two-syllable word marks which syllable',
+  toneExs.filter((ex) => ex.word.tones.length > 1).every((ex) => ex.at < ex.word.tones.length));
+
+// ── offline ───────────────────────────────────────────────────────────
+
+process.stdout.write('\noffline\n');
+
+// 25. the service worker precaches every file the shell is made of, and
+//     nothing it lists is missing from disk
+const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
+const shell = [...sw.matchAll(/^\s+'([^']+)',$/gm)].map((m) => m[1]).filter((f) => f !== './');
+const shellMissing = shell.filter((f) => !fs.existsSync(path.join(ROOT, f)));
+check('every precached file exists', shellMissing.length === 0, shellMissing.join(' '));
+
+const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+const referenced = new Set([
+  'index.html', 'app.css', 'app.js', 'data/course.json', 'data/curriculum.json',
+  ...fs.readdirSync(path.join(ROOT, 'js')).map((f) => `js/${f}`),
+  ...fs.readdirSync(path.join(ROOT, 'vendor')).filter((f) => !f.endsWith('LICENSE')).map((f) => `vendor/${f}`),
+  ...[...html.matchAll(/(?:href|src)="([^"#]+)"/g)].map((m) => m[1]).filter((f) => !/^https?:/.test(f)),
+]);
+const unlisted = [...referenced].filter((f) => !shell.includes(f));
+check('every shell file is precached', unlisted.length === 0, unlisted.join(' '));
+check('the worker reads unit bundles off the course',
+  sw.includes("data/units/${u.id}.json") && !/data\/units\/b\d/.test(sw));
 
 process.stdout.write(failures ? `\n${failures} failing\n` : '\nall checks pass\n');
 process.exit(failures ? 1 : 0);

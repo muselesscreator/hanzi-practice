@@ -1,8 +1,9 @@
-// Offline-first. The app shell and curriculum are precached; stroke bundles
-// are cached the first time a unit is reached, so the deck keeps working on
-// a plane once you have been through it.
+// Offline-first. The app shell, the course and every unit's stroke bundle are
+// precached at install, so a lesson and its writing track work on a plane
+// before you have ever opened them. Bundles from the old HSK-band deck are
+// cached the first time a character from it comes up.
 
-const VERSION = 'hanzi-v5';
+const VERSION = 'hanzi-v7';
 const SHELL = [
   './',
   'index.html',
@@ -12,6 +13,7 @@ const SHELL = [
   'js/course.js',
   'js/exercises.js',
   'js/lesson.js',
+  'js/audio.js',
   'js/writing.js',
   'manifest.webmanifest',
   'icon-180.png',
@@ -21,15 +23,22 @@ const SHELL = [
   'vendor/ts-fsrs.mjs',
   'data/course.json',
   'data/curriculum.json',
-  'data/units/b1l1.json',
-  'data/strokes/unit-01.json',
-  'data/strokes/unit-02.json',
 ];
 
+// Which unit bundles exist is read off the course itself, so a rebuilt course
+// that adds units needs only the VERSION bump above.
+async function precache() {
+  const cache = await caches.open(VERSION);
+  await cache.addAll(SHELL);
+  const course = await (await cache.match('data/course.json')).json();
+  const bundles = course.units
+    .filter((u) => u.ready && u.writing.length)
+    .map((u) => `data/units/${u.id}.json`);
+  await cache.addAll(bundles);
+}
+
 self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())
-  );
+  e.waitUntil(precache().then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (e) => {

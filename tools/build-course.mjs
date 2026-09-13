@@ -154,6 +154,13 @@ function resolveWord(spec) {
     warn(`word not in the HSK dataset and no spine pinyin: ${spec.word}`);
   }
   if (!pinyin) warn(`no pinyin for ${spec.word}`);
+  // A multi-syllable pinyin override needs a break between syllables (space, '
+  // or ·) or tonesOf() reads the whole thing as one syllable and drops all but
+  // one tone — 'Měiguó' must be 'Měi guó'.
+  const cjkLen = [...spec.word].filter((c) => CJK.test(c)).length;
+  if (spec.pinyin && cjkLen > 1 && !/[\s'·]/.test(spec.pinyin.trim())) {
+    warn(`pinyin override "${spec.pinyin}" for ${spec.word} has no syllable break — tones will be wrong`);
+  }
   // The gloss comes from the spine, not the dataset: taking the dataset's
   // first meaning gives a character its dictionary-headword sense rather than
   // the sense the lesson teaches (也 as "surname Ye", for one).
@@ -500,4 +507,7 @@ if (warnings.length) {
       shown.map((w) => `  - ${w}\n`).join('') +
       (warnings.length > shown.length ? `  ... and ${warnings.length - shown.length} more\n` : '')
   );
+  // Under --strict every warning is a build failure, so a book import fails
+  // loudly on a missing gloss or an untaught word rather than shipping it.
+  if (strict) process.exit(1);
 }

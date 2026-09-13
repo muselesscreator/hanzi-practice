@@ -366,12 +366,14 @@ for (const file of spineFiles) {
     const worthACard = (ch) =>
       hasStrokes(ch) && (strokeCount(ch) > 1 || hskByWord.has(ch));
 
-    // A phantom component with no reading and no meaning of its own — 龶, which
-    // exists only inside 青 — is a graphical fragment, not a block worth a card.
-    // The character that contains it is traced whole instead of descending into it.
+    // A block card needs both a reading and a gloss of its own (check 15), so a
+    // component that is missing either is a graphical fragment, not a block worth
+    // a card: 龶, which has neither and exists only inside 青, and 氺, which has a
+    // reading but no meaning and exists only inside 求/泰. The character that
+    // contains such a fragment is traced whole instead of descending into it.
     const teachable = (ch) => {
       const m = mmah.get(ch);
-      return Boolean(m && (m.pinyin?.length || m.definition));
+      return Boolean(m && m.pinyin?.length && m.definition);
     };
 
     // Every component is followed down, because a block you are asked to

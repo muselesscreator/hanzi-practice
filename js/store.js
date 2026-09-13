@@ -33,6 +33,7 @@ export const blank = () => ({
     newPerDay: 8,
     readCards: true,
     dailyGoal: 30,
+    bookToken: '', // shared secret that unlocks the gated /textbooks/ PDFs
   },
   cards: {},
   exposure: {}, // card key -> active retrievals, lifetime

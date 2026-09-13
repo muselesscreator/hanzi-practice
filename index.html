@@ -43,6 +43,7 @@
   <p id="guide-sub" class="guide-sub"></p>
   <p id="guide-topic" class="guide-topic"></p>
   <p id="guide-book" class="guide-book"></p>
+  <div id="guide-pdf" class="guide-pdf" hidden></div>
 
   <section class="guide-section">
     <h2>Words</h2>
@@ -207,6 +208,15 @@
 
   <div class="rule"></div>
 
+  <label class="field">
+    <span>Textbook access phrase<em>Unlocks the scanned HSK textbook and workbook
+    pages on a lesson's guide. Ask Ben for the phrase.</em></span>
+    <input id="set-token" type="password" autocomplete="off" autocapitalize="off"
+      autocorrect="off" spellcheck="false">
+  </label>
+
+  <div class="rule"></div>
+
   <div class="field-stack">
     <button class="linkish" id="export">Save a backup file</button>
     <label class="linkish" for="import-file">Restore from a backup</label>
@@ -226,6 +236,15 @@
     Hanzi. Scheduling by FSRS.
   </p>
 </main>
+
+<div id="pdf-viewer" class="pdf-viewer" hidden>
+  <header class="pdf-bar">
+    <span id="pdf-title" class="pdf-title"></span>
+    <a id="pdf-open" class="linkish" target="_blank" rel="noopener">Open in tab</a>
+    <button id="pdf-close" class="linkish">Close</button>
+  </header>
+  <iframe id="pdf-frame" class="pdf-frame" title="Textbook page" referrerpolicy="no-referrer"></iframe>
+</div>
 
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 

@@ -411,6 +411,25 @@ for (const file of spineFiles) {
       unitStrokes.set(id, Object.fromEntries(writing.map((ch) => [ch, strokeData(ch)])));
     }
 
+    // Textbook and workbook PDF pointers, when the book registers them in its
+    // spine. The stored page is the physical PDF page -- the printed lesson
+    // page shifted by the book's front-matter offset -- so a viewer opened at
+    // #page= lands on the lesson. A conversation-track book (the Ving Tsun
+    // vocabulary) has no scanned course book, so it gets none.
+    const pdf = {};
+    if (book.pdf?.textbook && lesson.page != null) {
+      pdf.textbook = {
+        slug: book.pdf.textbook.slug,
+        page: lesson.page + (book.pdf.textbook.pageOffset ?? 0),
+      };
+    }
+    if (book.pdf?.workbook && lesson.wbPage != null) {
+      pdf.workbook = {
+        slug: book.pdf.workbook.slug,
+        page: lesson.wbPage + (book.pdf.workbook.pageOffset ?? 0),
+      };
+    }
+
     units.push({
       id,
       book: book.book,
@@ -421,6 +440,7 @@ for (const file of spineFiles) {
       topic: lesson.topic,
       textbook: `Book ${book.book}, Lesson ${lesson.lesson}`,
       page: lesson.page ?? null,
+      pdf: Object.keys(pdf).length ? pdf : null,
       words: wordIds,
       intro: introBatches(wordIds),
       grammar: grammarIds,

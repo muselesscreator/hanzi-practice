@@ -149,7 +149,8 @@
             "hello"
           ]
         }
-      ]
+      ],
+      "wbPage": 1
     },
     {
       "lesson": 2,
@@ -307,7 +308,8 @@
             "goodbye"
           ]
         }
-      ]
+      ],
+      "wbPage": 5
     },
     {
       "lesson": 3,
@@ -567,7 +569,8 @@
             "student"
           ]
         }
-      ]
+      ],
+      "wbPage": 9
     },
     {
       "lesson": 4,
@@ -872,7 +875,8 @@
             "g:who-which"
           ]
         }
-      ]
+      ],
+      "wbPage": 17
     },
     {
       "lesson": 5,
@@ -1181,7 +1185,8 @@
             "daughter"
           ]
         }
-      ]
+      ],
+      "wbPage": 25
     },
     {
       "lesson": 6,
@@ -1434,7 +1439,8 @@
             "good"
           ]
         }
-      ]
+      ],
+      "wbPage": 33
     },
     {
       "lesson": 7,
@@ -1679,7 +1685,8 @@
             "tomorrow"
           ]
         }
-      ]
+      ],
+      "wbPage": 41
     },
     {
       "lesson": 8,
@@ -1960,7 +1967,8 @@
             "tea"
           ]
         }
-      ]
+      ],
+      "wbPage": 49
     },
     {
       "lesson": 9,
@@ -2285,7 +2293,8 @@
             "g:zai-verb"
           ]
         }
-      ]
+      ],
+      "wbPage": 57
     },
     {
       "lesson": 10,
@@ -2561,7 +2570,8 @@
             "g:you-exist"
           ]
         }
-      ]
+      ],
+      "wbPage": 65
     },
     {
       "lesson": 11,
@@ -2810,7 +2820,8 @@
             "g:time-adverbial"
           ]
         }
-      ]
+      ],
+      "wbPage": 73
     },
     {
       "lesson": 12,
@@ -3115,7 +3126,8 @@
             "water"
           ]
         }
-      ]
+      ],
+      "wbPage": 81
     },
     {
       "lesson": 13,
@@ -3364,7 +3376,8 @@
             "g:zai-ne-progressive"
           ]
         }
-      ]
+      ],
+      "wbPage": 90
     },
     {
       "lesson": 14,
@@ -3655,7 +3668,8 @@
             "apples"
           ]
         }
-      ]
+      ],
+      "wbPage": 99
     },
     {
       "lesson": 15,
@@ -3900,7 +3914,20 @@
             "you"
           ]
         }
-      ]
+      ],
+      "wbPage": 107
     }
-  ]
+  ],
+  "pdf": {
+    "textbook": {
+      "file": "HSK标准教程  1.pdf",
+      "slug": "hsk1-textbook",
+      "pageOffset": 21
+    },
+    "workbook": {
+      "file": "TiengTrungNet.com-HSK-Standard-Course-1-Workbook-HocTiengTrung.TV.pdf",
+      "slug": "hsk1-workbook",
+      "pageOffset": 7
+    }
+  }
 }

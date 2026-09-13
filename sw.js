@@ -3,7 +3,7 @@
 // before you have ever opened them. Bundles from the old HSK-band deck are
 // cached the first time a character from it comes up.
 
-const VERSION = 'hanzi-v7';
+const VERSION = 'hanzi-v8';
 const SHELL = [
   './',
   'index.html',
@@ -52,6 +52,9 @@ self.addEventListener('activate', (e) => {
 
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return;
+  // The scanned textbook PDFs are large, token-gated and read online only, so
+  // they go straight to the network and never enter the offline cache.
+  if (new URL(e.request.url).pathname.includes('/textbooks/')) return;
   e.respondWith(
     caches.match(e.request).then(
       (hit) =>

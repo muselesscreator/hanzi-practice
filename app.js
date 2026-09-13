@@ -209,6 +209,28 @@ function openGuide(u) {
   go('guide');
 }
 
+// The scanned course book, opened at this lesson's page. The two PDFs are
+// gated behind the access phrase in Settings, so without one the button sends
+// you there rather than loading a page you cannot fetch.
+function openPdf(slug, page, label) {
+  const token = (store.settings.bookToken ?? '').trim();
+  if (!token) {
+    toast('Set the textbook access phrase in Settings first');
+    return go('settings');
+  }
+  const src = `textbooks/${slug}.pdf?k=${encodeURIComponent(token)}#page=${page}`;
+  $('pdf-title').textContent = label;
+  $('pdf-open').href = src;
+  $('pdf-frame').src = src;
+  $('pdf-viewer').hidden = false;
+}
+
+function closePdf() {
+  $('pdf-viewer').hidden = true;
+  // Dropping the src stops a large download and frees the embedded viewer.
+  $('pdf-frame').removeAttribute('src');
+}
+
 function paintGuide() {
   const u = guideUnit;
   if (!u) return go('path');
@@ -221,6 +243,24 @@ function paintGuide() {
   $('guide-book').textContent =
     `${u.textbook}` + (u.page ? `, from page ${u.page}` : '') +
     (C.course.spine.verified ? '' : ' · word list unverified against the book');
+
+  const pdfBox = $('guide-pdf');
+  const books = [
+    ['textbook', 'Textbook'],
+    ['workbook', 'Workbook'],
+  ].filter(([kind]) => u.pdf?.[kind]);
+  pdfBox.hidden = books.length === 0;
+  pdfBox.innerHTML = books
+    .map(
+      ([kind, label]) =>
+        `<button class="pdf-btn" data-slug="${esc(u.pdf[kind].slug)}"
+          data-page="${u.pdf[kind].page}" data-label="${label} · ${esc(u.title)}">
+          Read the ${label.toLowerCase()}</button>`
+    )
+    .join('');
+  pdfBox.querySelectorAll('.pdf-btn').forEach((el) => {
+    el.onclick = () => openPdf(el.dataset.slug, el.dataset.page, el.dataset.label);
+  });
 
   $('guide-words').innerHTML = u.words
     .map(C.word)
@@ -285,6 +325,7 @@ function paintSettings() {
   $('set-new').value = store.settings.newPerDay;
   $('set-read').checked = store.settings.readCards;
   $('set-goal').value = store.settings.dailyGoal;
+  $('set-token').value = store.settings.bookToken ?? '';
   paintVoice();
 }
 
@@ -1029,6 +1070,17 @@ $('set-goal').addEventListener('change', (e) => {
   store.settings.dailyGoal = Math.max(10, Math.min(200, Number(e.target.value) || 10));
   e.target.value = store.settings.dailyGoal;
   save();
+});
+
+$('set-token').addEventListener('change', (e) => {
+  store.settings.bookToken = e.target.value.trim();
+  e.target.value = store.settings.bookToken;
+  save();
+});
+
+$('pdf-close').addEventListener('click', closePdf);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !$('pdf-viewer').hidden) closePdf();
 });
 
 $('voice-test').addEventListener('click', () => {

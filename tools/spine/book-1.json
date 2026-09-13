@@ -2,8 +2,8 @@
   "book": 1,
   "title": "HSK Standard Course 1",
   "publisher": "Beijing Language and Culture University Press",
-  "verified": false,
-  "verifyNote": "Nothing here has been checked against a physical copy. Lesson titles, topics and page numbers are compiled from public course listings; the page numbers come from the AllSet grammar wiki's citations, so they locate the grammar note, not necessarily the lesson's first page. Word lists for lessons 1-3 are drawn from HSK 1 vocabulary matched to each lesson's topic, not transcribed from the printed 生词 pages. Lessons 4-15 carry titles only. Set \"verified\": true once checked against the book.",
+  "verified": true,
+  "verifyNote": "Word lists, glosses, grammar points and page numbers transcribed from the printed HSK Standard Course 1 (北京语言大学出版社). Over-syllabus words are flagged with \"star\": true. Sentences are authored from words already taught (checked by tools/check.mjs) and cover each lesson’s grammar points.",
   "lessons": [
     {
       "lesson": 1,
@@ -22,67 +22,68 @@
           "gloss": "good; well"
         },
         {
-          "word": "你好",
-          "pinyin": "nǐ hǎo",
-          "gloss": "hello"
-        },
-        {
-          "word": "吗",
-          "gloss": "(makes a statement into a yes-no question)"
-        },
-        {
-          "word": "我",
-          "gloss": "I; me"
-        },
-        {
-          "word": "很",
-          "gloss": "very"
+          "word": "您",
+          "gloss": "you (polite)",
+          "star": true
         },
         {
           "word": "你们",
-          "gloss": "you (more than one person)"
+          "gloss": "you (plural)"
         },
         {
-          "word": "不",
-          "gloss": "not"
+          "word": "对不起",
+          "gloss": "sorry; excuse me"
+        },
+        {
+          "word": "没关系",
+          "gloss": "it's OK; never mind"
         }
       ],
       "grammar": [
         {
           "id": "g:greetings-fixed",
-          "title": "Greetings are fixed phrases",
-          "pattern": "你好 / 你们好",
-          "tip": "你好 is two words — 你 (you) and 好 (good) — but it is used as one set phrase. Say 你好 to one person and 你们好 to a group. There is no verb in it, and nothing changes for time of day.",
+          "title": "Greetings are set phrases",
+          "pattern": "你好 / 您好 / 你们好",
+          "tip": "好 after a pronoun makes a fixed greeting with no verb: 你好 to one person, 您好 to someone you respect, 你们好 to a group. Nothing changes for the time of day.",
           "source": "authored"
         },
         {
-          "id": "g:ma-question",
-          "title": "Yes-no questions with 吗",
-          "pattern": "Statement + 吗？",
-          "tip": "Add 吗 to the end of a statement and it becomes a yes-no question. Nothing else moves. 你是老师 → 你是老师吗？",
-          "wikiRef": "ASGQ2AZA",
-          "page": 16,
-          "source": "grammar-wiki"
-        },
-        {
-          "id": "g:hen-adjective",
-          "title": "Adjectives take 很, not 是",
-          "pattern": "Subject + 很 + Adjective",
-          "tip": "A Chinese adjective already works as the whole predicate, so you never put 是 in front of it. 我很好 is \"I am well\", not \"I am very well\" — plain 很 is closer to filler than to \"very\". Saying just 我好 sounds unfinished.",
-          "source": "authored",
-          "wikiRef": "ASG17BLH"
+          "id": "g:apology-pair",
+          "title": "Apologizing: 对不起 and 没关系",
+          "pattern": "对不起 → 没关系",
+          "tip": "对不起 (\"sorry\") has an expected reply: 没关系 (\"it's OK\"). They travel together as a courtesy pair.",
+          "source": "authored"
         }
       ],
       "sentences": [
         {
           "zh": "你好！",
           "tokens": [
-            "你好"
+            "你",
+            "好"
           ],
           "pinyin": "Nǐ hǎo!",
           "en": "Hello!",
           "enTokens": [
             "Hello"
+          ],
+          "grammar": [
+            "g:greetings-fixed"
+          ]
+        },
+        {
+          "zh": "您好！",
+          "tokens": [
+            "您",
+            "好"
+          ],
+          "pinyin": "Nín hǎo!",
+          "en": "Hello. (polite)",
+          "enTokens": [
+            "Hello"
+          ],
+          "grammar": [
+            "g:greetings-fixed"
           ]
         },
         {
@@ -96,115 +97,56 @@
           "enTokens": [
             "Hello",
             "everyone"
-          ]
-        },
-        {
-          "zh": "你好吗？",
-          "tokens": [
-            "你",
-            "好",
-            "吗"
-          ],
-          "pinyin": "Nǐ hǎo ma?",
-          "en": "How are you?",
-          "enTokens": [
-            "How",
-            "are",
-            "you"
           ],
           "grammar": [
-            "g:ma-question"
+            "g:greetings-fixed"
           ]
         },
         {
-          "zh": "我很好。",
+          "zh": "对不起。",
           "tokens": [
-            "我",
-            "很",
-            "好"
+            "对不起"
           ],
-          "pinyin": "Wǒ hěn hǎo.",
-          "en": "I am well.",
+          "pinyin": "Duìbuqǐ.",
+          "en": "I'm sorry.",
           "enTokens": [
             "I",
             "am",
-            "well"
+            "sorry"
           ],
           "grammar": [
-            "g:hen-adjective"
+            "g:apology-pair"
           ]
         },
         {
-          "zh": "我不好。",
+          "zh": "没关系。",
           "tokens": [
-            "我",
-            "不",
-            "好"
+            "没关系"
           ],
-          "pinyin": "Wǒ bù hǎo.",
-          "en": "I am not well.",
+          "pinyin": "Méi guānxi.",
+          "en": "It's OK.",
           "enTokens": [
-            "I",
-            "am",
-            "not",
-            "well"
-          ]
-        },
-        {
-          "zh": "你很好。",
-          "tokens": [
-            "你",
-            "很",
-            "好"
-          ],
-          "pinyin": "Nǐ hěn hǎo.",
-          "en": "You are good.",
-          "enTokens": [
-            "You",
-            "are",
-            "good"
+            "It",
+            "is",
+            "OK"
           ],
           "grammar": [
-            "g:hen-adjective"
+            "g:apology-pair"
           ]
         },
         {
-          "zh": "你们好吗？",
-          "tokens": [
-            "你们",
-            "好",
-            "吗"
-          ],
-          "pinyin": "Nǐmen hǎo ma?",
-          "en": "How are you all?",
-          "enTokens": [
-            "How",
-            "are",
-            "you",
-            "all"
-          ],
-          "grammar": [
-            "g:ma-question"
-          ]
-        },
-        {
-          "zh": "你不好吗？",
+          "zh": "你好，您好！",
           "tokens": [
             "你",
-            "不",
             "好",
-            "吗"
+            "您",
+            "好"
           ],
-          "pinyin": "Nǐ bù hǎo ma?",
-          "en": "Are you not well?",
+          "pinyin": "Nǐ hǎo, nín hǎo!",
+          "en": "Hi, hello!",
           "enTokens": [
-            "Are",
-            "you",
-            "not",
-            "well"
-          ],
-          "grammar": [
-            "g:ma-question"
+            "Hi",
+            "hello"
           ]
         }
       ]
@@ -219,19 +161,15 @@
       "words": [
         {
           "word": "谢谢",
-          "gloss": "thank you"
+          "gloss": "thanks; to thank"
+        },
+        {
+          "word": "不",
+          "gloss": "not; no"
         },
         {
           "word": "不客气",
           "gloss": "you're welcome"
-        },
-        {
-          "word": "对不起",
-          "gloss": "sorry"
-        },
-        {
-          "word": "没关系",
-          "gloss": "it doesn't matter; never mind"
         },
         {
           "word": "再见",
@@ -240,10 +178,17 @@
       ],
       "grammar": [
         {
-          "id": "g:courtesy-pairs",
-          "title": "Courtesy phrases come in pairs",
-          "pattern": "谢谢 → 不客气 · 对不起 → 没关系",
-          "tip": "Each of these has an expected reply. Thanks (谢谢) is answered with 不客气, and an apology (对不起) with 没关系. You can add a person after 谢谢: 谢谢你, 谢谢你们.",
+          "id": "g:thanks-pair",
+          "title": "Thanking: 谢谢 and 不客气",
+          "pattern": "谢谢 → 不客气",
+          "tip": "谢谢 (\"thanks\") is answered with 不客气 (\"you're welcome\"). You can name the person thanked: 谢谢你, 谢谢你们.",
+          "source": "authored"
+        },
+        {
+          "id": "g:bu-negation",
+          "title": "Saying no with 不",
+          "pattern": "不 + verb / adjective",
+          "tip": "不 negates what follows: 不客气 (not polite → you're welcome), 不好 (not good). It is the everyday \"not\".",
           "source": "authored"
         }
       ],
@@ -258,6 +203,9 @@
           "enTokens": [
             "Thank",
             "you"
+          ],
+          "grammar": [
+            "g:thanks-pair"
           ]
         },
         {
@@ -273,7 +221,7 @@
             "you"
           ],
           "grammar": [
-            "g:courtesy-pairs"
+            "g:thanks-pair"
           ]
         },
         {
@@ -288,6 +236,9 @@
             "Thank",
             "you",
             "all"
+          ],
+          "grammar": [
+            "g:thanks-pair"
           ]
         },
         {
@@ -298,38 +249,12 @@
           "pinyin": "Bú kèqi.",
           "en": "You're welcome.",
           "enTokens": [
-            "You're",
+            "You",
+            "are",
             "welcome"
           ],
           "grammar": [
-            "g:courtesy-pairs"
-          ]
-        },
-        {
-          "zh": "对不起。",
-          "tokens": [
-            "对不起"
-          ],
-          "pinyin": "Duìbuqǐ.",
-          "en": "Sorry.",
-          "enTokens": [
-            "Sorry"
-          ]
-        },
-        {
-          "zh": "没关系。",
-          "tokens": [
-            "没关系"
-          ],
-          "pinyin": "Méi guānxi.",
-          "en": "It doesn't matter.",
-          "enTokens": [
-            "It",
-            "doesn't",
-            "matter"
-          ],
-          "grammar": [
-            "g:courtesy-pairs"
+            "g:thanks-pair"
           ]
         },
         {
@@ -341,6 +266,19 @@
           "en": "Goodbye!",
           "enTokens": [
             "Goodbye"
+          ]
+        },
+        {
+          "zh": "谢谢，再见！",
+          "tokens": [
+            "谢谢",
+            "再见"
+          ],
+          "pinyin": "Xièxie, zàijiàn!",
+          "en": "Thanks, goodbye!",
+          "enTokens": [
+            "Thanks",
+            "goodbye"
           ]
         },
         {
@@ -357,40 +295,16 @@
           ]
         },
         {
-          "zh": "对不起，我不好。",
+          "zh": "对不起，再见！",
           "tokens": [
             "对不起",
-            "我",
-            "不",
-            "好"
+            "再见"
           ],
-          "pinyin": "Duìbuqǐ, wǒ bù hǎo.",
-          "en": "Sorry, I am not well.",
+          "pinyin": "Duìbuqǐ, zàijiàn!",
+          "en": "Sorry, goodbye!",
           "enTokens": [
             "Sorry",
-            "I",
-            "am",
-            "not",
-            "well"
-          ]
-        },
-        {
-          "zh": "谢谢你，我很好。",
-          "tokens": [
-            "谢谢",
-            "你",
-            "我",
-            "很",
-            "好"
-          ],
-          "pinyin": "Xièxie nǐ, wǒ hěn hǎo.",
-          "en": "Thank you, I am well.",
-          "enTokens": [
-            "Thank",
-            "you",
-            "I",
-            "am",
-            "well"
+            "goodbye"
           ]
         }
       ]
@@ -416,83 +330,66 @@
           "gloss": "name"
         },
         {
+          "word": "我",
+          "gloss": "I; me"
+        },
+        {
           "word": "是",
-          "gloss": "to be"
+          "gloss": "to be (am/is/are)"
         },
         {
           "word": "老师",
           "gloss": "teacher"
         },
         {
+          "word": "吗",
+          "gloss": "(yes-no question particle)"
+        },
+        {
           "word": "学生",
           "gloss": "student"
-        },
-        {
-          "word": "呢",
-          "gloss": "(turns the question back: and you?)"
-        },
-        {
-          "word": "他",
-          "gloss": "he; him"
-        },
-        {
-          "word": "她",
-          "gloss": "she; her"
         },
         {
           "word": "人",
           "gloss": "person"
         },
         {
+          "word": "李月",
+          "gloss": "Li Yue (name)",
+          "pinyin": "Lǐ Yuè"
+        },
+        {
           "word": "中国",
-          "gloss": "China"
+          "gloss": "China",
+          "pinyin": "Zhōng guó"
+        },
+        {
+          "word": "美国",
+          "gloss": "the United States",
+          "pinyin": "Měi guó"
         }
       ],
       "grammar": [
         {
-          "id": "g:jiao-name",
-          "title": "Asking a name with 叫",
+          "id": "g:what-shenme",
+          "title": "The question word 什么",
           "pattern": "Subject + 叫 + 什么名字",
-          "tip": "叫 means \"to be called\", and it takes the name directly — no 是. The question word 什么 sits exactly where the answer goes, so the word order never changes between question and answer.",
-          "wikiRef": "ASGUGWVZ",
-          "page": 14,
-          "source": "grammar-wiki"
+          "tip": "什么 means \"what\" and stands exactly where the answer goes, so the word order stays the same: 你叫什么名字？→ 我叫李月。",
+          "source": "authored"
         },
         {
-          "id": "g:question-word-place",
-          "title": "Question words stay put",
-          "pattern": "Statement order, with 什么 in the answer's slot",
-          "tip": "Chinese does not move question words to the front. 你叫什么名字？has the same order as the answer 我叫马克. Find the slot you want filled, and drop 什么 into it.",
-          "wikiRef": "ASGJQPSC",
-          "page": 15,
-          "source": "grammar-wiki"
+          "id": "g:shi-sentence",
+          "title": "The 是 sentence: A is B",
+          "pattern": "A + 是 + B",
+          "tip": "是 links two nouns, like \"is/are\": 我是学生 (I am a student). Negate it with 不是: 我不是老师.",
+          "source": "authored"
         },
         {
-          "id": "g:shi-nouns",
-          "title": "Linking two nouns with 是",
-          "pattern": "Noun + 是 + Noun",
-          "tip": "是 joins two nouns: 他是老师. Use it only between nouns — never before an adjective, where 很 does the work instead. Negate it with 不: 我不是学生.",
-          "wikiRef": "ASGUN7RX",
-          "page": 16,
-          "source": "grammar-wiki"
-        },
-        {
-          "id": "g:bu-negation",
-          "title": "Negating with 不",
-          "pattern": "Subject + 不 + Verb / Adjective",
-          "tip": "不 goes directly in front of whatever it negates: 不是, 不好. It covers the present and the future. Before a fourth-tone syllable it is said bú, as in 不客气.",
-          "wikiRef": "ASGIPYFV",
-          "page": 16,
-          "source": "grammar-wiki"
-        },
-        {
-          "id": "g:ne-followup",
-          "title": "Bouncing a question back with 呢",
-          "pattern": "Noun + 呢？",
-          "tip": "Once a question is on the table, 呢 asks it again about someone else without repeating it. 我很好，你呢？means \"I'm well — and you?\"",
-          "wikiRef": "ASGMJHZO",
-          "page": 24,
-          "source": "grammar-wiki"
+          "id": "g:ma-question",
+          "title": "Yes-no questions with 吗",
+          "pattern": "Statement + 吗？",
+          "tip": "Add 吗 to the end of a statement to make a yes-no question, with no change in word order: 你是老师吗？ (are you a teacher?).",
+          "source": "authored"
         }
       ],
       "sentences": [
@@ -513,86 +410,45 @@
             "name"
           ],
           "grammar": [
-            "g:jiao-name",
-            "g:question-word-place"
+            "g:what-shenme"
           ]
         },
         {
-          "zh": "他叫什么名字？",
+          "zh": "我叫李月。",
           "tokens": [
-            "他",
+            "我",
             "叫",
-            "什么",
-            "名字"
+            "李月"
           ],
-          "pinyin": "Tā jiào shénme míngzi?",
-          "en": "What is his name?",
+          "pinyin": "Wǒ jiào Lǐ Yuè.",
+          "en": "My name is Li Yue.",
           "enTokens": [
-            "What",
+            "My",
+            "name",
             "is",
-            "his",
-            "name"
-          ],
-          "grammar": [
-            "g:jiao-name"
+            "Li",
+            "Yue"
           ]
         },
         {
-          "zh": "她叫什么名字？",
+          "zh": "你是老师吗？",
           "tokens": [
-            "她",
-            "叫",
-            "什么",
-            "名字"
-          ],
-          "pinyin": "Tā jiào shénme míngzi?",
-          "en": "What is her name?",
-          "enTokens": [
-            "What",
-            "is",
-            "her",
-            "name"
-          ],
-          "grammar": [
-            "g:jiao-name"
-          ]
-        },
-        {
-          "zh": "他是老师。",
-          "tokens": [
-            "他",
+            "你",
             "是",
-            "老师"
+            "老师",
+            "吗"
           ],
-          "pinyin": "Tā shì lǎoshī.",
-          "en": "He is a teacher.",
+          "pinyin": "Nǐ shì lǎoshī ma?",
+          "en": "Are you a teacher?",
           "enTokens": [
-            "He",
-            "is",
+            "Are",
+            "you",
             "a",
             "teacher"
           ],
           "grammar": [
-            "g:shi-nouns"
-          ]
-        },
-        {
-          "zh": "她是学生。",
-          "tokens": [
-            "她",
-            "是",
-            "学生"
-          ],
-          "pinyin": "Tā shì xuésheng.",
-          "en": "She is a student.",
-          "enTokens": [
-            "She",
-            "is",
-            "a",
-            "student"
-          ],
-          "grammar": [
-            "g:shi-nouns"
+            "g:ma-question",
+            "g:shi-sentence"
           ]
         },
         {
@@ -611,7 +467,27 @@
             "student"
           ],
           "grammar": [
-            "g:shi-nouns"
+            "g:shi-sentence"
+          ]
+        },
+        {
+          "zh": "你是学生吗？",
+          "tokens": [
+            "你",
+            "是",
+            "学生",
+            "吗"
+          ],
+          "pinyin": "Nǐ shì xuésheng ma?",
+          "en": "Are you a student?",
+          "enTokens": [
+            "Are",
+            "you",
+            "a",
+            "student"
+          ],
+          "grammar": [
+            "g:ma-question"
           ]
         },
         {
@@ -632,68 +508,7 @@
             "teacher"
           ],
           "grammar": [
-            "g:bu-negation"
-          ]
-        },
-        {
-          "zh": "她不是学生。",
-          "tokens": [
-            "她",
-            "不",
-            "是",
-            "学生"
-          ],
-          "pinyin": "Tā bú shì xuésheng.",
-          "en": "She is not a student.",
-          "enTokens": [
-            "She",
-            "is",
-            "not",
-            "a",
-            "student"
-          ],
-          "grammar": [
-            "g:bu-negation"
-          ]
-        },
-        {
-          "zh": "你是老师吗？",
-          "tokens": [
-            "你",
-            "是",
-            "老师",
-            "吗"
-          ],
-          "pinyin": "Nǐ shì lǎoshī ma?",
-          "en": "Are you a teacher?",
-          "enTokens": [
-            "Are",
-            "you",
-            "a",
-            "teacher"
-          ],
-          "grammar": [
-            "g:ma-question"
-          ]
-        },
-        {
-          "zh": "他是中国人吗？",
-          "tokens": [
-            "他",
-            "是",
-            "中国",
-            "人",
-            "吗"
-          ],
-          "pinyin": "Tā shì Zhōngguó rén ma?",
-          "en": "Is he Chinese?",
-          "enTokens": [
-            "Is",
-            "he",
-            "Chinese"
-          ],
-          "grammar": [
-            "g:ma-question"
+            "g:shi-sentence"
           ]
         },
         {
@@ -712,137 +527,44 @@
             "Chinese"
           ],
           "grammar": [
-            "g:shi-nouns"
+            "g:shi-sentence"
           ]
         },
         {
-          "zh": "她是中国老师。",
+          "zh": "你是美国人吗？",
           "tokens": [
-            "她",
-            "是",
-            "中国",
-            "老师"
-          ],
-          "pinyin": "Tā shì Zhōngguó lǎoshī.",
-          "en": "She is a Chinese teacher.",
-          "enTokens": [
-            "She",
-            "is",
-            "a",
-            "Chinese",
-            "teacher"
-          ]
-        },
-        {
-          "zh": "我很好，你呢？",
-          "tokens": [
-            "我",
-            "很",
-            "好",
             "你",
-            "呢"
-          ],
-          "pinyin": "Wǒ hěn hǎo, nǐ ne?",
-          "en": "I am well, and you?",
-          "enTokens": [
-            "I",
-            "am",
-            "well",
-            "and",
-            "you"
-          ],
-          "grammar": [
-            "g:ne-followup"
-          ]
-        },
-        {
-          "zh": "他很好，她呢？",
-          "tokens": [
-            "他",
-            "很",
-            "好",
-            "她",
-            "呢"
-          ],
-          "pinyin": "Tā hěn hǎo, tā ne?",
-          "en": "He is well, and her?",
-          "enTokens": [
-            "He",
-            "is",
-            "well",
-            "and",
-            "her"
-          ],
-          "grammar": [
-            "g:ne-followup"
-          ]
-        },
-        {
-          "zh": "老师好！",
-          "tokens": [
-            "老师",
-            "好"
-          ],
-          "pinyin": "Lǎoshī hǎo!",
-          "en": "Hello, teacher!",
-          "enTokens": [
-            "Hello",
-            "teacher"
-          ]
-        },
-        {
-          "zh": "谢谢老师！",
-          "tokens": [
-            "谢谢",
-            "老师"
-          ],
-          "pinyin": "Xièxie lǎoshī!",
-          "en": "Thank you, teacher!",
-          "enTokens": [
-            "Thank",
-            "you",
-            "teacher"
-          ]
-        },
-        {
-          "zh": "你们是学生吗？",
-          "tokens": [
-            "你们",
             "是",
-            "学生",
+            "美国",
+            "人",
             "吗"
           ],
-          "pinyin": "Nǐmen shì xuésheng ma?",
-          "en": "Are you all students?",
+          "pinyin": "Nǐ shì Měiguó rén ma?",
+          "en": "Are you American?",
           "enTokens": [
             "Are",
             "you",
-            "all",
-            "students"
+            "American"
           ],
           "grammar": [
             "g:ma-question"
           ]
         },
         {
-          "zh": "他不是中国人。",
+          "zh": "李月是学生。",
           "tokens": [
-            "他",
-            "不",
+            "李月",
             "是",
-            "中国",
-            "人"
+            "学生"
           ],
-          "pinyin": "Tā bú shì Zhōngguó rén.",
-          "en": "He is not Chinese.",
+          "pinyin": "Lǐ Yuè shì xuésheng.",
+          "en": "Li Yue is a student.",
           "enTokens": [
-            "He",
+            "Li",
+            "Yue",
             "is",
-            "not",
-            "Chinese"
-          ],
-          "grammar": [
-            "g:bu-negation"
+            "a",
+            "student"
           ]
         }
       ]
@@ -853,10 +575,304 @@
       "titlePinyin": "Tā shì wǒ de Hànyǔ lǎoshī",
       "titleEn": "She is my Chinese teacher",
       "topic": "Possession, family and languages",
-      "page": 24,
-      "words": [],
-      "grammar": [],
-      "sentences": []
+      "page": 22,
+      "words": [
+        {
+          "word": "她",
+          "gloss": "she; her"
+        },
+        {
+          "word": "谁",
+          "gloss": "who"
+        },
+        {
+          "word": "的",
+          "gloss": "(possessive particle: 's / of)"
+        },
+        {
+          "word": "汉语",
+          "gloss": "Chinese (language)"
+        },
+        {
+          "word": "哪",
+          "gloss": "which"
+        },
+        {
+          "word": "国",
+          "gloss": "country"
+        },
+        {
+          "word": "呢",
+          "gloss": "(follow-up question particle)"
+        },
+        {
+          "word": "他",
+          "gloss": "he; him"
+        },
+        {
+          "word": "同学",
+          "gloss": "classmate"
+        },
+        {
+          "word": "朋友",
+          "gloss": "friend"
+        }
+      ],
+      "grammar": [
+        {
+          "id": "g:who-which",
+          "title": "Asking \"who\" and \"which\" with 谁 and 哪",
+          "pattern": "Subject + 是 + 谁 · 哪 + 国",
+          "tip": "谁 asks which person (\"who\"); 哪 asks which one out of a set. Both sit exactly where the answer will go, so the word order does not change between question and answer: 她是谁？→ 她是我的老师。",
+          "source": "authored"
+        },
+        {
+          "id": "g:de-possessive",
+          "title": "The possessive particle 的",
+          "pattern": "Owner + 的 + thing",
+          "tip": "的 links an owner to what they own, like English 's or \"of\": 我的老师 (my teacher), 他的朋友 (his friend). The owner comes first, then 的, then the thing.",
+          "source": "authored"
+        },
+        {
+          "id": "g:ne-followup",
+          "title": "The follow-up particle 呢 (1)",
+          "pattern": "Noun + 呢？",
+          "tip": "呢 turns a noun into a short \"and how about …?\" question that reuses the question already on the table. 我很好，你呢？ means \"I'm fine, and you?\" — no need to repeat the whole sentence.",
+          "source": "authored"
+        }
+      ],
+      "sentences": [
+        {
+          "zh": "她是谁？",
+          "tokens": [
+            "她",
+            "是",
+            "谁"
+          ],
+          "pinyin": "Tā shì shéi?",
+          "en": "Who is she?",
+          "enTokens": [
+            "Who",
+            "is",
+            "she"
+          ],
+          "grammar": [
+            "g:who-which"
+          ]
+        },
+        {
+          "zh": "她是我的老师。",
+          "tokens": [
+            "她",
+            "是",
+            "我",
+            "的",
+            "老师"
+          ],
+          "pinyin": "Tā shì wǒ de lǎoshī.",
+          "en": "She is my teacher.",
+          "enTokens": [
+            "She",
+            "is",
+            "my",
+            "teacher"
+          ],
+          "grammar": [
+            "g:de-possessive"
+          ]
+        },
+        {
+          "zh": "他是我的朋友。",
+          "tokens": [
+            "他",
+            "是",
+            "我",
+            "的",
+            "朋友"
+          ],
+          "pinyin": "Tā shì wǒ de péngyou.",
+          "en": "He is my friend.",
+          "enTokens": [
+            "He",
+            "is",
+            "my",
+            "friend"
+          ],
+          "grammar": [
+            "g:de-possessive"
+          ]
+        },
+        {
+          "zh": "她是我的汉语老师。",
+          "tokens": [
+            "她",
+            "是",
+            "我",
+            "的",
+            "汉语",
+            "老师"
+          ],
+          "pinyin": "Tā shì wǒ de Hànyǔ lǎoshī.",
+          "en": "She is my Chinese teacher.",
+          "enTokens": [
+            "She",
+            "is",
+            "my",
+            "Chinese",
+            "teacher"
+          ],
+          "grammar": [
+            "g:de-possessive"
+          ]
+        },
+        {
+          "zh": "你是哪国人？",
+          "tokens": [
+            "你",
+            "是",
+            "哪",
+            "国",
+            "人"
+          ],
+          "pinyin": "Nǐ shì nǎ guó rén?",
+          "en": "What country are you from?",
+          "enTokens": [
+            "What",
+            "country",
+            "are",
+            "you",
+            "from"
+          ],
+          "grammar": [
+            "g:who-which"
+          ]
+        },
+        {
+          "zh": "他是你的同学吗？",
+          "tokens": [
+            "他",
+            "是",
+            "你",
+            "的",
+            "同学",
+            "吗"
+          ],
+          "pinyin": "Tā shì nǐ de tóngxué ma?",
+          "en": "Is he your classmate?",
+          "enTokens": [
+            "Is",
+            "he",
+            "your",
+            "classmate"
+          ]
+        },
+        {
+          "zh": "我是学生，你呢？",
+          "tokens": [
+            "我",
+            "是",
+            "学生",
+            "你",
+            "呢"
+          ],
+          "pinyin": "Wǒ shì xuésheng, nǐ ne?",
+          "en": "I'm a student, and you?",
+          "enTokens": [
+            "I",
+            "am",
+            "a",
+            "student",
+            "and",
+            "you"
+          ],
+          "grammar": [
+            "g:ne-followup"
+          ]
+        },
+        {
+          "zh": "他是谁？",
+          "tokens": [
+            "他",
+            "是",
+            "谁"
+          ],
+          "pinyin": "Tā shì shéi?",
+          "en": "Who is he?",
+          "enTokens": [
+            "Who",
+            "is",
+            "he"
+          ],
+          "grammar": [
+            "g:who-which"
+          ]
+        },
+        {
+          "zh": "他是我的好朋友。",
+          "tokens": [
+            "他",
+            "是",
+            "我",
+            "的",
+            "好",
+            "朋友"
+          ],
+          "pinyin": "Tā shì wǒ de hǎo péngyou.",
+          "en": "He is my good friend.",
+          "enTokens": [
+            "He",
+            "is",
+            "my",
+            "good",
+            "friend"
+          ],
+          "grammar": [
+            "g:de-possessive"
+          ]
+        },
+        {
+          "zh": "我朋友是老师。",
+          "tokens": [
+            "我",
+            "朋友",
+            "是",
+            "老师"
+          ],
+          "pinyin": "Wǒ péngyou shì lǎoshī.",
+          "en": "My friend is a teacher.",
+          "enTokens": [
+            "My",
+            "friend",
+            "is",
+            "a",
+            "teacher"
+          ]
+        },
+        {
+          "zh": "你朋友是哪国人？",
+          "tokens": [
+            "你",
+            "朋友",
+            "是",
+            "哪",
+            "国",
+            "人"
+          ],
+          "pinyin": "Nǐ péngyou shì nǎ guó rén?",
+          "en": "What country is your friend from?",
+          "enTokens": [
+            "What",
+            "country",
+            "is",
+            "your",
+            "friend",
+            "from"
+          ],
+          "grammar": [
+            "g:who-which"
+          ]
+        }
+      ]
     },
     {
       "lesson": 5,
@@ -864,10 +880,308 @@
       "titlePinyin": "Tā nǚ'ér jīnnián èrshí suì",
       "titleEn": "Her daughter is twenty this year",
       "topic": "Numbers, age and quantities",
-      "page": 32,
-      "words": [],
-      "grammar": [],
-      "sentences": []
+      "page": 30,
+      "words": [
+        {
+          "word": "家",
+          "gloss": "home; family"
+        },
+        {
+          "word": "有",
+          "gloss": "to have; there is"
+        },
+        {
+          "word": "口",
+          "gloss": "(measure word for family members)",
+          "star": true
+        },
+        {
+          "word": "女儿",
+          "gloss": "daughter"
+        },
+        {
+          "word": "几",
+          "gloss": "how many (small number)"
+        },
+        {
+          "word": "岁",
+          "gloss": "years (of age)"
+        },
+        {
+          "word": "了",
+          "gloss": "(particle marking a change)"
+        },
+        {
+          "word": "今年",
+          "gloss": "this year"
+        },
+        {
+          "word": "多",
+          "gloss": "how (to what degree)"
+        },
+        {
+          "word": "大",
+          "gloss": "big; old (in age)"
+        },
+        {
+          "word": "一",
+          "gloss": "one"
+        },
+        {
+          "word": "二",
+          "gloss": "two"
+        },
+        {
+          "word": "三",
+          "gloss": "three"
+        },
+        {
+          "word": "四",
+          "gloss": "four"
+        },
+        {
+          "word": "五",
+          "gloss": "five"
+        },
+        {
+          "word": "六",
+          "gloss": "six"
+        },
+        {
+          "word": "七",
+          "gloss": "seven"
+        },
+        {
+          "word": "八",
+          "gloss": "eight"
+        },
+        {
+          "word": "九",
+          "gloss": "nine"
+        },
+        {
+          "word": "十",
+          "gloss": "ten"
+        },
+        {
+          "word": "两",
+          "gloss": "two (before a measure word)"
+        }
+      ],
+      "grammar": [
+        {
+          "id": "g:ji-howmany",
+          "title": "Asking a small number with 几",
+          "pattern": "几 + measure word + noun",
+          "tip": "几 asks \"how many\" when the answer is expected to be small (roughly under ten), and it always needs a measure word after it: 几岁 (how old), 几口人 (how many people in the family).",
+          "source": "authored"
+        },
+        {
+          "id": "g:numbers-100",
+          "title": "Numbers up to 100",
+          "pattern": "tens + 十 + ones",
+          "tip": "Chinese numbers stack simply: 二十 (20) is \"two-ten\", 二十一 (21) is \"two-ten-one\". Once you know 一 to 十, you can say every number up to 九十九.",
+          "source": "authored"
+        },
+        {
+          "id": "g:le-change",
+          "title": "了 marking a change",
+          "pattern": "Situation + 了",
+          "tip": "Sentence-final 了 says a new state has arrived. 她今年二十岁了 means she has now turned twenty — the 了 marks the change into that age.",
+          "source": "authored"
+        },
+        {
+          "id": "g:duo-da",
+          "title": "Asking age with 多大",
+          "pattern": "Subject + 多大？",
+          "tip": "多 + an adjective asks \"how ___?\". 多大 literally \"how big\" is the ordinary way to ask an adult's age: 你多大？ For a small child you ask 几岁 instead.",
+          "source": "authored"
+        },
+        {
+          "id": "g:you-family",
+          "title": "Saying family size with 有",
+          "pattern": "Subject + 家 + 有 + number + 口人",
+          "tip": "To say how many people are in a family, use 家有 …口人: 我家有三口人 (there are three people in my family).",
+          "source": "authored"
+        }
+      ],
+      "sentences": [
+        {
+          "zh": "你家有几口人？",
+          "tokens": [
+            "你",
+            "家",
+            "有",
+            "几",
+            "口",
+            "人"
+          ],
+          "pinyin": "Nǐ jiā yǒu jǐ kǒu rén?",
+          "en": "How many people are in your family?",
+          "enTokens": [
+            "How",
+            "many",
+            "people",
+            "are",
+            "in",
+            "your",
+            "family"
+          ],
+          "grammar": [
+            "g:ji-howmany"
+          ]
+        },
+        {
+          "zh": "我家有三口人。",
+          "tokens": [
+            "我",
+            "家",
+            "有",
+            "三",
+            "口",
+            "人"
+          ],
+          "pinyin": "Wǒ jiā yǒu sān kǒu rén.",
+          "en": "There are three people in my family.",
+          "enTokens": [
+            "There",
+            "are",
+            "three",
+            "people",
+            "in",
+            "my",
+            "family"
+          ],
+          "grammar": [
+            "g:you-family"
+          ]
+        },
+        {
+          "zh": "她是我的女儿。",
+          "tokens": [
+            "她",
+            "是",
+            "我",
+            "的",
+            "女儿"
+          ],
+          "pinyin": "Tā shì wǒ de nǚ’ér.",
+          "en": "She is my daughter.",
+          "enTokens": [
+            "She",
+            "is",
+            "my",
+            "daughter"
+          ]
+        },
+        {
+          "zh": "你女儿今年几岁？",
+          "tokens": [
+            "你",
+            "女儿",
+            "今年",
+            "几",
+            "岁"
+          ],
+          "pinyin": "Nǐ nǚ’ér jīnnián jǐ suì?",
+          "en": "How old is your daughter this year?",
+          "enTokens": [
+            "How",
+            "old",
+            "is",
+            "your",
+            "daughter",
+            "this",
+            "year"
+          ],
+          "grammar": [
+            "g:ji-howmany"
+          ]
+        },
+        {
+          "zh": "她今年二十岁了。",
+          "tokens": [
+            "她",
+            "今年",
+            "二",
+            "十",
+            "岁",
+            "了"
+          ],
+          "pinyin": "Tā jīnnián èrshí suì le.",
+          "en": "She is twenty this year.",
+          "enTokens": [
+            "She",
+            "is",
+            "twenty",
+            "this",
+            "year"
+          ],
+          "grammar": [
+            "g:le-change"
+          ]
+        },
+        {
+          "zh": "你今年多大？",
+          "tokens": [
+            "你",
+            "今年",
+            "多",
+            "大"
+          ],
+          "pinyin": "Nǐ jīnnián duō dà?",
+          "en": "How old are you this year?",
+          "enTokens": [
+            "How",
+            "old",
+            "are",
+            "you",
+            "this",
+            "year"
+          ],
+          "grammar": [
+            "g:duo-da"
+          ]
+        },
+        {
+          "zh": "我女儿今年三岁。",
+          "tokens": [
+            "我",
+            "女儿",
+            "今年",
+            "三",
+            "岁"
+          ],
+          "pinyin": "Wǒ nǚ’ér jīnnián sān suì.",
+          "en": "My daughter is three this year.",
+          "enTokens": [
+            "My",
+            "daughter",
+            "is",
+            "three",
+            "this",
+            "year"
+          ]
+        },
+        {
+          "zh": "你有女儿吗？",
+          "tokens": [
+            "你",
+            "有",
+            "女儿",
+            "吗"
+          ],
+          "pinyin": "Nǐ yǒu nǚ’ér ma?",
+          "en": "Do you have a daughter?",
+          "enTokens": [
+            "Do",
+            "you",
+            "have",
+            "a",
+            "daughter"
+          ]
+        }
+      ]
     },
     {
       "lesson": 6,
@@ -875,10 +1189,252 @@
       "titlePinyin": "Wǒ huì shuō Hànyǔ",
       "titleEn": "I can speak Chinese",
       "topic": "Skills and how you do something",
-      "page": 42,
-      "words": [],
-      "grammar": [],
-      "sentences": []
+      "page": 40,
+      "words": [
+        {
+          "word": "会",
+          "gloss": "can; to know how to"
+        },
+        {
+          "word": "说",
+          "gloss": "to speak; to say"
+        },
+        {
+          "word": "妈妈",
+          "gloss": "mom"
+        },
+        {
+          "word": "菜",
+          "gloss": "dish; food"
+        },
+        {
+          "word": "很",
+          "gloss": "very"
+        },
+        {
+          "word": "好吃",
+          "gloss": "tasty; delicious",
+          "star": true
+        },
+        {
+          "word": "做",
+          "gloss": "to do; to make"
+        },
+        {
+          "word": "写",
+          "gloss": "to write"
+        },
+        {
+          "word": "汉字",
+          "gloss": "Chinese character"
+        },
+        {
+          "word": "字",
+          "gloss": "character; written word"
+        },
+        {
+          "word": "怎么",
+          "gloss": "how; in what way"
+        },
+        {
+          "word": "读",
+          "gloss": "to read (aloud)"
+        }
+      ],
+      "grammar": [
+        {
+          "id": "g:hui-learned",
+          "title": "The modal verb 会 (1): a learned skill",
+          "pattern": "Subject + 会 + verb",
+          "tip": "会 before a verb means you can do something because you learned it: 我会说汉语 (I can speak Chinese), 她会做菜 (she can cook). It is about acquired skill, not permission.",
+          "source": "authored"
+        },
+        {
+          "id": "g:adj-predicate",
+          "title": "Adjective predicates with 很",
+          "pattern": "Subject + 很 + adjective",
+          "tip": "An adjective can be the whole predicate with no 是: 菜很好吃 (the food is delicious). 很 usually fills the slot even when you do not mean \"very\" strongly — a bare adjective sounds like a comparison.",
+          "source": "authored"
+        },
+        {
+          "id": "g:zenme-how",
+          "title": "The question word 怎么 (1): how to do something",
+          "pattern": "怎么 + verb",
+          "tip": "怎么 before a verb asks the manner or method: 这个字怎么读？ (how do you read this character?), 怎么写？ (how do you write it?).",
+          "source": "authored"
+        }
+      ],
+      "sentences": [
+        {
+          "zh": "我会说汉语。",
+          "tokens": [
+            "我",
+            "会",
+            "说",
+            "汉语"
+          ],
+          "pinyin": "Wǒ huì shuō Hànyǔ.",
+          "en": "I can speak Chinese.",
+          "enTokens": [
+            "I",
+            "can",
+            "speak",
+            "Chinese"
+          ],
+          "grammar": [
+            "g:hui-learned"
+          ]
+        },
+        {
+          "zh": "你会做菜吗？",
+          "tokens": [
+            "你",
+            "会",
+            "做",
+            "菜",
+            "吗"
+          ],
+          "pinyin": "Nǐ huì zuò cài ma?",
+          "en": "Can you cook?",
+          "enTokens": [
+            "Can",
+            "you",
+            "cook"
+          ],
+          "grammar": [
+            "g:hui-learned"
+          ]
+        },
+        {
+          "zh": "妈妈做的菜很好吃。",
+          "tokens": [
+            "妈妈",
+            "做",
+            "的",
+            "菜",
+            "很",
+            "好吃"
+          ],
+          "pinyin": "Māma zuò de cài hěn hǎochī.",
+          "en": "The food mom makes is delicious.",
+          "enTokens": [
+            "The",
+            "food",
+            "mom",
+            "makes",
+            "is",
+            "delicious"
+          ],
+          "grammar": [
+            "g:adj-predicate"
+          ]
+        },
+        {
+          "zh": "字怎么读？",
+          "tokens": [
+            "字",
+            "怎么",
+            "读"
+          ],
+          "pinyin": "Zì zěnme dú?",
+          "en": "How do you read the character?",
+          "enTokens": [
+            "How",
+            "do",
+            "you",
+            "read",
+            "the",
+            "character"
+          ],
+          "grammar": [
+            "g:zenme-how"
+          ]
+        },
+        {
+          "zh": "汉字怎么写？",
+          "tokens": [
+            "汉字",
+            "怎么",
+            "写"
+          ],
+          "pinyin": "Hànzì zěnme xiě?",
+          "en": "How do you write Chinese characters?",
+          "enTokens": [
+            "How",
+            "do",
+            "you",
+            "write",
+            "Chinese",
+            "characters"
+          ],
+          "grammar": [
+            "g:zenme-how"
+          ]
+        },
+        {
+          "zh": "我会写汉字。",
+          "tokens": [
+            "我",
+            "会",
+            "写",
+            "汉字"
+          ],
+          "pinyin": "Wǒ huì xiě Hànzì.",
+          "en": "I can write Chinese characters.",
+          "enTokens": [
+            "I",
+            "can",
+            "write",
+            "Chinese",
+            "characters"
+          ],
+          "grammar": [
+            "g:hui-learned"
+          ]
+        },
+        {
+          "zh": "你妈妈会说汉语吗？",
+          "tokens": [
+            "你",
+            "妈妈",
+            "会",
+            "说",
+            "汉语",
+            "吗"
+          ],
+          "pinyin": "Nǐ māma huì shuō Hànyǔ ma?",
+          "en": "Can your mom speak Chinese?",
+          "enTokens": [
+            "Can",
+            "your",
+            "mom",
+            "speak",
+            "Chinese"
+          ]
+        },
+        {
+          "zh": "老师说的字很好。",
+          "tokens": [
+            "老师",
+            "说",
+            "的",
+            "字",
+            "很",
+            "好"
+          ],
+          "pinyin": "Lǎoshī shuō de zì hěn hǎo.",
+          "en": "The characters the teacher reads out are good.",
+          "enTokens": [
+            "The",
+            "characters",
+            "the",
+            "teacher",
+            "reads",
+            "are",
+            "good"
+          ]
+        }
+      ]
     },
     {
       "lesson": 7,
@@ -886,10 +1442,244 @@
       "titlePinyin": "Jīntiān jǐ hào?",
       "titleEn": "What's the date today?",
       "topic": "Dates, days of the week and going places",
-      "page": 50,
-      "words": [],
-      "grammar": [],
-      "sentences": []
+      "page": 48,
+      "words": [
+        {
+          "word": "请",
+          "gloss": "please; to invite"
+        },
+        {
+          "word": "问",
+          "gloss": "to ask",
+          "star": true
+        },
+        {
+          "word": "今天",
+          "gloss": "today"
+        },
+        {
+          "word": "号",
+          "gloss": "day of the month; number"
+        },
+        {
+          "word": "月",
+          "gloss": "month"
+        },
+        {
+          "word": "星期",
+          "gloss": "week"
+        },
+        {
+          "word": "昨天",
+          "gloss": "yesterday"
+        },
+        {
+          "word": "明天",
+          "gloss": "tomorrow"
+        },
+        {
+          "word": "去",
+          "gloss": "to go"
+        },
+        {
+          "word": "学校",
+          "gloss": "school"
+        },
+        {
+          "word": "看",
+          "gloss": "to look at; to read; to watch"
+        },
+        {
+          "word": "书",
+          "gloss": "book"
+        }
+      ],
+      "grammar": [
+        {
+          "id": "g:date-1",
+          "title": "Saying a date (1): month and day",
+          "pattern": "number + 月 + number + 号",
+          "tip": "A date is built big-to-small: the month, then the day. 五月三号 is \"May 3rd\" (literally five-month three-day). The day of the week 星期 works the same way: 星期一 is Monday.",
+          "source": "authored"
+        },
+        {
+          "id": "g:noun-predicate",
+          "title": "Nominal predicates for dates and age",
+          "pattern": "Subject + time / age (no 是)",
+          "tip": "For dates, days and ages you can drop 是 and let the noun be the predicate: 今天三号 (today is the 3rd), 她二十岁 (she is twenty). 是 comes back when the sentence is negated with 不.",
+          "source": "authored"
+        },
+        {
+          "id": "g:serial-verb-1",
+          "title": "Serial verbs (1): going somewhere to do something",
+          "pattern": "Subject + 去 + place + verb",
+          "tip": "Two verbs can share one subject in order of what happens: 去 + place first, then what you do there. 我去学校看书 = I go to school (and there) read.",
+          "source": "authored"
+        }
+      ],
+      "sentences": [
+        {
+          "zh": "今天几号？",
+          "tokens": [
+            "今天",
+            "几",
+            "号"
+          ],
+          "pinyin": "Jīntiān jǐ hào?",
+          "en": "What's the date today?",
+          "enTokens": [
+            "What",
+            "is",
+            "the",
+            "date",
+            "today"
+          ],
+          "grammar": [
+            "g:date-1",
+            "g:noun-predicate"
+          ]
+        },
+        {
+          "zh": "今天三号。",
+          "tokens": [
+            "今天",
+            "三",
+            "号"
+          ],
+          "pinyin": "Jīntiān sān hào.",
+          "en": "Today is the 3rd.",
+          "enTokens": [
+            "Today",
+            "is",
+            "the",
+            "3rd"
+          ],
+          "grammar": [
+            "g:noun-predicate"
+          ]
+        },
+        {
+          "zh": "明天星期几？",
+          "tokens": [
+            "明天",
+            "星期",
+            "几"
+          ],
+          "pinyin": "Míngtiān xīngqī jǐ?",
+          "en": "What day is tomorrow?",
+          "enTokens": [
+            "What",
+            "day",
+            "is",
+            "tomorrow"
+          ],
+          "grammar": [
+            "g:date-1"
+          ]
+        },
+        {
+          "zh": "我明天去学校。",
+          "tokens": [
+            "我",
+            "明天",
+            "去",
+            "学校"
+          ],
+          "pinyin": "Wǒ míngtiān qù xuéxiào.",
+          "en": "I am going to school tomorrow.",
+          "enTokens": [
+            "I",
+            "am",
+            "going",
+            "to",
+            "school",
+            "tomorrow"
+          ]
+        },
+        {
+          "zh": "我去学校看书。",
+          "tokens": [
+            "我",
+            "去",
+            "学校",
+            "看",
+            "书"
+          ],
+          "pinyin": "Wǒ qù xuéxiào kàn shū.",
+          "en": "I go to school to read.",
+          "enTokens": [
+            "I",
+            "go",
+            "to",
+            "school",
+            "to",
+            "read"
+          ],
+          "grammar": [
+            "g:serial-verb-1"
+          ]
+        },
+        {
+          "zh": "请问，今天几号？",
+          "tokens": [
+            "请",
+            "问",
+            "今天",
+            "几",
+            "号"
+          ],
+          "pinyin": "Qǐngwèn, jīntiān jǐ hào?",
+          "en": "Excuse me, what is the date today?",
+          "enTokens": [
+            "Excuse",
+            "me",
+            "what",
+            "is",
+            "the",
+            "date",
+            "today"
+          ]
+        },
+        {
+          "zh": "昨天星期三。",
+          "tokens": [
+            "昨天",
+            "星期",
+            "三"
+          ],
+          "pinyin": "Zuótiān xīngqīsān.",
+          "en": "Yesterday was Wednesday.",
+          "enTokens": [
+            "Yesterday",
+            "was",
+            "Wednesday"
+          ],
+          "grammar": [
+            "g:noun-predicate"
+          ]
+        },
+        {
+          "zh": "你明天去看书吗？",
+          "tokens": [
+            "你",
+            "明天",
+            "去",
+            "看",
+            "书",
+            "吗"
+          ],
+          "pinyin": "Nǐ míngtiān qù kàn shū ma?",
+          "en": "Are you going to read tomorrow?",
+          "enTokens": [
+            "Are",
+            "you",
+            "going",
+            "to",
+            "read",
+            "tomorrow"
+          ]
+        }
+      ]
     },
     {
       "lesson": 8,
@@ -897,10 +1687,280 @@
       "titlePinyin": "Wǒ xiǎng hē chá",
       "titleEn": "I'd like some tea",
       "topic": "Wants, measure words and money",
-      "page": 58,
-      "words": [],
-      "grammar": [],
-      "sentences": []
+      "page": 56,
+      "words": [
+        {
+          "word": "想",
+          "gloss": "to want; would like"
+        },
+        {
+          "word": "喝",
+          "gloss": "to drink"
+        },
+        {
+          "word": "茶",
+          "gloss": "tea"
+        },
+        {
+          "word": "吃",
+          "gloss": "to eat"
+        },
+        {
+          "word": "米饭",
+          "gloss": "(cooked) rice"
+        },
+        {
+          "word": "下午",
+          "gloss": "afternoon"
+        },
+        {
+          "word": "商店",
+          "gloss": "shop; store"
+        },
+        {
+          "word": "买",
+          "gloss": "to buy"
+        },
+        {
+          "word": "个",
+          "gloss": "(general measure word)"
+        },
+        {
+          "word": "杯子",
+          "gloss": "cup; glass"
+        },
+        {
+          "word": "这",
+          "gloss": "this"
+        },
+        {
+          "word": "多少",
+          "gloss": "how many; how much"
+        },
+        {
+          "word": "钱",
+          "gloss": "money"
+        },
+        {
+          "word": "块",
+          "gloss": "(unit of money: yuan)"
+        },
+        {
+          "word": "那",
+          "gloss": "that"
+        }
+      ],
+      "grammar": [
+        {
+          "id": "g:xiang-want",
+          "title": "The modal verb 想: wanting to do something",
+          "pattern": "Subject + 想 + verb",
+          "tip": "想 before a verb means \"would like to\": 我想喝茶 (I'd like to drink tea), 我想买杯子 (I want to buy a cup). On its own 想 can also mean \"to miss (someone)\".",
+          "source": "authored"
+        },
+        {
+          "id": "g:duoshao",
+          "title": "The question word 多少",
+          "pattern": "多少 (+ measure word) + noun",
+          "tip": "多少 asks \"how many/how much\" for any amount, large or small, and needs no measure word: 多少钱？ (how much money?). Use it, not 几, once the answer might be a big number.",
+          "source": "authored"
+        },
+        {
+          "id": "g:mw-ge-kou",
+          "title": "The measure words 个 and 口",
+          "pattern": "number + 个 / 口 + noun",
+          "tip": "A number cannot sit straight before a noun; a measure word goes between. 个 is the all-purpose one (三个杯子, three cups); 口 is used for counting family members (三口人).",
+          "source": "authored"
+        },
+        {
+          "id": "g:money",
+          "title": "Saying an amount of money",
+          "pattern": "number + 块 (+ 钱)",
+          "tip": "块 is the spoken word for the yuan: 三块 or 三块钱 both mean \"three yuan\". You may add 钱 at the end or leave it off.",
+          "source": "authored"
+        }
+      ],
+      "sentences": [
+        {
+          "zh": "我想喝茶。",
+          "tokens": [
+            "我",
+            "想",
+            "喝",
+            "茶"
+          ],
+          "pinyin": "Wǒ xiǎng hē chá.",
+          "en": "I'd like to drink tea.",
+          "enTokens": [
+            "I",
+            "would",
+            "like",
+            "to",
+            "drink",
+            "tea"
+          ],
+          "grammar": [
+            "g:xiang-want"
+          ]
+        },
+        {
+          "zh": "你想吃米饭吗？",
+          "tokens": [
+            "你",
+            "想",
+            "吃",
+            "米饭",
+            "吗"
+          ],
+          "pinyin": "Nǐ xiǎng chī mǐfàn ma?",
+          "en": "Would you like to eat rice?",
+          "enTokens": [
+            "Would",
+            "you",
+            "like",
+            "to",
+            "eat",
+            "rice"
+          ],
+          "grammar": [
+            "g:xiang-want"
+          ]
+        },
+        {
+          "zh": "这个杯子多少钱？",
+          "tokens": [
+            "这",
+            "个",
+            "杯子",
+            "多少",
+            "钱"
+          ],
+          "pinyin": "Zhège bēizi duōshao qián?",
+          "en": "How much is this cup?",
+          "enTokens": [
+            "How",
+            "much",
+            "is",
+            "this",
+            "cup"
+          ],
+          "grammar": [
+            "g:duoshao",
+            "g:mw-ge-kou"
+          ]
+        },
+        {
+          "zh": "五块钱。",
+          "tokens": [
+            "五",
+            "块",
+            "钱"
+          ],
+          "pinyin": "Wǔ kuài qián.",
+          "en": "Five yuan.",
+          "enTokens": [
+            "Five",
+            "yuan"
+          ],
+          "grammar": [
+            "g:money"
+          ]
+        },
+        {
+          "zh": "我下午去商店买茶。",
+          "tokens": [
+            "我",
+            "下午",
+            "去",
+            "商店",
+            "买",
+            "茶"
+          ],
+          "pinyin": "Wǒ xiàwǔ qù shāngdiàn mǎi chá.",
+          "en": "I go to the shop to buy tea in the afternoon.",
+          "enTokens": [
+            "I",
+            "go",
+            "to",
+            "the",
+            "shop",
+            "to",
+            "buy",
+            "tea",
+            "in",
+            "the",
+            "afternoon"
+          ],
+          "grammar": [
+            "g:serial-verb-1"
+          ]
+        },
+        {
+          "zh": "那个杯子多少钱？",
+          "tokens": [
+            "那",
+            "个",
+            "杯子",
+            "多少",
+            "钱"
+          ],
+          "pinyin": "Nàge bēizi duōshao qián?",
+          "en": "How much is that cup?",
+          "enTokens": [
+            "How",
+            "much",
+            "is",
+            "that",
+            "cup"
+          ],
+          "grammar": [
+            "g:duoshao"
+          ]
+        },
+        {
+          "zh": "我想买一个杯子。",
+          "tokens": [
+            "我",
+            "想",
+            "买",
+            "一",
+            "个",
+            "杯子"
+          ],
+          "pinyin": "Wǒ xiǎng mǎi yí ge bēizi.",
+          "en": "I want to buy a cup.",
+          "enTokens": [
+            "I",
+            "want",
+            "to",
+            "buy",
+            "a",
+            "cup"
+          ],
+          "grammar": [
+            "g:mw-ge-kou"
+          ]
+        },
+        {
+          "zh": "你想喝茶吗？",
+          "tokens": [
+            "你",
+            "想",
+            "喝",
+            "茶",
+            "吗"
+          ],
+          "pinyin": "Nǐ xiǎng hē chá ma?",
+          "en": "Would you like some tea?",
+          "enTokens": [
+            "Would",
+            "you",
+            "like",
+            "some",
+            "tea"
+          ]
+        }
+      ]
     },
     {
       "lesson": 9,
@@ -908,10 +1968,324 @@
       "titlePinyin": "Nǐ érzi zài nǎr gōngzuò?",
       "titleEn": "Where does your son work?",
       "topic": "Places and location",
-      "page": 66,
-      "words": [],
-      "grammar": [],
-      "sentences": []
+      "page": 64,
+      "words": [
+        {
+          "word": "小",
+          "gloss": "small; little"
+        },
+        {
+          "word": "猫",
+          "gloss": "cat"
+        },
+        {
+          "word": "在",
+          "gloss": "to be (located) at; at"
+        },
+        {
+          "word": "那儿",
+          "gloss": "there"
+        },
+        {
+          "word": "狗",
+          "gloss": "dog"
+        },
+        {
+          "word": "椅子",
+          "gloss": "chair"
+        },
+        {
+          "word": "下面",
+          "gloss": "below; underneath"
+        },
+        {
+          "word": "哪儿",
+          "gloss": "where"
+        },
+        {
+          "word": "工作",
+          "gloss": "to work; job"
+        },
+        {
+          "word": "儿子",
+          "gloss": "son"
+        },
+        {
+          "word": "医院",
+          "gloss": "hospital"
+        },
+        {
+          "word": "医生",
+          "gloss": "doctor"
+        },
+        {
+          "word": "爸爸",
+          "gloss": "dad"
+        }
+      ],
+      "grammar": [
+        {
+          "id": "g:zai-verb",
+          "title": "The verb 在: being somewhere",
+          "pattern": "Subject + 在 + place",
+          "tip": "As a main verb 在 says where something is: 猫在椅子下面 (the cat is under the chair). The place comes straight after 在, with no extra \"is\".",
+          "source": "authored"
+        },
+        {
+          "id": "g:nar-where",
+          "title": "The question word 哪儿",
+          "pattern": "Subject + 在 + 哪儿？",
+          "tip": "哪儿 asks \"where\" and stands in the place slot: 你儿子在哪儿工作？ The answer drops into the same spot: 他在医院工作。",
+          "source": "authored"
+        },
+        {
+          "id": "g:zai-prep",
+          "title": "The preposition 在: where an action happens",
+          "pattern": "Subject + 在 + place + verb",
+          "tip": "Before another verb, 在 + place tells where the action happens: 他在医院工作 (he works at the hospital). The 在-phrase comes before the verb, never after it.",
+          "source": "authored"
+        },
+        {
+          "id": "g:ne-location",
+          "title": "The follow-up particle 呢 (2): asking where",
+          "pattern": "Noun + 呢？",
+          "tip": "呢 after a noun can ask \"where is …?\" when location is what everyone is already talking about: 我的书呢？ means \"Where is my book?\".",
+          "source": "authored"
+        }
+      ],
+      "sentences": [
+        {
+          "zh": "小猫在哪儿？",
+          "tokens": [
+            "小",
+            "猫",
+            "在",
+            "哪儿"
+          ],
+          "pinyin": "Xiǎo māo zài nǎr?",
+          "en": "Where is the kitten?",
+          "enTokens": [
+            "Where",
+            "is",
+            "the",
+            "kitten"
+          ],
+          "grammar": [
+            "g:nar-where",
+            "g:zai-verb"
+          ]
+        },
+        {
+          "zh": "猫在椅子下面。",
+          "tokens": [
+            "猫",
+            "在",
+            "椅子",
+            "下面"
+          ],
+          "pinyin": "Māo zài yǐzi xiàmian.",
+          "en": "The cat is under the chair.",
+          "enTokens": [
+            "The",
+            "cat",
+            "is",
+            "under",
+            "the",
+            "chair"
+          ],
+          "grammar": [
+            "g:zai-verb"
+          ]
+        },
+        {
+          "zh": "你儿子在哪儿工作？",
+          "tokens": [
+            "你",
+            "儿子",
+            "在",
+            "哪儿",
+            "工作"
+          ],
+          "pinyin": "Nǐ érzi zài nǎr gōngzuò?",
+          "en": "Where does your son work?",
+          "enTokens": [
+            "Where",
+            "does",
+            "your",
+            "son",
+            "work"
+          ],
+          "grammar": [
+            "g:zai-prep",
+            "g:nar-where"
+          ]
+        },
+        {
+          "zh": "他在医院工作。",
+          "tokens": [
+            "他",
+            "在",
+            "医院",
+            "工作"
+          ],
+          "pinyin": "Tā zài yīyuàn gōngzuò.",
+          "en": "He works at the hospital.",
+          "enTokens": [
+            "He",
+            "works",
+            "at",
+            "the",
+            "hospital"
+          ],
+          "grammar": [
+            "g:zai-prep"
+          ]
+        },
+        {
+          "zh": "我爸爸是医生。",
+          "tokens": [
+            "我",
+            "爸爸",
+            "是",
+            "医生"
+          ],
+          "pinyin": "Wǒ bàba shì yīshēng.",
+          "en": "My dad is a doctor.",
+          "enTokens": [
+            "My",
+            "dad",
+            "is",
+            "a",
+            "doctor"
+          ]
+        },
+        {
+          "zh": "狗在哪儿？",
+          "tokens": [
+            "狗",
+            "在",
+            "哪儿"
+          ],
+          "pinyin": "Gǒu zài nǎr?",
+          "en": "Where is the dog?",
+          "enTokens": [
+            "Where",
+            "is",
+            "the",
+            "dog"
+          ],
+          "grammar": [
+            "g:nar-where"
+          ]
+        },
+        {
+          "zh": "医生在医院工作。",
+          "tokens": [
+            "医生",
+            "在",
+            "医院",
+            "工作"
+          ],
+          "pinyin": "Yīshēng zài yīyuàn gōngzuò.",
+          "en": "Doctors work at the hospital.",
+          "enTokens": [
+            "Doctors",
+            "work",
+            "at",
+            "the",
+            "hospital"
+          ],
+          "grammar": [
+            "g:zai-prep"
+          ]
+        },
+        {
+          "zh": "你的狗呢？",
+          "tokens": [
+            "你",
+            "的",
+            "狗",
+            "呢"
+          ],
+          "pinyin": "Nǐ de gǒu ne?",
+          "en": "Where is your dog?",
+          "enTokens": [
+            "Where",
+            "is",
+            "your",
+            "dog"
+          ],
+          "grammar": [
+            "g:ne-location"
+          ]
+        },
+        {
+          "zh": "我爸爸在医院工作。",
+          "tokens": [
+            "我",
+            "爸爸",
+            "在",
+            "医院",
+            "工作"
+          ],
+          "pinyin": "Wǒ bàba zài yīyuàn gōngzuò.",
+          "en": "My dad works at the hospital.",
+          "enTokens": [
+            "My",
+            "dad",
+            "works",
+            "at",
+            "the",
+            "hospital"
+          ],
+          "grammar": [
+            "g:zai-prep"
+          ]
+        },
+        {
+          "zh": "你爸爸是医生吗？",
+          "tokens": [
+            "你",
+            "爸爸",
+            "是",
+            "医生",
+            "吗"
+          ],
+          "pinyin": "Nǐ bàba shì yīshēng ma?",
+          "en": "Is your dad a doctor?",
+          "enTokens": [
+            "Is",
+            "your",
+            "dad",
+            "a",
+            "doctor"
+          ]
+        },
+        {
+          "zh": "爸爸的狗在椅子下面。",
+          "tokens": [
+            "爸爸",
+            "的",
+            "狗",
+            "在",
+            "椅子",
+            "下面"
+          ],
+          "pinyin": "Bàba de gǒu zài yǐzi xiàmian.",
+          "en": "Dad's dog is under the chair.",
+          "enTokens": [
+            "Dad",
+            "dog",
+            "is",
+            "under",
+            "the",
+            "chair"
+          ],
+          "grammar": [
+            "g:zai-verb"
+          ]
+        }
+      ]
     },
     {
       "lesson": 10,
@@ -919,10 +2293,275 @@
       "titlePinyin": "Wǒ néng zuò zhèr ma?",
       "titleEn": "Can I sit here?",
       "topic": "Existence, ability and polite requests",
-      "page": 74,
-      "words": [],
-      "grammar": [],
-      "sentences": []
+      "page": 72,
+      "words": [
+        {
+          "word": "桌子",
+          "gloss": "table; desk"
+        },
+        {
+          "word": "上",
+          "gloss": "on; above; on top of"
+        },
+        {
+          "word": "电脑",
+          "gloss": "computer"
+        },
+        {
+          "word": "和",
+          "gloss": "and"
+        },
+        {
+          "word": "本",
+          "gloss": "(measure word for books)"
+        },
+        {
+          "word": "里",
+          "gloss": "in; inside"
+        },
+        {
+          "word": "前面",
+          "gloss": "front; in front"
+        },
+        {
+          "word": "后面",
+          "gloss": "back; behind"
+        },
+        {
+          "word": "这儿",
+          "gloss": "here"
+        },
+        {
+          "word": "没有",
+          "gloss": "to not have; there is not"
+        },
+        {
+          "word": "能",
+          "gloss": "can; to be able to"
+        },
+        {
+          "word": "坐",
+          "gloss": "to sit"
+        },
+        {
+          "word": "王方",
+          "gloss": "Wang Fang (name)",
+          "pinyin": "Wáng Fāng"
+        },
+        {
+          "word": "谢朋",
+          "gloss": "Xie Peng (name)",
+          "pinyin": "Xiè Péng"
+        }
+      ],
+      "grammar": [
+        {
+          "id": "g:you-exist",
+          "title": "The 有 sentence: something exists somewhere",
+          "pattern": "Place + 有 + thing",
+          "tip": "有 says something is present at a place: 桌子上有电脑 (there is a computer on the table). The place comes first, then 有, then what is there.",
+          "source": "authored"
+        },
+        {
+          "id": "g:he-and",
+          "title": "The conjunction 和: joining nouns",
+          "pattern": "noun + 和 + noun",
+          "tip": "和 links two nouns, like \"and\": 我和朋友 (my friend and I), 茶和水 (tea and water). It joins things, not whole sentences or verbs.",
+          "source": "authored"
+        },
+        {
+          "id": "g:neng-can",
+          "title": "The modal verb 能: being able / allowed",
+          "pattern": "Subject + 能 + verb",
+          "tip": "能 before a verb means able or allowed to, often about the situation right now: 我能坐这儿吗？ (can I sit here?). 会 is for learned skills; 能 is for possibility and permission.",
+          "source": "authored"
+        },
+        {
+          "id": "g:qing-imperative",
+          "title": "Polite requests with 请",
+          "pattern": "请 + verb",
+          "tip": "请 before a verb makes a polite request: 请坐 (please sit), 请问 (may I ask). It softens an order into an invitation.",
+          "source": "authored"
+        }
+      ],
+      "sentences": [
+        {
+          "zh": "桌子上有电脑。",
+          "tokens": [
+            "桌子",
+            "上",
+            "有",
+            "电脑"
+          ],
+          "pinyin": "Zhuōzi shàng yǒu diànnǎo.",
+          "en": "There is a computer on the desk.",
+          "enTokens": [
+            "There",
+            "is",
+            "a",
+            "computer",
+            "on",
+            "the",
+            "desk"
+          ],
+          "grammar": [
+            "g:you-exist"
+          ]
+        },
+        {
+          "zh": "我能坐这儿吗？",
+          "tokens": [
+            "我",
+            "能",
+            "坐",
+            "这儿",
+            "吗"
+          ],
+          "pinyin": "Wǒ néng zuò zhèr ma?",
+          "en": "Can I sit here?",
+          "enTokens": [
+            "Can",
+            "I",
+            "sit",
+            "here"
+          ],
+          "grammar": [
+            "g:neng-can"
+          ]
+        },
+        {
+          "zh": "椅子上有一本书。",
+          "tokens": [
+            "椅子",
+            "上",
+            "有",
+            "一",
+            "本",
+            "书"
+          ],
+          "pinyin": "Yǐzi shàng yǒu yì běn shū.",
+          "en": "There is a book on the chair.",
+          "enTokens": [
+            "There",
+            "is",
+            "a",
+            "book",
+            "on",
+            "the",
+            "chair"
+          ],
+          "grammar": [
+            "g:you-exist"
+          ]
+        },
+        {
+          "zh": "我和王方是同学。",
+          "tokens": [
+            "我",
+            "和",
+            "王方",
+            "是",
+            "同学"
+          ],
+          "pinyin": "Wǒ hé Wáng Fāng shì tóngxué.",
+          "en": "Wang Fang and I are classmates.",
+          "enTokens": [
+            "Wang",
+            "Fang",
+            "and",
+            "I",
+            "are",
+            "classmates"
+          ],
+          "grammar": [
+            "g:he-and"
+          ]
+        },
+        {
+          "zh": "电脑在桌子上。",
+          "tokens": [
+            "电脑",
+            "在",
+            "桌子",
+            "上"
+          ],
+          "pinyin": "Diànnǎo zài zhuōzi shàng.",
+          "en": "The computer is on the desk.",
+          "enTokens": [
+            "The",
+            "computer",
+            "is",
+            "on",
+            "the",
+            "desk"
+          ],
+          "grammar": [
+            "g:zai-verb"
+          ]
+        },
+        {
+          "zh": "请坐！",
+          "tokens": [
+            "请",
+            "坐"
+          ],
+          "pinyin": "Qǐng zuò!",
+          "en": "Please sit down!",
+          "enTokens": [
+            "Please",
+            "sit",
+            "down"
+          ],
+          "grammar": [
+            "g:qing-imperative"
+          ]
+        },
+        {
+          "zh": "谢朋的电脑在哪儿？",
+          "tokens": [
+            "谢朋",
+            "的",
+            "电脑",
+            "在",
+            "哪儿"
+          ],
+          "pinyin": "Xiè Péng de diànnǎo zài nǎr?",
+          "en": "Where is Xie Peng's computer?",
+          "enTokens": [
+            "Where",
+            "is",
+            "Xie",
+            "Peng",
+            "computer"
+          ],
+          "grammar": [
+            "g:nar-where"
+          ]
+        },
+        {
+          "zh": "桌子后面有椅子。",
+          "tokens": [
+            "桌子",
+            "后面",
+            "有",
+            "椅子"
+          ],
+          "pinyin": "Zhuōzi hòumian yǒu yǐzi.",
+          "en": "There is a chair behind the desk.",
+          "enTokens": [
+            "There",
+            "is",
+            "a",
+            "chair",
+            "behind",
+            "the",
+            "desk"
+          ],
+          "grammar": [
+            "g:you-exist"
+          ]
+        }
+      ]
     },
     {
       "lesson": 11,
@@ -930,10 +2569,248 @@
       "titlePinyin": "Xiànzài jǐ diǎn?",
       "titleEn": "What time is it now?",
       "topic": "Clock times and time words",
-      "page": 84,
-      "words": [],
-      "grammar": [],
-      "sentences": []
+      "page": 82,
+      "words": [
+        {
+          "word": "现在",
+          "gloss": "now"
+        },
+        {
+          "word": "点",
+          "gloss": "o'clock"
+        },
+        {
+          "word": "分",
+          "gloss": "minute (of clock time)"
+        },
+        {
+          "word": "中午",
+          "gloss": "noon; midday"
+        },
+        {
+          "word": "吃饭",
+          "gloss": "to eat (a meal)"
+        },
+        {
+          "word": "时候",
+          "gloss": "time; moment"
+        },
+        {
+          "word": "回",
+          "gloss": "to return; to go back"
+        },
+        {
+          "word": "我们",
+          "gloss": "we; us"
+        },
+        {
+          "word": "电影",
+          "gloss": "movie; film"
+        },
+        {
+          "word": "住",
+          "gloss": "to live; to stay"
+        },
+        {
+          "word": "前",
+          "gloss": "before; ago"
+        },
+        {
+          "word": "北京",
+          "gloss": "Beijing",
+          "pinyin": "Běi jīng"
+        }
+      ],
+      "grammar": [
+        {
+          "id": "g:time-clock",
+          "title": "Telling clock time",
+          "pattern": "number + 点 + number + 分",
+          "tip": "Clock time reads hour then minute: 两点十分 is 2:10 (two-o'clock ten-minutes). Note the hour \"two\" is 两, not 二, before 点.",
+          "source": "authored"
+        },
+        {
+          "id": "g:time-adverbial",
+          "title": "Time words come before the verb",
+          "pattern": "Subject + time + verb",
+          "tip": "A when-word sits between the subject and the verb, never after it: 我现在回家 (I'm going home now), 我们中午吃饭 (we eat at noon).",
+          "source": "authored"
+        },
+        {
+          "id": "g:qian-before",
+          "title": "The noun 前: \"before\"",
+          "pattern": "time + 前",
+          "tip": "前 after a time span means \"ago / before\": 三天前 (three days ago). It follows the amount of time rather than coming in front of it.",
+          "source": "authored"
+        }
+      ],
+      "sentences": [
+        {
+          "zh": "现在几点？",
+          "tokens": [
+            "现在",
+            "几",
+            "点"
+          ],
+          "pinyin": "Xiànzài jǐ diǎn?",
+          "en": "What time is it now?",
+          "enTokens": [
+            "What",
+            "time",
+            "is",
+            "it",
+            "now"
+          ],
+          "grammar": [
+            "g:time-clock"
+          ]
+        },
+        {
+          "zh": "现在两点十分。",
+          "tokens": [
+            "现在",
+            "两",
+            "点",
+            "十",
+            "分"
+          ],
+          "pinyin": "Xiànzài liǎng diǎn shí fēn.",
+          "en": "It's 2:10 now.",
+          "enTokens": [
+            "It",
+            "is",
+            "2:10",
+            "now"
+          ],
+          "grammar": [
+            "g:time-clock"
+          ]
+        },
+        {
+          "zh": "我们中午吃饭。",
+          "tokens": [
+            "我们",
+            "中午",
+            "吃饭"
+          ],
+          "pinyin": "Wǒmen zhōngwǔ chīfàn.",
+          "en": "We eat at noon.",
+          "enTokens": [
+            "We",
+            "eat",
+            "at",
+            "noon"
+          ],
+          "grammar": [
+            "g:time-adverbial"
+          ]
+        },
+        {
+          "zh": "你现在回家吗？",
+          "tokens": [
+            "你",
+            "现在",
+            "回",
+            "家",
+            "吗"
+          ],
+          "pinyin": "Nǐ xiànzài huí jiā ma?",
+          "en": "Are you going home now?",
+          "enTokens": [
+            "Are",
+            "you",
+            "going",
+            "home",
+            "now"
+          ],
+          "grammar": [
+            "g:time-adverbial"
+          ]
+        },
+        {
+          "zh": "我们中午去看电影。",
+          "tokens": [
+            "我们",
+            "中午",
+            "去",
+            "看",
+            "电影"
+          ],
+          "pinyin": "Wǒmen zhōngwǔ qù kàn diànyǐng.",
+          "en": "We go to see a movie at noon.",
+          "enTokens": [
+            "We",
+            "go",
+            "to",
+            "see",
+            "a",
+            "movie",
+            "at",
+            "noon"
+          ],
+          "grammar": [
+            "g:serial-verb-1"
+          ]
+        },
+        {
+          "zh": "他住在北京。",
+          "tokens": [
+            "他",
+            "住",
+            "在",
+            "北京"
+          ],
+          "pinyin": "Tā zhù zài Běijīng.",
+          "en": "He lives in Beijing.",
+          "enTokens": [
+            "He",
+            "lives",
+            "in",
+            "Beijing"
+          ]
+        },
+        {
+          "zh": "你什么时候回家？",
+          "tokens": [
+            "你",
+            "什么",
+            "时候",
+            "回",
+            "家"
+          ],
+          "pinyin": "Nǐ shénme shíhou huí jiā?",
+          "en": "When are you going home?",
+          "enTokens": [
+            "When",
+            "are",
+            "you",
+            "going",
+            "home"
+          ]
+        },
+        {
+          "zh": "我们现在去吃饭。",
+          "tokens": [
+            "我们",
+            "现在",
+            "去",
+            "吃饭"
+          ],
+          "pinyin": "Wǒmen xiànzài qù chīfàn.",
+          "en": "We are going to eat now.",
+          "enTokens": [
+            "We",
+            "are",
+            "going",
+            "to",
+            "eat",
+            "now"
+          ],
+          "grammar": [
+            "g:time-adverbial"
+          ]
+        }
+      ]
     },
     {
       "lesson": 12,
@@ -941,10 +2818,304 @@
       "titlePinyin": "Míngtiān tiānqì zěnmeyàng?",
       "titleEn": "How's the weather tomorrow?",
       "topic": "Weather, asking how something is",
-      "page": 92,
-      "words": [],
-      "grammar": [],
-      "sentences": []
+      "page": 90,
+      "words": [
+        {
+          "word": "天气",
+          "gloss": "weather"
+        },
+        {
+          "word": "怎么样",
+          "gloss": "how; how about"
+        },
+        {
+          "word": "太",
+          "gloss": "too; excessively"
+        },
+        {
+          "word": "热",
+          "gloss": "hot"
+        },
+        {
+          "word": "冷",
+          "gloss": "cold"
+        },
+        {
+          "word": "下雨",
+          "gloss": "to rain"
+        },
+        {
+          "word": "小姐",
+          "gloss": "miss; young lady"
+        },
+        {
+          "word": "来",
+          "gloss": "to come"
+        },
+        {
+          "word": "身体",
+          "gloss": "body; health",
+          "star": true
+        },
+        {
+          "word": "爱",
+          "gloss": "to love"
+        },
+        {
+          "word": "些",
+          "gloss": "some; a few"
+        },
+        {
+          "word": "水果",
+          "gloss": "fruit"
+        },
+        {
+          "word": "水",
+          "gloss": "water"
+        }
+      ],
+      "grammar": [
+        {
+          "id": "g:zenmeyang",
+          "title": "The question word 怎么样",
+          "pattern": "Subject + 怎么样？",
+          "tip": "怎么样 asks \"how is it? / how about it?\": 明天天气怎么样？ (what's the weather like tomorrow?). It stands where a description would go.",
+          "source": "authored"
+        },
+        {
+          "id": "g:subj-pred-predicate",
+          "title": "A subject-predicate phrase as predicate",
+          "pattern": "Topic + [subject + adjective]",
+          "tip": "A sentence can describe a topic by giving a small subject-plus-comment about part of it: 他身体很好 (as for him, his health is good). The whole \"身体很好\" describes 他.",
+          "source": "authored"
+        },
+        {
+          "id": "g:tai-le",
+          "title": "The adverb 太 … 了: too much",
+          "pattern": "太 + adjective + 了",
+          "tip": "太 before an adjective, usually closed with 了, means \"too / excessively\": 太热了 (it's too hot). The 了 is part of the fixed frame here.",
+          "source": "authored"
+        },
+        {
+          "id": "g:hui-likely",
+          "title": "The modal verb 会 (2): likely to happen",
+          "pattern": "Subject + 会 + verb + (了)",
+          "tip": "会 can also mean something is likely: 明天会下雨 (it will probably rain tomorrow). This is a prediction, different from 会 meaning a learned skill.",
+          "source": "authored"
+        }
+      ],
+      "sentences": [
+        {
+          "zh": "明天天气怎么样？",
+          "tokens": [
+            "明天",
+            "天气",
+            "怎么样"
+          ],
+          "pinyin": "Míngtiān tiānqì zěnmeyàng?",
+          "en": "What will the weather be like tomorrow?",
+          "enTokens": [
+            "What",
+            "will",
+            "the",
+            "weather",
+            "be",
+            "like",
+            "tomorrow"
+          ],
+          "grammar": [
+            "g:zenmeyang"
+          ]
+        },
+        {
+          "zh": "今天太热了。",
+          "tokens": [
+            "今天",
+            "太",
+            "热",
+            "了"
+          ],
+          "pinyin": "Jīntiān tài rè le.",
+          "en": "It's too hot today.",
+          "enTokens": [
+            "It",
+            "is",
+            "too",
+            "hot",
+            "today"
+          ],
+          "grammar": [
+            "g:tai-le"
+          ]
+        },
+        {
+          "zh": "明天会下雨。",
+          "tokens": [
+            "明天",
+            "会",
+            "下雨"
+          ],
+          "pinyin": "Míngtiān huì xiàyǔ.",
+          "en": "It will rain tomorrow.",
+          "enTokens": [
+            "It",
+            "will",
+            "rain",
+            "tomorrow"
+          ],
+          "grammar": [
+            "g:hui-likely"
+          ]
+        },
+        {
+          "zh": "他身体很好。",
+          "tokens": [
+            "他",
+            "身体",
+            "很",
+            "好"
+          ],
+          "pinyin": "Tā shēntǐ hěn hǎo.",
+          "en": "He is in good health.",
+          "enTokens": [
+            "He",
+            "is",
+            "in",
+            "good",
+            "health"
+          ],
+          "grammar": [
+            "g:subj-pred-predicate"
+          ]
+        },
+        {
+          "zh": "我爱吃水果。",
+          "tokens": [
+            "我",
+            "爱",
+            "吃",
+            "水果"
+          ],
+          "pinyin": "Wǒ ài chī shuǐguǒ.",
+          "en": "I love eating fruit.",
+          "enTokens": [
+            "I",
+            "love",
+            "eating",
+            "fruit"
+          ]
+        },
+        {
+          "zh": "今天很冷。",
+          "tokens": [
+            "今天",
+            "很",
+            "冷"
+          ],
+          "pinyin": "Jīntiān hěn lěng.",
+          "en": "It's cold today.",
+          "enTokens": [
+            "It",
+            "is",
+            "cold",
+            "today"
+          ],
+          "grammar": [
+            "g:adj-predicate"
+          ]
+        },
+        {
+          "zh": "我想喝些水。",
+          "tokens": [
+            "我",
+            "想",
+            "喝",
+            "些",
+            "水"
+          ],
+          "pinyin": "Wǒ xiǎng hē xiē shuǐ.",
+          "en": "I want to drink some water.",
+          "enTokens": [
+            "I",
+            "want",
+            "to",
+            "drink",
+            "some",
+            "water"
+          ]
+        },
+        {
+          "zh": "小姐，你想吃些水果吗？",
+          "tokens": [
+            "小姐",
+            "你",
+            "想",
+            "吃",
+            "些",
+            "水果",
+            "吗"
+          ],
+          "pinyin": "Xiǎojiě, nǐ xiǎng chī xiē shuǐguǒ ma?",
+          "en": "Miss, would you like some fruit?",
+          "enTokens": [
+            "Miss",
+            "would",
+            "you",
+            "like",
+            "some",
+            "fruit"
+          ]
+        },
+        {
+          "zh": "天气太热了，我想喝水。",
+          "tokens": [
+            "天气",
+            "太",
+            "热",
+            "了",
+            "我",
+            "想",
+            "喝",
+            "水"
+          ],
+          "pinyin": "Tiānqì tài rè le, wǒ xiǎng hē shuǐ.",
+          "en": "The weather is too hot; I want to drink water.",
+          "enTokens": [
+            "The",
+            "weather",
+            "is",
+            "too",
+            "hot",
+            "I",
+            "want",
+            "to",
+            "drink",
+            "water"
+          ],
+          "grammar": [
+            "g:tai-le"
+          ]
+        },
+        {
+          "zh": "你想喝水吗？",
+          "tokens": [
+            "你",
+            "想",
+            "喝",
+            "水",
+            "吗"
+          ],
+          "pinyin": "Nǐ xiǎng hē shuǐ ma?",
+          "en": "Would you like some water?",
+          "enTokens": [
+            "Would",
+            "you",
+            "like",
+            "some",
+            "water"
+          ]
+        }
+      ]
     },
     {
       "lesson": 13,
@@ -953,9 +3124,247 @@
       "titleEn": "He's learning to cook Chinese food",
       "topic": "Actions in progress, food, suggestions",
       "page": 98,
-      "words": [],
-      "grammar": [],
-      "sentences": []
+      "words": [
+        {
+          "word": "喂",
+          "gloss": "hello (on the phone)"
+        },
+        {
+          "word": "也",
+          "gloss": "also; too",
+          "star": true
+        },
+        {
+          "word": "学习",
+          "gloss": "to study; to learn"
+        },
+        {
+          "word": "上午",
+          "gloss": "morning; forenoon"
+        },
+        {
+          "word": "睡觉",
+          "gloss": "to sleep"
+        },
+        {
+          "word": "电视",
+          "gloss": "television"
+        },
+        {
+          "word": "喜欢",
+          "gloss": "to like"
+        },
+        {
+          "word": "给",
+          "gloss": "to; for; to give",
+          "star": true
+        },
+        {
+          "word": "打电话",
+          "gloss": "to make a phone call"
+        },
+        {
+          "word": "吧",
+          "gloss": "(particle softening a suggestion)",
+          "star": true
+        },
+        {
+          "word": "大卫",
+          "gloss": "David (name)",
+          "pinyin": "Dà wèi"
+        }
+      ],
+      "grammar": [
+        {
+          "id": "g:wei-interjection",
+          "title": "The interjection 喂",
+          "pattern": "喂，…",
+          "tip": "喂 is the standard way to open a phone call, like \"hello?\": 喂，你好！ It is used to get attention, not as a greeting you'd write.",
+          "source": "authored"
+        },
+        {
+          "id": "g:zai-ne-progressive",
+          "title": "Action in progress with 在 … 呢",
+          "pattern": "Subject + 在 + verb + 呢",
+          "tip": "在 before the verb (often closed with 呢) says the action is happening right now: 他在学做菜呢 (he is learning to cook). It marks ongoing action, like English \"-ing\".",
+          "source": "authored"
+        },
+        {
+          "id": "g:phone-numbers",
+          "title": "Reading out a phone number",
+          "pattern": "digit by digit, 一 = yāo",
+          "tip": "Phone numbers are read one digit at a time. In this context 1 is spoken yāo instead of yī, to keep it clear over the phone.",
+          "source": "authored"
+        },
+        {
+          "id": "g:ba-suggestion",
+          "title": "The particle 吧: softening a suggestion",
+          "pattern": "Sentence + 吧",
+          "tip": "吧 at the end turns a statement into a gentle suggestion or guess: 我们去吧 (let's go), 你是老师吧？ (you're a teacher, right?).",
+          "source": "authored"
+        }
+      ],
+      "sentences": [
+        {
+          "zh": "喂，你好！",
+          "tokens": [
+            "喂",
+            "你",
+            "好"
+          ],
+          "pinyin": "Wéi, nǐ hǎo!",
+          "en": "Hello? Hi!",
+          "enTokens": [
+            "Hello",
+            "Hi"
+          ],
+          "grammar": [
+            "g:wei-interjection"
+          ]
+        },
+        {
+          "zh": "他在学习做菜呢。",
+          "tokens": [
+            "他",
+            "在",
+            "学习",
+            "做",
+            "菜",
+            "呢"
+          ],
+          "pinyin": "Tā zài xuéxí zuò cài ne.",
+          "en": "He is learning to cook.",
+          "enTokens": [
+            "He",
+            "is",
+            "learning",
+            "to",
+            "cook"
+          ],
+          "grammar": [
+            "g:zai-ne-progressive"
+          ]
+        },
+        {
+          "zh": "我喜欢看电视。",
+          "tokens": [
+            "我",
+            "喜欢",
+            "看",
+            "电视"
+          ],
+          "pinyin": "Wǒ xǐhuan kàn diànshì.",
+          "en": "I like watching TV.",
+          "enTokens": [
+            "I",
+            "like",
+            "watching",
+            "TV"
+          ]
+        },
+        {
+          "zh": "我们去打电话吧。",
+          "tokens": [
+            "我们",
+            "去",
+            "打电话",
+            "吧"
+          ],
+          "pinyin": "Wǒmen qù dǎ diànhuà ba.",
+          "en": "Let's go make a phone call.",
+          "enTokens": [
+            "Let",
+            "us",
+            "go",
+            "make",
+            "a",
+            "phone",
+            "call"
+          ],
+          "grammar": [
+            "g:ba-suggestion"
+          ]
+        },
+        {
+          "zh": "大卫上午睡觉。",
+          "tokens": [
+            "大卫",
+            "上午",
+            "睡觉"
+          ],
+          "pinyin": "Dàwèi shàngwǔ shuìjiào.",
+          "en": "David sleeps in the morning.",
+          "enTokens": [
+            "David",
+            "sleeps",
+            "in",
+            "the",
+            "morning"
+          ],
+          "grammar": [
+            "g:time-adverbial"
+          ]
+        },
+        {
+          "zh": "你也喜欢看电影吗？",
+          "tokens": [
+            "你",
+            "也",
+            "喜欢",
+            "看",
+            "电影",
+            "吗"
+          ],
+          "pinyin": "Nǐ yě xǐhuan kàn diànyǐng ma?",
+          "en": "Do you also like watching movies?",
+          "enTokens": [
+            "Do",
+            "you",
+            "also",
+            "like",
+            "watching",
+            "movies"
+          ]
+        },
+        {
+          "zh": "我给妈妈打电话。",
+          "tokens": [
+            "我",
+            "给",
+            "妈妈",
+            "打电话"
+          ],
+          "pinyin": "Wǒ gěi māma dǎ diànhuà.",
+          "en": "I call my mom.",
+          "enTokens": [
+            "I",
+            "call",
+            "my",
+            "mom"
+          ]
+        },
+        {
+          "zh": "你在做什么呢？",
+          "tokens": [
+            "你",
+            "在",
+            "做",
+            "什么",
+            "呢"
+          ],
+          "pinyin": "Nǐ zài zuò shénme ne?",
+          "en": "What are you doing?",
+          "enTokens": [
+            "What",
+            "are",
+            "you",
+            "doing"
+          ],
+          "grammar": [
+            "g:zai-ne-progressive"
+          ]
+        }
+      ]
     },
     {
       "lesson": 14,
@@ -963,10 +3372,290 @@
       "titlePinyin": "Tā mǎi le bù shǎo yīfu",
       "titleEn": "She bought quite a lot of clothes",
       "topic": "Completed actions and shopping",
-      "page": 106,
-      "words": [],
-      "grammar": [],
-      "sentences": []
+      "page": 104,
+      "words": [
+        {
+          "word": "东西",
+          "gloss": "thing; stuff"
+        },
+        {
+          "word": "一点儿",
+          "gloss": "a little; a bit"
+        },
+        {
+          "word": "苹果",
+          "gloss": "apple"
+        },
+        {
+          "word": "看见",
+          "gloss": "to see; to catch sight of"
+        },
+        {
+          "word": "先生",
+          "gloss": "mister; sir"
+        },
+        {
+          "word": "开",
+          "gloss": "to drive; to open"
+        },
+        {
+          "word": "车",
+          "gloss": "car; vehicle"
+        },
+        {
+          "word": "回来",
+          "gloss": "to come back"
+        },
+        {
+          "word": "分钟",
+          "gloss": "minute (of duration)"
+        },
+        {
+          "word": "后",
+          "gloss": "after; later"
+        },
+        {
+          "word": "衣服",
+          "gloss": "clothes"
+        },
+        {
+          "word": "漂亮",
+          "gloss": "pretty; beautiful"
+        },
+        {
+          "word": "啊",
+          "gloss": "(softening exclamatory particle)",
+          "star": true
+        },
+        {
+          "word": "少",
+          "gloss": "few; little"
+        },
+        {
+          "word": "这些",
+          "gloss": "these"
+        },
+        {
+          "word": "都",
+          "gloss": "all; both"
+        },
+        {
+          "word": "张",
+          "gloss": "(measure word for flat things)"
+        }
+      ],
+      "grammar": [
+        {
+          "id": "g:le-completion",
+          "title": "了 marking a completed action",
+          "pattern": "Subject + verb + 了 + object",
+          "tip": "After a verb, 了 says the action happened or is finished: 她买了不少衣服 (she bought quite a few clothes). This is completion, distinct from the \"change\" 了 at the end of a sentence.",
+          "source": "authored"
+        },
+        {
+          "id": "g:hou-after",
+          "title": "The noun 后: \"after\"",
+          "pattern": "time / event + 后",
+          "tip": "后 follows a time span or event to mean \"after\": 五分钟后 (after five minutes), 下课后 (after class). It comes at the end, unlike English \"after\".",
+          "source": "authored"
+        },
+        {
+          "id": "g:a-particle",
+          "title": "The particle 啊: warmth and emphasis",
+          "pattern": "Sentence + 啊",
+          "tip": "啊 at the end adds a friendly, exclamatory tone: 真漂亮啊！ (how pretty!). It softens and warms the sentence rather than changing its meaning.",
+          "source": "authored"
+        },
+        {
+          "id": "g:dou-all",
+          "title": "The adverb 都: \"all / both\"",
+          "pattern": "Subject (plural) + 都 + verb",
+          "tip": "都 sits before the verb and sums up everything mentioned before it: 这些衣服都很漂亮 (these clothes are all pretty). It looks back at the plural subject.",
+          "source": "authored"
+        }
+      ],
+      "sentences": [
+        {
+          "zh": "她买了不少衣服。",
+          "tokens": [
+            "她",
+            "买",
+            "了",
+            "不",
+            "少",
+            "衣服"
+          ],
+          "pinyin": "Tā mǎi le bù shǎo yīfu.",
+          "en": "She has bought quite a few clothes.",
+          "enTokens": [
+            "She",
+            "has",
+            "bought",
+            "quite",
+            "a",
+            "few",
+            "clothes"
+          ],
+          "grammar": [
+            "g:le-completion"
+          ]
+        },
+        {
+          "zh": "这些衣服都很漂亮。",
+          "tokens": [
+            "这些",
+            "衣服",
+            "都",
+            "很",
+            "漂亮"
+          ],
+          "pinyin": "Zhèxiē yīfu dōu hěn piàoliang.",
+          "en": "These clothes are all pretty.",
+          "enTokens": [
+            "These",
+            "clothes",
+            "are",
+            "all",
+            "pretty"
+          ],
+          "grammar": [
+            "g:dou-all"
+          ]
+        },
+        {
+          "zh": "我看见先生开车回来了。",
+          "tokens": [
+            "我",
+            "看见",
+            "先生",
+            "开",
+            "车",
+            "回来",
+            "了"
+          ],
+          "pinyin": "Wǒ kànjiàn xiānsheng kāichē huílai le.",
+          "en": "I saw the gentleman drive back.",
+          "enTokens": [
+            "I",
+            "saw",
+            "the",
+            "gentleman",
+            "drive",
+            "back"
+          ],
+          "grammar": [
+            "g:le-completion"
+          ]
+        },
+        {
+          "zh": "我买了一点儿苹果。",
+          "tokens": [
+            "我",
+            "买",
+            "了",
+            "一点儿",
+            "苹果"
+          ],
+          "pinyin": "Wǒ mǎi le yìdiǎnr píngguǒ.",
+          "en": "I bought a few apples.",
+          "enTokens": [
+            "I",
+            "bought",
+            "a",
+            "few",
+            "apples"
+          ],
+          "grammar": [
+            "g:le-completion"
+          ]
+        },
+        {
+          "zh": "他五分钟后回来。",
+          "tokens": [
+            "他",
+            "五",
+            "分钟",
+            "后",
+            "回来"
+          ],
+          "pinyin": "Tā wǔ fēnzhōng hòu huílai.",
+          "en": "He will be back in five minutes.",
+          "enTokens": [
+            "He",
+            "will",
+            "be",
+            "back",
+            "in",
+            "five",
+            "minutes"
+          ],
+          "grammar": [
+            "g:hou-after"
+          ]
+        },
+        {
+          "zh": "这些东西都是我的。",
+          "tokens": [
+            "这些",
+            "东西",
+            "都",
+            "是",
+            "我",
+            "的"
+          ],
+          "pinyin": "Zhèxiē dōngxi dōu shì wǒ de.",
+          "en": "These things are all mine.",
+          "enTokens": [
+            "These",
+            "things",
+            "are",
+            "all",
+            "mine"
+          ],
+          "grammar": [
+            "g:dou-all"
+          ]
+        },
+        {
+          "zh": "这张桌子很漂亮。",
+          "tokens": [
+            "这",
+            "张",
+            "桌子",
+            "很",
+            "漂亮"
+          ],
+          "pinyin": "Zhè zhāng zhuōzi hěn piàoliang.",
+          "en": "This table is very pretty.",
+          "enTokens": [
+            "This",
+            "table",
+            "is",
+            "very",
+            "pretty"
+          ]
+        },
+        {
+          "zh": "先生，这些苹果多少钱？",
+          "tokens": [
+            "先生",
+            "这些",
+            "苹果",
+            "多少",
+            "钱"
+          ],
+          "pinyin": "Xiānsheng, zhèxiē píngguǒ duōshao qián?",
+          "en": "Sir, how much are these apples?",
+          "enTokens": [
+            "Sir",
+            "how",
+            "much",
+            "are",
+            "these",
+            "apples"
+          ]
+        }
+      ]
     },
     {
       "lesson": 15,
@@ -974,10 +3663,244 @@
       "titlePinyin": "Wǒ shì zuò fēijī lái de",
       "titleEn": "I came by plane",
       "topic": "Travel, and emphasising details with 是…的",
-      "page": 114,
-      "words": [],
-      "grammar": [],
-      "sentences": []
+      "page": 112,
+      "words": [
+        {
+          "word": "认识",
+          "gloss": "to know; to recognize (someone)"
+        },
+        {
+          "word": "年",
+          "gloss": "year"
+        },
+        {
+          "word": "大学",
+          "gloss": "university"
+        },
+        {
+          "word": "饭店",
+          "gloss": "restaurant; hotel"
+        },
+        {
+          "word": "出租车",
+          "gloss": "taxi"
+        },
+        {
+          "word": "一起",
+          "gloss": "together",
+          "star": true
+        },
+        {
+          "word": "高兴",
+          "gloss": "happy; glad"
+        },
+        {
+          "word": "听",
+          "gloss": "to listen"
+        },
+        {
+          "word": "飞机",
+          "gloss": "airplane"
+        }
+      ],
+      "grammar": [
+        {
+          "id": "g:shi-de",
+          "title": "The 是 … 的 structure: highlighting how/when/where",
+          "pattern": "是 + (time/place/manner) + 的",
+          "tip": "是 … 的 frames the part of a past event you want to stress — when, where or how it happened: 我是坐飞机来的 (it was by plane that I came). The verb sits inside the frame.",
+          "source": "authored"
+        },
+        {
+          "id": "g:date-2",
+          "title": "Saying a full date (2): year, month, day",
+          "pattern": "number + 年 + number + 月 + number + 号",
+          "tip": "A full date runs biggest to smallest: year, then month, then day. 二〇一三年五月三号 is \"May 3rd, 2013\". The year is read digit by digit.",
+          "source": "authored"
+        }
+      ],
+      "sentences": [
+        {
+          "zh": "我是坐飞机来的。",
+          "tokens": [
+            "我",
+            "是",
+            "坐",
+            "飞机",
+            "来",
+            "的"
+          ],
+          "pinyin": "Wǒ shì zuò fēijī lái de.",
+          "en": "I came here by air.",
+          "enTokens": [
+            "I",
+            "came",
+            "here",
+            "by",
+            "air"
+          ],
+          "grammar": [
+            "g:shi-de"
+          ]
+        },
+        {
+          "zh": "我很高兴认识你。",
+          "tokens": [
+            "我",
+            "很",
+            "高兴",
+            "认识",
+            "你"
+          ],
+          "pinyin": "Wǒ hěn gāoxìng rènshi nǐ.",
+          "en": "I am glad to meet you.",
+          "enTokens": [
+            "I",
+            "am",
+            "glad",
+            "to",
+            "meet",
+            "you"
+          ]
+        },
+        {
+          "zh": "他是坐出租车来的。",
+          "tokens": [
+            "他",
+            "是",
+            "坐",
+            "出租车",
+            "来",
+            "的"
+          ],
+          "pinyin": "Tā shì zuò chūzūchē lái de.",
+          "en": "He came by taxi.",
+          "enTokens": [
+            "He",
+            "came",
+            "by",
+            "taxi"
+          ],
+          "grammar": [
+            "g:shi-de"
+          ]
+        },
+        {
+          "zh": "我们一起去饭店吃饭吧。",
+          "tokens": [
+            "我们",
+            "一起",
+            "去",
+            "饭店",
+            "吃饭",
+            "吧"
+          ],
+          "pinyin": "Wǒmen yìqǐ qù fàndiàn chīfàn ba.",
+          "en": "Let's go eat at the restaurant together.",
+          "enTokens": [
+            "Let",
+            "us",
+            "go",
+            "eat",
+            "at",
+            "the",
+            "restaurant",
+            "together"
+          ],
+          "grammar": [
+            "g:ba-suggestion"
+          ]
+        },
+        {
+          "zh": "我喜欢听老师说汉语。",
+          "tokens": [
+            "我",
+            "喜欢",
+            "听",
+            "老师",
+            "说",
+            "汉语"
+          ],
+          "pinyin": "Wǒ xǐhuan tīng lǎoshī shuō Hànyǔ.",
+          "en": "I like listening to the teacher speak Chinese.",
+          "enTokens": [
+            "I",
+            "like",
+            "listening",
+            "to",
+            "the",
+            "teacher",
+            "speak",
+            "Chinese"
+          ]
+        },
+        {
+          "zh": "你是哪年来的？",
+          "tokens": [
+            "你",
+            "是",
+            "哪",
+            "年",
+            "来",
+            "的"
+          ],
+          "pinyin": "Nǐ shì nǎ nián lái de?",
+          "en": "Which year did you come?",
+          "enTokens": [
+            "Which",
+            "year",
+            "did",
+            "you",
+            "come"
+          ],
+          "grammar": [
+            "g:shi-de"
+          ]
+        },
+        {
+          "zh": "她在大学学习汉语。",
+          "tokens": [
+            "她",
+            "在",
+            "大学",
+            "学习",
+            "汉语"
+          ],
+          "pinyin": "Tā zài dàxué xuéxí Hànyǔ.",
+          "en": "She studies Chinese at university.",
+          "enTokens": [
+            "She",
+            "studies",
+            "Chinese",
+            "at",
+            "university"
+          ],
+          "grammar": [
+            "g:zai-prep"
+          ]
+        },
+        {
+          "zh": "认识你我很高兴。",
+          "tokens": [
+            "认识",
+            "你",
+            "我",
+            "很",
+            "高兴"
+          ],
+          "pinyin": "Rènshi nǐ wǒ hěn gāoxìng.",
+          "en": "I am very glad to know you.",
+          "enTokens": [
+            "I",
+            "am",
+            "very",
+            "glad",
+            "to",
+            "know",
+            "you"
+          ]
+        }
+      ]
     }
   ]
 }

@@ -1,6 +1,10 @@
 node_modules/
 .DS_Store
 
+# Copyrighted source textbooks — facts (word lists, order, grammar points) are
+# extracted into the spine; the PDFs themselves are never committed.
+docs/private/
+
 # Large third-party datasets, re-downloaded on first build
 tools/cache/hsk-complete.json
 tools/cache/makemeahanzi-dictionary.txt

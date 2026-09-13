@@ -49,6 +49,13 @@ const IDC = /[⿰-⿻]/g;
 const introBatches = (ids) => {
   const out = [];
   for (let i = 0; i < ids.length; i += INTRO_CAP) out.push(ids.slice(i, i + INTRO_CAP));
+  // A teaching level cannot space the retrieval of a word it introduces alone,
+  // so a trailing batch of one word is avoided by rebalancing the last two
+  // batches (…3,1 -> …2,2), keeping every batch within the cap and above one.
+  const n = out.length;
+  if (n > 1 && out[n - 1].length === 1) {
+    out[n - 1].unshift(out[n - 2].pop());
+  }
   return out;
 };
 
@@ -352,6 +359,14 @@ for (const file of spineFiles) {
     const worthACard = (ch) =>
       hasStrokes(ch) && (strokeCount(ch) > 1 || hskByWord.has(ch));
 
+    // A phantom component with no reading and no meaning of its own — 龶, which
+    // exists only inside 青 — is a graphical fragment, not a block worth a card.
+    // The character that contains it is traced whole instead of descending into it.
+    const teachable = (ch) => {
+      const m = mmah.get(ch);
+      return Boolean(m && (m.pinyin?.length || m.definition));
+    };
+
     // Every component is followed down, because a block you are asked to
     // trace should itself be built out of blocks you have already traced.
     // Without that, 吗 puts 口 on the page in this unit while 口's own piece
@@ -361,15 +376,22 @@ for (const file of spineFiles) {
       guard.add(ch);
       for (const p of simplerFirst(
         componentsOf(mmah.get(ch)?.decomposition).filter(
-          (p) => p !== ch && worthACard(p)
+          (p) => p !== ch && worthACard(p) && teachable(p)
         )
       )) {
         collect(p, guard);
       }
       place(ch);
     };
-    for (const ch of simplerFirst(wordIds.flatMap((wid) => words[wid].chars))) {
-      collect(ch);
+    // A conversation-track book (e.g. the Cantonese Ving Tsun vocabulary) is
+    // for recognition and speaking, not handwriting, so its units carry no
+    // writing cards at all.
+    const conversation =
+      book.track === 'conversation' || lesson.track === 'conversation';
+    if (!conversation) {
+      for (const ch of simplerFirst(wordIds.flatMap((wid) => words[wid].chars))) {
+        collect(ch);
+      }
     }
 
     const writing = [];

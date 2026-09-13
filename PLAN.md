@@ -1,9 +1,11 @@
 # Plan: from handwriting drill to a Duolingo-style Mandarin course
 
 Status: the five decisions in the last section are settled. Phases 1 to 4
-are built and run against Book 1, Lessons 1 to 3 as fixture data. Phase 0
-waits on the owner's word-list transcription. Audio was last, by the
-reasoning under the phase table, and depends on a voice the phone provides.
+are built. Phase 0 is done for Book 1: all fifteen lessons are transcribed
+from the printed textbook (word lists, glosses, grammar points, page numbers
+and coverage-valid sentences), and `spine.verified` is true. Books 2 to 4
+are the remaining Phase 0 work. Audio was last, by the reasoning under the
+phase table, and depends on a voice the phone provides.
 
 ## 1. Goal
 
@@ -199,7 +201,7 @@ human time. Content authoring dominates.
 
 | phase | delivers | est. tokens |
 | --- | --- | --- |
-| 0. Spine data | `tools/build-course.mjs`; lesson word lists for 50 lessons; grammar point list with tips; 20 to 30 sentences per unit; `check.mjs` coverage rules (every sentence uses only taught words) | 600k to 1M across several agents, plus owner review of word lists against the book |
+| 0. Spine data | `tools/build-course.mjs`; lesson word lists; grammar point list with tips; sentences per unit; `check.mjs` coverage rules (every sentence uses only taught words). **Book 1 done** (15 lessons transcribed from the printed textbook, verified); Books 2 to 4 remain | 600k to 1M across several agents, plus owner review of word lists against the book |
 | 1. Course runner | **built.** Path screen, lesson runner, exercise generator (Meet, Select, Match, Word bank both ways, Fill blank), requeue, XP, streak, daily goal, store v2 migration | ~250k |
 | 2. Writing track and Practice hub | **built.** Building-block cards, per-unit writing order, Write-the-word, Practice hub with FSRS across item kinds | ~150k |
 | 3. Guidebook and polish | **built.** Guidebook screen, hard-mode replay, service worker precache from the course, README rewrite. The unit review lesson arrived earlier, as the two review levels of 9b | ~100k |
@@ -341,13 +343,14 @@ colophon:
 5. **First milestone: Book 1.** Book 2 and 3 spine files come later; the builder
    picks up any `book-N.json` it finds.
 
-Still open, and blocking Phase 0 rather than Phase 1:
+Remaining Phase 0 work:
 
-- The Book 1 word lists for Lessons 1 to 3 are compiled from HSK 1 vocabulary
-  and have **not** been checked against the printed 生词 pages. `course.json`
-  carries `spine.verified: false` and the path screen says so out loud. Setting
-  `"verified": true` in the spine file clears both. Lessons 4 to 15 need their
-  word lists transcribed.
+- Book 1 is fully transcribed from the printed textbook (`HSK标准教程 1`,
+  北京语言大学出版社) and `spine.verified` is true. The source PDFs live under
+  `docs/private/` (gitignored — copyrighted); facts only (word lists, order,
+  grammar points, page numbers) are taken into `tools/spine/book-1.json`.
+- Books 2 to 4 still need their word lists, grammar points and sentences
+  transcribed the same way. The PDFs are already in `docs/private/`.
 
 ## Sources
 

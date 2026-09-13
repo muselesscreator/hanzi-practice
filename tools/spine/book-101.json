@@ -1,0 +1,189 @@
+{
+  "book": 101,
+  "title": "Ving Tsun Kwoon Vocabulary",
+  "publisher": "Shun Mo Scientific Ving Tsun (WSL lineage)",
+  "verified": false,
+  "track": "conversation",
+  "verifyNote": "Cantonese terms compiled from public glossaries (CantoDict, Wiktionary, Wikipedia glossary of Wing Chun terms) and cross-checked; NOT confirmed against the school's own materials. Character choices flagged in docs/wing-chun-study-path.md §2 need a Sifu's confirmation. word fields use traditional (繁) characters; pinyin fields are Mandarin (reference only); dojo pronunciation is Cantonese, carried in the gloss.",
+  "lessons": [
+    {
+      "lesson": 1,
+      "title": "師父同武館",
+      "titlePinyin": "si1 fu6 tung4 mou5 gun2",
+      "titleEn": "Teachers and the school",
+      "topic": "The people in a kwoon and what you call them",
+      "words": [
+        { "word": "師父", "pinyin": "shī fù", "gloss": "Sifu (si1 fu6) — your own teacher, 'teacher-father'" },
+        { "word": "師兄", "pinyin": "shī xiōng", "gloss": "Sihing (si1 hing1) — senior kung-fu brother" },
+        { "word": "師弟", "pinyin": "shī dì", "gloss": "Sidai (si1 dai6) — junior kung-fu brother" },
+        { "word": "師姐", "pinyin": "shī jiě", "gloss": "Sije (si1 ze2) — senior kung-fu sister" },
+        { "word": "師妹", "pinyin": "shī mèi", "gloss": "Simui (si1 mui6) — junior kung-fu sister" },
+        { "word": "師公", "pinyin": "shī gōng", "gloss": "Sigung (si1 gung1) — your Sifu's Sifu, 'grand-teacher'" },
+        { "word": "徒弟", "pinyin": "tú dì", "gloss": "To Dai (tou4 dai6) — disciple / student" },
+        { "word": "武館", "pinyin": "wǔ guǎn", "gloss": "Kwoon (mou5 gun2) — the martial-arts hall" }
+      ],
+      "grammar": [],
+      "sentences": []
+    },
+    {
+      "lesson": 2,
+      "title": "詠春同禮節",
+      "titlePinyin": "wing6 ceon1 tung4 lai5 zit3",
+      "titleEn": "The art and etiquette",
+      "topic": "Naming the art you practise and how you bow in",
+      "words": [
+        { "word": "詠春", "pinyin": "yǒng chūn", "gloss": "Ving Tsun (wing6 ceon1) — 'praising spring,' the art itself" },
+        { "word": "功夫", "pinyin": "gōng fu", "gloss": "Kung Fu (gung1 fu1) — 'skill from effort,' martial arts generally" },
+        { "word": "拳", "pinyin": "quán", "gloss": "Kuen (kyun4) — fist / boxing / style (as in 詠春拳)" },
+        { "word": "套路", "pinyin": "tào lù", "gloss": "Tou Lou (tou3 lou6) — 'form / routine,' a solo set" },
+        { "word": "對拆", "pinyin": "duì chāi", "gloss": "Dui Chaak (deoi3 caak3) — 'paired dismantling,' partner application drills" },
+        { "word": "拜師", "pinyin": "bài shī", "gloss": "Bai Si (baai3 si1) — 'to bow to a master,' the discipleship ceremony" },
+        { "word": "抱拳禮", "pinyin": "bào quán lǐ", "gloss": "Bao Kuen Lai (pou5 kyun4 lai5) — 'fist-wrapping salute,' palm over fist" },
+        { "word": "馬步", "pinyin": "mǎ bù", "gloss": "Ma Bou (maa5 bou6) — 'horse stance,' stance generically" }
+      ],
+      "grammar": [],
+      "sentences": []
+    },
+    {
+      "lesson": 3,
+      "title": "拳套同兵器",
+      "titlePinyin": "kyun4 tou3 tung4 bing1 hei3",
+      "titleEn": "The forms and weapons",
+      "topic": "The named curriculum you progress through",
+      "words": [
+        { "word": "小念頭", "pinyin": "xiǎo niàn tou", "gloss": "Siu Nim Tau (siu2 nim6 tau4) — 'little idea,' 1st form, structure & centerline" },
+        { "word": "尋橋", "pinyin": "xún qiáo", "gloss": "Chum Kiu (cam4 kiu4) — 'seeking the bridge,' 2nd form, turning & stepping" },
+        { "word": "標指", "pinyin": "biāo zhǐ", "gloss": "Biu Jee (biu1 zi2) — 'thrusting fingers,' 3rd form, recovery & emergency" },
+        { "word": "木人樁", "pinyin": "mù rén zhuāng", "gloss": "Muk Yan Jong (muk6 jan4 zong1) — 'wooden man post,' the dummy" },
+        { "word": "八斬刀", "pinyin": "bā zhǎn dāo", "gloss": "Baat Cham Dao (baat3 zaam2 dou1) — 'eight-slashing knives,' butterfly swords" },
+        { "word": "六點半棍", "pinyin": "liù diǎn bàn gùn", "gloss": "Luk Dim Boon Kwun (luk6 dim2 bun3 gwan3) — 'six-and-a-half point pole,' the long pole" }
+      ],
+      "grammar": [],
+      "sentences": []
+    },
+    {
+      "lesson": 4,
+      "title": "碌手基本手法",
+      "titlePinyin": "luk1 sau2 gei1 bun2 sau2 faat3",
+      "titleEn": "Core hands (the roll)",
+      "topic": "Tan / Bong / Fook plus Wu / Pak / Man — the first drills",
+      "words": [
+        { "word": "攤手", "pinyin": "tān shǒu", "gloss": "Tan Sau (taan1 sau2) — 'spreading hand,' palm-up receiving arm" },
+        { "word": "膀手", "pinyin": "bǎng shǒu", "gloss": "Bong Sau (bong2 sau2) — 'wing arm,' elbow-up deflection / recovery" },
+        { "word": "伏手", "pinyin": "fú shǒu", "gloss": "Fook Sau (fuk6 sau2) — 'subduing hand,' bridging-on-top control" },
+        { "word": "護手", "pinyin": "hù shǒu", "gloss": "Wu Sau (wu6 sau2) — 'guarding hand,' rear centerline guard" },
+        { "word": "拍手", "pinyin": "pāi shǒu", "gloss": "Pak Sau (paak3 sau2) — 'slapping hand,' lateral clear" },
+        { "word": "問手", "pinyin": "wèn shǒu", "gloss": "Man Sau (man6 sau2) — 'asking hand,' lead seeking hand" }
+      ],
+      "grammar": [],
+      "sentences": []
+    },
+    {
+      "lesson": 5,
+      "title": "更多手法",
+      "titlePinyin": "gang3 do1 sau2 faat3",
+      "titleEn": "More hands",
+      "topic": "The second wave of hand techniques (手法)",
+      "words": [
+        { "word": "擸手", "pinyin": "liè shǒu", "gloss": "Lap Sau (laap3 sau2) — 'grabbing/pulling hand,' jerking pull (char flag §2)" },
+        { "word": "窒手", "pinyin": "zhì shǒu", "gloss": "Jut Sau (zat6 sau2) — 'jerking hand,' short shocking snap" },
+        { "word": "圈手", "pinyin": "quān shǒu", "gloss": "Huen Sau (hyun1 sau2) — 'circling hand,' wrist circle to change line" },
+        { "word": "枕手", "pinyin": "zhěn shǒu", "gloss": "Jum Sau (zam2 sau2) — 'sinking hand,' downward forearm pressure" },
+        { "word": "耕手", "pinyin": "gēng shǒu", "gloss": "Gaan Sau (gaang1 sau2) — 'ploughing hand,' diagonal splitting block" },
+        { "word": "攔手", "pinyin": "lán shǒu", "gloss": "Laan Sau (laan4 sau2) — 'barring hand,' horizontal forearm bar" },
+        { "word": "綑手", "pinyin": "kǔn shǒu", "gloss": "Kwan Sau (kwan2 sau2) — 'binding hand,' combined bong+tan rotation" }
+      ],
+      "grammar": [],
+      "sentences": []
+    },
+    {
+      "lesson": 6,
+      "title": "撳割掌法",
+      "titlePinyin": "gam6 got3 zoeng2 faat3",
+      "titleEn": "Pins, cuts and palms",
+      "topic": "Pinning and cutting hands, the elbow, and palm strikes",
+      "words": [
+        { "word": "撳手", "pinyin": "qìn shǒu", "gloss": "Gum Sau (gam6 sau2) — 'pressing hand,' flat downward pin (char flag §2)" },
+        { "word": "印手", "pinyin": "yìn shǒu", "gloss": "Yan Sau (jan3 sau2) — 'stamping hand,' sealing/pinning press" },
+        { "word": "割手", "pinyin": "gē shǒu", "gloss": "Got Sau (got3 sau2) — 'cutting hand,' slicing deflection" },
+        { "word": "踭", "pinyin": "zhēng", "gloss": "Jarn (zaang1) — 'elbow' (char flag §2); strikes: 批踭 pai jarn, 跪踭 gwai jarn" },
+        { "word": "掌", "pinyin": "zhǎng", "gloss": "Jeung (zoeng2) — 'palm,' generic palm strike" },
+        { "word": "正掌", "pinyin": "zhèng zhǎng", "gloss": "Jing Jeung (jing3 zoeng2) — 'front palm,' forward palm on centerline" },
+        { "word": "橫掌", "pinyin": "héng zhǎng", "gloss": "Wang Jeung (waang4 zoeng2) — 'side palm,' lateral palm" },
+        { "word": "底掌", "pinyin": "dǐ zhǎng", "gloss": "Dai Jeung (dai2 zoeng2) — 'bottom palm,' upward heel-of-palm" }
+      ],
+      "grammar": [],
+      "sentences": []
+    },
+    {
+      "lesson": 7,
+      "title": "拳腳同攻擊",
+      "titlePinyin": "kyun4 goek3 tung4 gung1 gik1",
+      "titleEn": "Punches and kicks",
+      "topic": "Offense, including WSL simultaneous defend-and-hit",
+      "words": [
+        { "word": "日字衝拳", "pinyin": "rì zì chōng quán", "gloss": "Yat Ji Chung Kuen (jat6 zi6 cung1 kyun4) — 'sun-character thrust punch,' the vertical punch" },
+        { "word": "連環拳", "pinyin": "lián huán quán", "gloss": "Lin Wan Kuen (lin4 waan4 kyun4) — 'linked fists,' chain punching" },
+        { "word": "直踢", "pinyin": "zhí tī", "gloss": "Jik Tek (zik6 tek3) — 'straight kick,' front thrusting kick" },
+        { "word": "橫踢", "pinyin": "héng tī", "gloss": "Wang Tek (waang4 tek3) — 'horizontal kick,' side/stamping kick" },
+        { "word": "埋踭", "pinyin": "mái zhēng", "gloss": "Mai Jarn (maai4 zaang1) — 'closing the elbow,' WSL elbow-to-centerline theory" },
+        { "word": "攤打", "pinyin": "tān dǎ", "gloss": "Tan Da (taan1 daa2) — 'tan + strike,' simultaneous defend-and-punch" },
+        { "word": "膀打", "pinyin": "bǎng dǎ", "gloss": "Bong Da (bong2 daa2) — 'bong + strike,' simultaneous defend-and-strike" }
+      ],
+      "grammar": [],
+      "sentences": []
+    },
+    {
+      "lesson": 8,
+      "title": "馬步同步法",
+      "titlePinyin": "maa5 bou6 tung4 bou6 faat3",
+      "titleEn": "Stances and footwork",
+      "topic": "The stance and how you move it (馬步)",
+      "words": [
+        { "word": "二字鉗羊馬", "pinyin": "èr zì qián yáng mǎ", "gloss": "Yee Jee Kim Yeung Ma (ji6 zi6 kim4 joeng4 maa5) — 'char-2 goat-clamping stance,' the basic stance" },
+        { "word": "標馬", "pinyin": "biāo mǎ", "gloss": "Biu Ma (biu1 maa5) — 'thrusting stance,' driving shuffle-step" },
+        { "word": "圈馬", "pinyin": "quān mǎ", "gloss": "Huen Ma (hyun1 maa5) — 'circling step,' angle-changing footwork" },
+        { "word": "轉馬", "pinyin": "zhuǎn mǎ", "gloss": "Juen Ma (zyun3 maa5) — 'turning stance,' the heel pivot (Chum Kiu)" },
+        { "word": "上馬", "pinyin": "shàng mǎ", "gloss": "Seung Ma (soeng5 maa5) — 'advancing stance,' step in" },
+        { "word": "退馬", "pinyin": "tuì mǎ", "gloss": "Tui Ma (teoi3 maa5) — 'retreating stance,' step back (char flag §2)" }
+      ],
+      "grammar": [],
+      "sentences": []
+    },
+    {
+      "lesson": 9,
+      "title": "黐手家族",
+      "titlePinyin": "ci1 sau2 gaa1 zuk6",
+      "titleEn": "The Chi Sau family",
+      "topic": "The sticking-hands progression up to free rolling",
+      "words": [
+        { "word": "黐手", "pinyin": "chī shǒu", "gloss": "Chi Sau (ci1 sau2) — 'sticking hands,' the sensitivity drill" },
+        { "word": "單黐手", "pinyin": "dān chī shǒu", "gloss": "Daan Chi Sau (daan1 ci1 sau2) — 'single sticking hand'" },
+        { "word": "雙黐手", "pinyin": "shuāng chī shǒu", "gloss": "Seung Chi Sau (soeng1 ci1 sau2) — 'double sticking hand'" },
+        { "word": "碌手", "pinyin": "lù shǒu", "gloss": "Luk Sau (luk1 sau2) — 'rolling arms,' the rolling drill (also 盤手 poon sau)" },
+        { "word": "過手", "pinyin": "guò shǒu", "gloss": "Gor Sau (gwo3 sau2) — 'crossing hands,' free rolling beyond fixed chi-sau" },
+        { "word": "甩手", "pinyin": "shuǎi shǒu", "gloss": "Lat Sau (lat1 sau2) — 'freed hand,' contact lost (Canto/Mand differ, §0)" }
+      ],
+      "grammar": [],
+      "sentences": []
+    },
+    {
+      "lesson": 10,
+      "title": "理念同心法",
+      "titlePinyin": "lei5 nim6 tung4 sam1 faat3",
+      "titleEn": "Concepts and maxims",
+      "topic": "The theory that ties it all together",
+      "words": [
+        { "word": "中線", "pinyin": "zhōng xiàn", "gloss": "Chung Sin (zung1 sin3) — 'centerline,' prime target & defense line" },
+        { "word": "子午線", "pinyin": "zǐ wǔ xiàn", "gloss": "Ji Ng Sin (zi2 ng5 sin3) — 'meridian axis,' the central vertical axis" },
+        { "word": "朝面追形", "pinyin": "cháo miàn zhuī xíng", "gloss": "Chiu Min Jeui Ying (ciu4 min6 zeoi1 jing4) — 'face the foe, chase the form'" },
+        { "word": "來留去送", "pinyin": "lái liú qù sòng", "gloss": "Loi Lau Hui Sung (loi4 lau4 heoi3 sung3) — 'what comes, retain; what leaves, send off'" },
+        { "word": "甩手直衝", "pinyin": "shuǎi shǒu zhí chōng", "gloss": "Lat Sau Jik Chung (lat1 sau2 zik6 cung1) — 'hand freed → thrust straight in'" },
+        { "word": "寸勁", "pinyin": "cùn jìn", "gloss": "Chun Ging (cyun3 ging6) — 'inch power,' short-range explosive force" },
+        { "word": "借力", "pinyin": "jiè lì", "gloss": "Je Lik (ze3 lik6) — 'borrowing force,' use the opponent's own force" }
+      ],
+      "grammar": [],
+      "sentences": []
+    }
+  ]
+}

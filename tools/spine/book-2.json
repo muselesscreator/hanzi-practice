@@ -1,0 +1,583 @@
+{
+  "book": 2,
+  "title": "HSK Standard Course 2",
+  "publisher": "Beijing Language and Culture University Press",
+  "verified": false,
+  "verifyNote": "Word lists, glosses, pinyin, grammar points and page numbers transcribed from the printed HSK Standard Course 2 (北京语言大学出版社) — the 目录 and the 词语总表/专有名词/超纲词/旧字新词 indexes. Over-syllabus words are flagged \"star\": true. Sentences are authored from words already taught (checked cumulatively by tools/check.mjs) and cover each lesson's grammar points. NOT yet signed off against the printed pages by a human reviewer.",
+  "lessons": [
+    {
+      "lesson": 1,
+      "title": "九月去北京旅游最好",
+      "titlePinyin": "Jiǔ yuè qù Běijīng lǚyóu zuì hǎo",
+      "titleEn": "September is the best time to visit Beijing",
+      "topic": "Talking about travel plans and what you like doing",
+      "page": 1,
+      "words": [
+        { "word": "觉得", "gloss": "to think; to feel" },
+        { "word": "旅游", "gloss": "to travel; to take a trip" },
+        { "word": "它", "gloss": "it" },
+        { "word": "踢足球", "gloss": "to play football", "pinyin": "tī zú qiú" },
+        { "word": "为什么", "gloss": "why" },
+        { "word": "新", "gloss": "new" },
+        { "word": "要", "gloss": "to want to; will; be going to" },
+        { "word": "眼睛", "gloss": "eye" },
+        { "word": "运动", "gloss": "sport; to exercise" },
+        { "word": "最", "gloss": "most; -est" },
+        { "word": "花花", "gloss": "Huahua (a cat's name)", "pinyin": "Huā huā" }
+      ],
+      "grammar": [
+        { "id": "g:aux-yao", "title": "The auxiliary verb 要", "pattern": "要 + verb", "tip": "要 before a verb expresses wanting or intending to do something — \"want to\" or \"be going to\": 我要去北京。 = I'm going to go to Beijing.", "source": "authored" },
+        { "id": "g:adv-zui", "title": "The adverb of degree 最", "pattern": "最 + adjective", "tip": "最 marks the top of a scale — \"most\" or \"-est\": 最好 = best, 最大 = biggest.", "source": "authored" },
+        { "id": "g:approx-num", "title": "Expressions of approximate numbers: 几 and 多", "pattern": "几 + measure; number + 多", "tip": "几 stands for an unspecified small number (\"a few / several\"); a round number followed by 多 means \"and then some\" — 十多个 = ten-odd.", "source": "authored" }
+      ],
+      "sentences": [
+        { "zh": "我要去北京旅游。", "tokens": ["我", "要", "去", "北京", "旅游"], "pinyin": "Wǒ yào qù Běijīng lǚyóu.", "en": "I want to travel to Beijing.", "enTokens": ["I", "want", "to", "travel", "to", "Beijing"], "grammar": ["g:aux-yao"] },
+        { "zh": "九月去北京旅游最好。", "tokens": ["九", "月", "去", "北京", "旅游", "最", "好"], "pinyin": "Jiǔ yuè qù Běijīng lǚyóu zuì hǎo.", "en": "September is the best time to travel to Beijing.", "enTokens": ["September", "is", "the", "best", "time", "to", "travel", "to", "Beijing"], "grammar": ["g:adv-zui"] },
+        { "zh": "你为什么喜欢运动？", "tokens": ["你", "为什么", "喜欢", "运动"], "pinyin": "Nǐ wèishénme xǐhuan yùndòng?", "en": "Why do you like sports?", "enTokens": ["Why", "do", "you", "like", "sports"] },
+        { "zh": "他最喜欢踢足球。", "tokens": ["他", "最", "喜欢", "踢足球"], "pinyin": "Tā zuì xǐhuan tī zúqiú.", "en": "He likes playing football the most.", "enTokens": ["He", "likes", "playing", "football", "the", "most"], "grammar": ["g:adv-zui"] },
+        { "zh": "我觉得这本书很好。", "tokens": ["我", "觉得", "这", "本", "书", "很", "好"], "pinyin": "Wǒ juéde zhè běn shū hěn hǎo.", "en": "I think this book is very good.", "enTokens": ["I", "think", "this", "book", "is", "very", "good"] },
+        { "zh": "她的眼睛很大。", "tokens": ["她", "的", "眼睛", "很", "大"], "pinyin": "Tā de yǎnjing hěn dà.", "en": "Her eyes are big.", "enTokens": ["Her", "eyes", "are", "big"] },
+        { "zh": "这是我的新衣服。", "tokens": ["这", "是", "我", "的", "新", "衣服"], "pinyin": "Zhè shì wǒ de xīn yīfu.", "en": "These are my new clothes.", "enTokens": ["These", "are", "my", "new", "clothes"] },
+        { "zh": "花花很小，它喜欢运动。", "tokens": ["花花", "很", "小", "它", "喜欢", "运动"], "pinyin": "Huāhua hěn xiǎo, tā xǐhuan yùndòng.", "en": "Huahua is small, and it likes to move around.", "enTokens": ["Huahua", "is", "small", "and", "it", "likes", "to", "move", "around"] },
+        { "zh": "我要买几本新书。", "tokens": ["我", "要", "买", "几", "本", "新", "书"], "pinyin": "Wǒ yào mǎi jǐ běn xīn shū.", "en": "I want to buy a few new books.", "enTokens": ["I", "want", "to", "buy", "a", "few", "new", "books"], "grammar": ["g:aux-yao", "g:approx-num"] },
+        { "zh": "这儿有十多个人。", "tokens": ["这儿", "有", "十", "多", "个", "人"], "pinyin": "Zhèr yǒu shí duō gè rén.", "en": "There are more than ten people here.", "enTokens": ["There", "are", "more", "than", "ten", "people", "here"], "grammar": ["g:approx-num"] }
+      ]
+    },
+    {
+      "lesson": 2,
+      "title": "我每天六点起床",
+      "titlePinyin": "Wǒ měi tiān liù diǎn qǐchuáng",
+      "titleEn": "I get up at six every day",
+      "topic": "Daily routine, health and being unwell",
+      "page": 9,
+      "words": [
+        { "word": "出", "gloss": "to come out; to go out" },
+        { "word": "高", "gloss": "tall; high" },
+        { "word": "忙", "gloss": "busy" },
+        { "word": "每", "gloss": "every; each" },
+        { "word": "跑步", "gloss": "to run; to jog" },
+        { "word": "起床", "gloss": "to get up; to get out of bed" },
+        { "word": "生病", "gloss": "to fall ill; to be sick" },
+        { "word": "时间", "gloss": "time" },
+        { "word": "休息", "gloss": "to have or take a rest" },
+        { "word": "药", "gloss": "medicine; drug" },
+        { "word": "知道", "gloss": "to know" },
+        { "word": "早上", "gloss": "morning" },
+        { "word": "米", "gloss": "meter", "star": true },
+        { "word": "出院", "gloss": "to leave hospital; to be discharged" }
+      ],
+      "grammar": [
+        { "id": "g:shi-bu-shi", "title": "Questions using 是不是", "pattern": "S + 是不是 + …?", "tip": "是不是 makes a yes-no question that expects confirmation — put it before the part you are checking: 你是不是生病了？ = You're sick, aren't you?", "source": "authored" },
+        { "id": "g:pron-mei", "title": "The pronoun 每", "pattern": "每 + measure + noun", "tip": "每 means \"every / each\" and needs a measure word: 每天 = every day, 每个人 = everyone. It often pairs with 都.", "source": "authored" },
+        { "id": "g:interr-duo", "title": "The interrogative pronoun 多", "pattern": "多 + adjective", "tip": "多 before an adjective asks about degree: 多大？ = how old/big?, 多高？ = how tall?", "source": "authored" }
+      ],
+      "sentences": [
+        { "zh": "每个人都很忙。", "tokens": ["每", "个", "人", "都", "很", "忙"], "pinyin": "Měi gè rén dōu hěn máng.", "en": "Everyone is busy.", "enTokens": ["Everyone", "is", "busy"], "grammar": ["g:pron-mei"] },
+        { "zh": "他每个星期去跑步。", "tokens": ["他", "每", "个", "星期", "去", "跑步"], "pinyin": "Tā měi gè xīngqī qù pǎobù.", "en": "He goes running every week.", "enTokens": ["He", "goes", "running", "every", "week"], "grammar": ["g:pron-mei"] },
+        { "zh": "我早上六点起床。", "tokens": ["我", "早上", "六", "点", "起床"], "pinyin": "Wǒ zǎoshang liù diǎn qǐchuáng.", "en": "I get up at six in the morning.", "enTokens": ["I", "get", "up", "at", "six", "in", "the", "morning"] },
+        { "zh": "你是不是生病了？", "tokens": ["你", "是", "不", "是", "生病", "了"], "pinyin": "Nǐ shì bu shì shēngbìng le?", "en": "Are you sick?", "enTokens": ["Are", "you", "sick"], "grammar": ["g:shi-bu-shi"] },
+        { "zh": "生病了要吃药。", "tokens": ["生病", "了", "要", "吃", "药"], "pinyin": "Shēngbìng le yào chī yào.", "en": "When you're sick you should take medicine.", "enTokens": ["When", "you", "are", "sick", "you", "should", "take", "medicine"], "grammar": ["g:aux-yao"] },
+        { "zh": "你要多休息。", "tokens": ["你", "要", "多", "休息"], "pinyin": "Nǐ yào duō xiūxi.", "en": "You should rest more.", "enTokens": ["You", "should", "rest", "more"] },
+        { "zh": "他是不是出院了？", "tokens": ["他", "是", "不", "是", "出院", "了"], "pinyin": "Tā shì bu shì chūyuàn le?", "en": "Has he been discharged from hospital?", "enTokens": ["Has", "he", "been", "discharged", "from", "hospital"], "grammar": ["g:shi-bu-shi"] },
+        { "zh": "他早上八点出去。", "tokens": ["他", "早上", "八", "点", "出", "去"], "pinyin": "Tā zǎoshang bā diǎn chū qù.", "en": "He goes out at eight in the morning.", "enTokens": ["He", "goes", "out", "at", "eight", "in", "the", "morning"] },
+        { "zh": "你多高？", "tokens": ["你", "多", "高"], "pinyin": "Nǐ duō gāo?", "en": "How tall are you?", "enTokens": ["How", "tall", "are", "you"], "grammar": ["g:interr-duo"] },
+        { "zh": "他很高，也很忙。", "tokens": ["他", "很", "高", "也", "很", "忙"], "pinyin": "Tā hěn gāo, yě hěn máng.", "en": "He is tall and also very busy.", "enTokens": ["He", "is", "tall", "and", "also", "very", "busy"] },
+        { "zh": "我没有时间休息。", "tokens": ["我", "没有", "时间", "休息"], "pinyin": "Wǒ méiyǒu shíjiān xiūxi.", "en": "I don't have time to rest.", "enTokens": ["I", "do", "not", "have", "time", "to", "rest"] },
+        { "zh": "我知道你很忙。", "tokens": ["我", "知道", "你", "很", "忙"], "pinyin": "Wǒ zhīdào nǐ hěn máng.", "en": "I know you're very busy.", "enTokens": ["I", "know", "you", "are", "very", "busy"] }
+      ]
+    },
+    {
+      "lesson": 3,
+      "title": "左边那个红色的是我的",
+      "titlePinyin": "Zuǒbian nàge hóngsè de shì wǒ de",
+      "titleEn": "The red one on the left is mine",
+      "topic": "Colors, describing and pointing out things",
+      "page": 17,
+      "words": [
+        { "word": "报纸", "gloss": "newspaper" },
+        { "word": "房间", "gloss": "room" },
+        { "word": "红", "gloss": "red" },
+        { "word": "牛奶", "gloss": "milk" },
+        { "word": "旁边", "gloss": "beside; next to" },
+        { "word": "千", "gloss": "thousand" },
+        { "word": "手表", "gloss": "watch" },
+        { "word": "送", "gloss": "to send; to deliver; to give (a gift)" },
+        { "word": "颜色", "gloss": "color" },
+        { "word": "一下", "gloss": "(after a verb) to have a quick …; once", "pinyin": "yí xià" },
+        { "word": "丈夫", "gloss": "husband" },
+        { "word": "真", "gloss": "really; truly" },
+        { "word": "左边", "gloss": "left side" },
+        { "word": "粉色", "gloss": "pink", "star": true },
+        { "word": "粉", "gloss": "pink" },
+        { "word": "红色", "gloss": "red" }
+      ],
+      "grammar": [
+        { "id": "g:de-phrase", "title": "The 的 phrase", "pattern": "adjective / noun + 的", "tip": "X + 的 with the noun left off means \"the X one\": 红色的 = the red one, 我的 = mine.", "source": "authored" },
+        { "id": "g:yixia", "title": "The numeral-measure 一下", "pattern": "verb + 一下", "tip": "Verb + 一下 softens a verb to \"do a bit / have a quick …\": 看一下 = take a look.", "source": "authored" },
+        { "id": "g:modal-zhen", "title": "The modal adverb 真", "pattern": "真 + adjective", "tip": "真 before an adjective voices the speaker's reaction — \"really / so\": 真好！ = so good! It states a feeling, unlike the neutral 很.", "source": "authored" }
+      ],
+      "sentences": [
+        { "zh": "左边那个红色的是我的。", "tokens": ["左边", "那", "个", "红色", "的", "是", "我", "的"], "pinyin": "Zuǒbian nàge hóngsè de shì wǒ de.", "en": "The red one on the left is mine.", "enTokens": ["The", "red", "one", "on", "the", "left", "is", "mine"], "grammar": ["g:de-phrase"] },
+        { "zh": "我喜欢粉色的。", "tokens": ["我", "喜欢", "粉色", "的"], "pinyin": "Wǒ xǐhuan fěnsè de.", "en": "I like the pink one.", "enTokens": ["I", "like", "the", "pink", "one"], "grammar": ["g:de-phrase"] },
+        { "zh": "你看一下这个手表。", "tokens": ["你", "看", "一下", "这", "个", "手表"], "pinyin": "Nǐ kàn yíxià zhège shǒubiǎo.", "en": "Take a look at this watch.", "enTokens": ["Take", "a", "look", "at", "this", "watch"], "grammar": ["g:yixia"] },
+        { "zh": "这个房间真大！", "tokens": ["这", "个", "房间", "真", "大"], "pinyin": "Zhège fángjiān zhēn dà!", "en": "This room is really big!", "enTokens": ["This", "room", "is", "really", "big"], "grammar": ["g:modal-zhen"] },
+        { "zh": "他喜欢看报纸。", "tokens": ["他", "喜欢", "看", "报纸"], "pinyin": "Tā xǐhuan kàn bàozhǐ.", "en": "He likes reading the newspaper.", "enTokens": ["He", "likes", "reading", "the", "newspaper"] },
+        { "zh": "我早上喝牛奶。", "tokens": ["我", "早上", "喝", "牛奶"], "pinyin": "Wǒ zǎoshang hē niúnǎi.", "en": "I drink milk in the morning.", "enTokens": ["I", "drink", "milk", "in", "the", "morning"] },
+        { "zh": "商店在你家旁边。", "tokens": ["商店", "在", "你", "家", "旁边"], "pinyin": "Shāngdiàn zài nǐ jiā pángbiān.", "en": "The shop is next to your home.", "enTokens": ["The", "shop", "is", "next", "to", "your", "home"] },
+        { "zh": "你喜欢什么颜色？", "tokens": ["你", "喜欢", "什么", "颜色"], "pinyin": "Nǐ xǐhuan shénme yánsè?", "en": "What color do you like?", "enTokens": ["What", "color", "do", "you", "like"] },
+        { "zh": "我丈夫是老师。", "tokens": ["我", "丈夫", "是", "老师"], "pinyin": "Wǒ zhàngfu shì lǎoshī.", "en": "My husband is a teacher.", "enTokens": ["My", "husband", "is", "a", "teacher"] },
+        { "zh": "这个杯子一千块钱。", "tokens": ["这", "个", "杯子", "一", "千", "块", "钱"], "pinyin": "Zhège bēizi yìqiān kuài qián.", "en": "This cup costs a thousand yuan.", "enTokens": ["This", "cup", "costs", "a", "thousand", "yuan"] },
+        { "zh": "我送他去医院。", "tokens": ["我", "送", "他", "去", "医院"], "pinyin": "Wǒ sòng tā qù yīyuàn.", "en": "I'll take him to the hospital.", "enTokens": ["I", "will", "take", "him", "to", "the", "hospital"] },
+        { "zh": "我喜欢红的，不喜欢粉的。", "tokens": ["我", "喜欢", "红", "的", "不", "喜欢", "粉", "的"], "pinyin": "Wǒ xǐhuan hóng de, bù xǐhuan fěn de.", "en": "I like red, not pink.", "enTokens": ["I", "like", "red", "not", "pink"], "grammar": ["g:de-phrase"] }
+      ]
+    },
+    {
+      "lesson": 4,
+      "title": "这个工作是他帮我介绍的",
+      "titlePinyin": "Zhège gōngzuò shì tā bāng wǒ jièshào de",
+      "titleEn": "He recommended me for this job",
+      "topic": "Work, introductions and birthdays",
+      "page": 25,
+      "words": [
+        { "word": "长", "gloss": "long" },
+        { "word": "非常", "gloss": "very; extremely" },
+        { "word": "介绍", "gloss": "to introduce; to recommend" },
+        { "word": "开始", "gloss": "to begin; to start" },
+        { "word": "快乐", "gloss": "happy; glad" },
+        { "word": "生日", "gloss": "birthday" },
+        { "word": "晚上", "gloss": "evening; night" },
+        { "word": "已经", "gloss": "already" },
+        { "word": "帮", "gloss": "to help" },
+        { "word": "接", "gloss": "to meet; to pick up; to receive", "star": true }
+      ],
+      "grammar": [
+        { "id": "g:shi-de-agent", "title": "The 是……的 construction: emphasizing the agent", "pattern": "(是) + agent + verb + 的", "tip": "For an action already completed, 是……的 highlights who, how or when it happened: 是他帮我介绍的 = it was he who introduced me.", "source": "authored" },
+        { "id": "g:de-shihou", "title": "Indicating time with ……的时候", "pattern": "…… + 的时候", "tip": "X 的时候 means \"when X / at the time of X\": 我小的时候 = when I was young.", "source": "authored" },
+        { "id": "g:adv-yijing", "title": "The adverb of time 已经", "pattern": "已经 + …… + 了", "tip": "已经 means \"already\" and usually pairs with 了 at the end: 他已经走了。", "source": "authored" }
+      ],
+      "sentences": [
+        { "zh": "这个工作是他帮我介绍的。", "tokens": ["这", "个", "工作", "是", "他", "帮", "我", "介绍", "的"], "pinyin": "Zhège gōngzuò shì tā bāng wǒ jièshào de.", "en": "He recommended me for this job.", "enTokens": ["He", "recommended", "me", "for", "this", "job"], "grammar": ["g:shi-de-agent"] },
+        { "zh": "是我妈妈介绍的。", "tokens": ["是", "我", "妈妈", "介绍", "的"], "pinyin": "Shì wǒ māma jièshào de.", "en": "It was my mom who introduced it.", "enTokens": ["It", "was", "my", "mom", "who", "introduced", "it"], "grammar": ["g:shi-de-agent"] },
+        { "zh": "我小的时候非常喜欢运动。", "tokens": ["我", "小", "的", "时候", "非常", "喜欢", "运动"], "pinyin": "Wǒ xiǎo de shíhou fēicháng xǐhuan yùndòng.", "en": "When I was little I really liked sports.", "enTokens": ["When", "I", "was", "little", "I", "really", "liked", "sports"], "grammar": ["g:de-shihou"] },
+        { "zh": "电影已经开始了。", "tokens": ["电影", "已经", "开始", "了"], "pinyin": "Diànyǐng yǐjīng kāishǐ le.", "en": "The movie has already started.", "enTokens": ["The", "movie", "has", "already", "started"], "grammar": ["g:adv-yijing"] },
+        { "zh": "我们晚上开始吧。", "tokens": ["我们", "晚上", "开始", "吧"], "pinyin": "Wǒmen wǎnshang kāishǐ ba.", "en": "Let's start in the evening.", "enTokens": ["Let's", "start", "in", "the", "evening"] },
+        { "zh": "今天是我的生日。", "tokens": ["今天", "是", "我", "的", "生日"], "pinyin": "Jīntiān shì wǒ de shēngrì.", "en": "Today is my birthday.", "enTokens": ["Today", "is", "my", "birthday"] },
+        { "zh": "生日快乐！", "tokens": ["生日", "快乐"], "pinyin": "Shēngrì kuàilè!", "en": "Happy birthday!", "enTokens": ["Happy", "birthday"] },
+        { "zh": "他晚上来接我。", "tokens": ["他", "晚上", "来", "接", "我"], "pinyin": "Tā wǎnshang lái jiē wǒ.", "en": "He'll come to pick me up in the evening.", "enTokens": ["He", "will", "come", "to", "pick", "me", "up", "in", "the", "evening"] },
+        { "zh": "今天的电影很长。", "tokens": ["今天", "的", "电影", "很", "长"], "pinyin": "Jīntiān de diànyǐng hěn cháng.", "en": "Today's movie is very long.", "enTokens": ["Today's", "movie", "is", "very", "long"] },
+        { "zh": "我帮你介绍一下。", "tokens": ["我", "帮", "你", "介绍", "一下"], "pinyin": "Wǒ bāng nǐ jièshào yíxià.", "en": "Let me introduce you.", "enTokens": ["Let", "me", "introduce", "you"], "grammar": ["g:yixia"] }
+      ]
+    },
+    {
+      "lesson": 5,
+      "title": "就买这件吧",
+      "titlePinyin": "Jiù mǎi zhè jiàn ba",
+      "titleEn": "Take this one",
+      "topic": "Shopping and making a choice",
+      "page": 33,
+      "words": [
+        { "word": "对", "gloss": "right; correct; (facing) to" },
+        { "word": "还", "gloss": "also; in addition; still" },
+        { "word": "件", "gloss": "(measure word for clothes and matters) piece" },
+        { "word": "就", "gloss": "then just; (do sth) right away" },
+        { "word": "咖啡", "gloss": "coffee" },
+        { "word": "考试", "gloss": "test; exam" },
+        { "word": "可以", "gloss": "can; may; not bad" },
+        { "word": "意思", "gloss": "meaning" },
+        { "word": "鱼", "gloss": "fish" },
+        { "word": "准备", "gloss": "to prepare; to intend to; to plan" },
+        { "word": "不错", "gloss": "pretty good; not bad" },
+        { "word": "外面", "gloss": "outside" },
+        { "word": "以后", "gloss": "after; afterwards; later" },
+        { "word": "有点儿", "gloss": "a little; somewhat" }
+      ],
+      "grammar": [
+        { "id": "g:adv-jiu", "title": "The adverb 就", "pattern": "就 + verb", "tip": "就 here signals a quick, decisive choice — \"then just …\": 就买这件吧 = then just buy this one.", "source": "authored" },
+        { "id": "g:modal-hai-1", "title": "The modal adverb 还 (1)", "pattern": "还 + verb / adjective", "tip": "还 adds \"also / in addition\": 我还要一个 = I want one more as well.", "source": "authored" },
+        { "id": "g:youdianr", "title": "The adverbial modifier 有点儿", "pattern": "有点儿 + adjective", "tip": "有点儿 + adjective means \"a little (too) …\", usually about something you're not happy with: 有点儿贵 = a bit expensive.", "source": "authored" }
+      ],
+      "sentences": [
+        { "zh": "就买这件吧。", "tokens": ["就", "买", "这", "件", "吧"], "pinyin": "Jiù mǎi zhè jiàn ba.", "en": "Just buy this one.", "enTokens": ["Just", "buy", "this", "one"], "grammar": ["g:adv-jiu"] },
+        { "zh": "这件衣服有点儿大。", "tokens": ["这", "件", "衣服", "有点儿", "大"], "pinyin": "Zhè jiàn yīfu yǒudiǎnr dà.", "en": "These clothes are a little big.", "enTokens": ["These", "clothes", "are", "a", "little", "big"], "grammar": ["g:youdianr"] },
+        { "zh": "我还想喝咖啡。", "tokens": ["我", "还", "想", "喝", "咖啡"], "pinyin": "Wǒ hái xiǎng hē kāfēi.", "en": "I still want to drink coffee.", "enTokens": ["I", "still", "want", "to", "drink", "coffee"], "grammar": ["g:modal-hai-1"] },
+        { "zh": "这个菜很好吃，鱼也不错。", "tokens": ["这", "个", "菜", "很", "好吃", "鱼", "也", "不错"], "pinyin": "Zhège cài hěn hǎochī, yú yě búcuò.", "en": "This dish is delicious, and the fish is good too.", "enTokens": ["This", "dish", "is", "delicious", "and", "the", "fish", "is", "good", "too"] },
+        { "zh": "你可以看一下。", "tokens": ["你", "可以", "看", "一下"], "pinyin": "Nǐ kěyǐ kàn yíxià.", "en": "You can take a look.", "enTokens": ["You", "can", "take", "a", "look"], "grammar": ["g:yixia"] },
+        { "zh": "明天我有考试。", "tokens": ["明天", "我", "有", "考试"], "pinyin": "Míngtiān wǒ yǒu kǎoshì.", "en": "I have an exam tomorrow.", "enTokens": ["I", "have", "an", "exam", "tomorrow"] },
+        { "zh": "这是什么意思？", "tokens": ["这", "是", "什么", "意思"], "pinyin": "Zhè shì shénme yìsi?", "en": "What does this mean?", "enTokens": ["What", "does", "this", "mean"] },
+        { "zh": "外面有点儿冷。", "tokens": ["外面", "有点儿", "冷"], "pinyin": "Wàimiàn yǒudiǎnr lěng.", "en": "It's a little cold outside.", "enTokens": ["It", "is", "a", "little", "cold", "outside"], "grammar": ["g:youdianr"] },
+        { "zh": "我们准备好了。", "tokens": ["我们", "准备", "好", "了"], "pinyin": "Wǒmen zhǔnbèi hǎo le.", "en": "We are ready.", "enTokens": ["We", "are", "ready"] },
+        { "zh": "以后你就知道了。", "tokens": ["以后", "你", "就", "知道", "了"], "pinyin": "Yǐhòu nǐ jiù zhīdào le.", "en": "You'll know later.", "enTokens": ["You", "will", "know", "later"], "grammar": ["g:adv-jiu"] },
+        { "zh": "对，就是这个。", "tokens": ["对", "就", "是", "这", "个"], "pinyin": "Duì, jiù shì zhège.", "en": "Right, it's this one.", "enTokens": ["Right", "it's", "this", "one"], "grammar": ["g:adv-jiu"] }
+      ]
+    },
+    {
+      "lesson": 6,
+      "title": "你怎么不吃了",
+      "titlePinyin": "Nǐ zěnme bù chī le",
+      "titleEn": "Why don't you eat more",
+      "topic": "Food, sports and giving reasons",
+      "page": 41,
+      "words": [
+        { "word": "打篮球", "gloss": "to play basketball" },
+        { "word": "门", "gloss": "door; gate" },
+        { "word": "面条", "gloss": "noodles" },
+        { "word": "外", "gloss": "outer; outside" },
+        { "word": "所以", "gloss": "so; therefore" },
+        { "word": "因为", "gloss": "because; since" },
+        { "word": "游泳", "gloss": "to swim" },
+        { "word": "羊肉", "gloss": "mutton" },
+        { "word": "经常", "gloss": "often; frequently", "star": true },
+        { "word": "公斤", "gloss": "kilogram", "star": true },
+        { "word": "自行车", "gloss": "bike; bicycle", "star": true }
+      ],
+      "grammar": [
+        { "id": "g:interr-zenme", "title": "The interrogative pronoun 怎么", "pattern": "怎么 + verb", "tip": "怎么 asks \"how\" or \"how come\": 怎么走？ = how do I get there?, 你怎么不吃了？ = how come you've stopped eating?", "source": "authored" },
+        { "id": "g:m-redup", "title": "Reduplication of measure words", "pattern": "measure + measure (个个 / 天天)", "tip": "Doubling a measure word means \"every single one\": 个个都好 = each one is good; 天天 = every day.", "source": "authored" },
+        { "id": "g:yinwei-suoyi", "title": "The conjunctions 因为……，所以……", "pattern": "因为 …，所以 …", "tip": "因为 gives the reason and 所以 the result; Chinese keeps both halves: 因为下雨，所以我不去。", "source": "authored" }
+      ],
+      "sentences": [
+        { "zh": "你怎么不吃了？", "tokens": ["你", "怎么", "不", "吃", "了"], "pinyin": "Nǐ zěnme bù chī le?", "en": "Why aren't you eating anymore?", "enTokens": ["Why", "aren't", "you", "eating", "anymore"], "grammar": ["g:interr-zenme"] },
+        { "zh": "因为下雨，所以我不去打篮球。", "tokens": ["因为", "下雨", "所以", "我", "不", "去", "打篮球"], "pinyin": "Yīnwèi xiàyǔ, suǒyǐ wǒ bú qù dǎ lánqiú.", "en": "Because it's raining, I'm not going to play basketball.", "enTokens": ["Because", "it's", "raining", "I'm", "not", "going", "to", "play", "basketball"], "grammar": ["g:yinwei-suoyi"] },
+        { "zh": "我经常去游泳。", "tokens": ["我", "经常", "去", "游泳"], "pinyin": "Wǒ jīngcháng qù yóuyǒng.", "en": "I often go swimming.", "enTokens": ["I", "often", "go", "swimming"] },
+        { "zh": "他年年去旅游。", "tokens": ["他", "年", "年", "去", "旅游"], "pinyin": "Tā niánnián qù lǚyóu.", "en": "He travels every year.", "enTokens": ["He", "travels", "every", "year"], "grammar": ["g:m-redup"] },
+        { "zh": "我喜欢吃羊肉面条。", "tokens": ["我", "喜欢", "吃", "羊肉", "面条"], "pinyin": "Wǒ xǐhuan chī yángròu miàntiáo.", "en": "I like to eat mutton noodles.", "enTokens": ["I", "like", "to", "eat", "mutton", "noodles"] },
+        { "zh": "门外有一个自行车。", "tokens": ["门", "外", "有", "一", "个", "自行车"], "pinyin": "Mén wài yǒu yí gè zìxíngchē.", "en": "There's a bike outside the door.", "enTokens": ["There's", "a", "bike", "outside", "the", "door"] },
+        { "zh": "这个鱼有三公斤。", "tokens": ["这", "个", "鱼", "有", "三", "公斤"], "pinyin": "Zhège yú yǒu sān gōngjīn.", "en": "This fish weighs three kilograms.", "enTokens": ["This", "fish", "weighs", "three", "kilograms"] },
+        { "zh": "因为我很忙，所以没有时间游泳。", "tokens": ["因为", "我", "很", "忙", "所以", "没有", "时间", "游泳"], "pinyin": "Yīnwèi wǒ hěn máng, suǒyǐ méiyǒu shíjiān yóuyǒng.", "en": "Because I'm busy, I don't have time to swim.", "enTokens": ["Because", "I'm", "busy", "I", "don't", "have", "time", "to", "swim"], "grammar": ["g:yinwei-suoyi"] },
+        { "zh": "这些菜个个都好吃。", "tokens": ["这些", "菜", "个", "个", "都", "好吃"], "pinyin": "Zhèxiē cài gègè dōu hǎochī.", "en": "Every one of these dishes is delicious.", "enTokens": ["Every", "one", "of", "these", "dishes", "is", "delicious"], "grammar": ["g:m-redup"] }
+      ]
+    },
+    {
+      "lesson": 7,
+      "title": "你家离公司远吗",
+      "titlePinyin": "Nǐ jiā lí gōngsī yuǎn ma",
+      "titleEn": "Do you live far from your company",
+      "topic": "Distance, getting around and how long it takes",
+      "page": 49,
+      "words": [
+        { "word": "到", "gloss": "to arrive; to reach" },
+        { "word": "公共汽车", "gloss": "bus" },
+        { "word": "公司", "gloss": "company; firm" },
+        { "word": "教室", "gloss": "classroom" },
+        { "word": "离", "gloss": "(to be) away from" },
+        { "word": "快", "gloss": "quick; fast" },
+        { "word": "慢", "gloss": "slow" },
+        { "word": "路", "gloss": "road; path; way" },
+        { "word": "小时", "gloss": "hour" },
+        { "word": "远", "gloss": "far; distant" },
+        { "word": "走", "gloss": "to walk; to go; to leave" },
+        { "word": "过", "gloss": "to pass; to spend (time)", "star": true }
+      ],
+      "grammar": [
+        { "id": "g:modal-hai-2", "title": "The modal adverb 还 (2)", "pattern": "还 + verb (ongoing)", "tip": "还 also means \"still\" — an action or state that keeps going: 他还在工作。 = He is still working.", "source": "authored" },
+        { "id": "g:adv-jiu-time", "title": "The adverb of time 就", "pattern": "(time) + 就 + verb", "tip": "就 stresses that something happens soon, or sooner than expected: 他六点就到了。 = He arrived as early as six.", "source": "authored" },
+        { "id": "g:verb-li", "title": "The verb 离", "pattern": "A + 离 + B + 远/近", "tip": "离 states the distance between two places: A 离 B 远 = A is far from B. 我家离公司很近。", "source": "authored" },
+        { "id": "g:particle-ne", "title": "The modal particle 呢", "pattern": "…… + 呢?", "tip": "呢 softens a question about a topic already in play, or asks \"what about …?\": 你呢？ = and you?; 他在做什么呢？", "source": "authored" }
+      ],
+      "sentences": [
+        { "zh": "你家离公司远吗？", "tokens": ["你", "家", "离", "公司", "远", "吗"], "pinyin": "Nǐ jiā lí gōngsī yuǎn ma?", "en": "Is your home far from the company?", "enTokens": ["Is", "your", "home", "far", "from", "the", "company"], "grammar": ["g:verb-li"] },
+        { "zh": "我家离公司不远。", "tokens": ["我", "家", "离", "公司", "不", "远"], "pinyin": "Wǒ jiā lí gōngsī bù yuǎn.", "en": "My home isn't far from the company.", "enTokens": ["My", "home", "isn't", "far", "from", "the", "company"], "grammar": ["g:verb-li"] },
+        { "zh": "坐公共汽车要一个小时。", "tokens": ["坐", "公共汽车", "要", "一", "个", "小时"], "pinyin": "Zuò gōnggòngqìchē yào yí gè xiǎoshí.", "en": "It takes an hour by bus.", "enTokens": ["It", "takes", "an", "hour", "by", "bus"] },
+        { "zh": "他走路很快。", "tokens": ["他", "走", "路", "很", "快"], "pinyin": "Tā zǒu lù hěn kuài.", "en": "He walks fast.", "enTokens": ["He", "walks", "fast"] },
+        { "zh": "这个公共汽车很慢。", "tokens": ["这", "个", "公共汽车", "很", "慢"], "pinyin": "Zhège gōnggòngqìchē hěn màn.", "en": "This bus is very slow.", "enTokens": ["This", "bus", "is", "very", "slow"] },
+        { "zh": "教室里没有人。", "tokens": ["教室", "里", "没有", "人"], "pinyin": "Jiàoshì lǐ méiyǒu rén.", "en": "There's no one in the classroom.", "enTokens": ["There's", "no", "one", "in", "the", "classroom"] },
+        { "zh": "他还在教室吗？", "tokens": ["他", "还", "在", "教室", "吗"], "pinyin": "Tā hái zài jiàoshì ma?", "en": "Is he still in the classroom?", "enTokens": ["Is", "he", "still", "in", "the", "classroom"], "grammar": ["g:modal-hai-2"] },
+        { "zh": "他六点就到公司了。", "tokens": ["他", "六", "点", "就", "到", "公司", "了"], "pinyin": "Tā liù diǎn jiù dào gōngsī le.", "en": "He got to the company at six.", "enTokens": ["He", "got", "to", "the", "company", "at", "six"], "grammar": ["g:adv-jiu-time"] },
+        { "zh": "我知道去公司的路。", "tokens": ["我", "知道", "去", "公司", "的", "路"], "pinyin": "Wǒ zhīdào qù gōngsī de lù.", "en": "I know the way to the company.", "enTokens": ["I", "know", "the", "way", "to", "the", "company"] },
+        { "zh": "你在做什么呢？", "tokens": ["你", "在", "做", "什么", "呢"], "pinyin": "Nǐ zài zuò shénme ne?", "en": "What are you doing?", "enTokens": ["What", "are", "you", "doing"], "grammar": ["g:particle-ne"] }
+      ]
+    },
+    {
+      "lesson": 8,
+      "title": "让我想想再告诉你",
+      "titlePinyin": "Ràng wǒ xiǎngxiang zài gàosù nǐ",
+      "titleEn": "Let me think about it and I'll tell you later",
+      "topic": "Making plans, ordering and putting things off",
+      "page": 57,
+      "words": [
+        { "word": "白", "gloss": "white" },
+        { "word": "等", "gloss": "to wait; to await" },
+        { "word": "服务员", "gloss": "attendant; waiter/waitress" },
+        { "word": "告诉", "gloss": "to tell" },
+        { "word": "贵", "gloss": "expensive" },
+        { "word": "黑", "gloss": "black" },
+        { "word": "让", "gloss": "to let; to allow; to have (sb do sth)" },
+        { "word": "事情", "gloss": "thing; matter; affair" },
+        { "word": "再", "gloss": "again; more; (do sth) later" },
+        { "word": "找", "gloss": "to look for" }
+      ],
+      "grammar": [
+        { "id": "g:hao-ma", "title": "The question ……，好吗", "pattern": "……，好吗?", "tip": "Add 好吗？ to a suggestion to ask for agreement — \"…, OK?\": 我们一起去，好吗？", "source": "authored" },
+        { "id": "g:adv-zai", "title": "The adverb 再", "pattern": "再 + verb", "tip": "再 means \"again / more\" for something not yet done, or \"(do sth) later\": 明天再说 = talk about it again tomorrow.", "source": "authored" },
+        { "id": "g:pivotal", "title": "Pivotal sentences", "pattern": "S + 让/请 + sb + verb", "tip": "One noun is the object of the first verb and the subject of the second: 让我想想 = let me think; 老师让我们看书。", "source": "authored" },
+        { "id": "g:verb-redup", "title": "Reduplication of verbs", "pattern": "verb + verb / V一V", "tip": "Doubling a verb makes the action brief and casual — \"have a little …\": 想想 = think it over a bit; 看看 = take a look.", "source": "authored" }
+      ],
+      "sentences": [
+        { "zh": "让我想想再告诉你。", "tokens": ["让", "我", "想", "想", "再", "告诉", "你"], "pinyin": "Ràng wǒ xiǎngxiang zài gàosù nǐ.", "en": "Let me think it over and I'll tell you later.", "enTokens": ["Let", "me", "think", "it", "over", "and", "I'll", "tell", "you", "later"], "grammar": ["g:pivotal", "g:verb-redup", "g:adv-zai"] },
+        { "zh": "我们一起去，好吗？", "tokens": ["我们", "一起", "去", "好", "吗"], "pinyin": "Wǒmen yìqǐ qù, hǎo ma?", "en": "Let's go together, OK?", "enTokens": ["Let's", "go", "together", "OK"], "grammar": ["g:hao-ma"] },
+        { "zh": "请等一下。", "tokens": ["请", "等", "一下"], "pinyin": "Qǐng děng yíxià.", "en": "Please wait a moment.", "enTokens": ["Please", "wait", "a", "moment"], "grammar": ["g:yixia"] },
+        { "zh": "服务员，我要一个菜。", "tokens": ["服务员", "我", "要", "一", "个", "菜"], "pinyin": "Fúwùyuán, wǒ yào yí gè cài.", "en": "Waiter, I'd like a dish.", "enTokens": ["Waiter", "I'd", "like", "a", "dish"] },
+        { "zh": "这件衣服有点儿贵。", "tokens": ["这", "件", "衣服", "有点儿", "贵"], "pinyin": "Zhè jiàn yīfu yǒudiǎnr guì.", "en": "These clothes are a little expensive.", "enTokens": ["These", "clothes", "are", "a", "little", "expensive"], "grammar": ["g:youdianr"] },
+        { "zh": "我喜欢白的，他喜欢黑的。", "tokens": ["我", "喜欢", "白", "的", "他", "喜欢", "黑", "的"], "pinyin": "Wǒ xǐhuan bái de, tā xǐhuan hēi de.", "en": "I like white, he likes black.", "enTokens": ["I", "like", "white", "he", "likes", "black"], "grammar": ["g:de-phrase"] },
+        { "zh": "你找什么？", "tokens": ["你", "找", "什么"], "pinyin": "Nǐ zhǎo shénme?", "en": "What are you looking for?", "enTokens": ["What", "are", "you", "looking", "for"] },
+        { "zh": "我有很多事情要做。", "tokens": ["我", "有", "很", "多", "事情", "要", "做"], "pinyin": "Wǒ yǒu hěn duō shìqing yào zuò.", "en": "I have a lot of things to do.", "enTokens": ["I", "have", "a", "lot", "of", "things", "to", "do"] },
+        { "zh": "我们明天再说吧。", "tokens": ["我们", "明天", "再", "说", "吧"], "pinyin": "Wǒmen míngtiān zài shuō ba.", "en": "Let's talk about it again tomorrow.", "enTokens": ["Let's", "talk", "about", "it", "again", "tomorrow"], "grammar": ["g:adv-zai"] },
+        { "zh": "老师让我们看书。", "tokens": ["老师", "让", "我们", "看", "书"], "pinyin": "Lǎoshī ràng wǒmen kàn shū.", "en": "The teacher has us read.", "enTokens": ["The", "teacher", "has", "us", "read"], "grammar": ["g:pivotal"] }
+      ]
+    },
+    {
+      "lesson": 9,
+      "title": "题太多，我没做完",
+      "titlePinyin": "Tí tài duō, wǒ méi zuò wán",
+      "titleEn": "There were too many questions; I didn't finish all of them",
+      "topic": "Study, results and starting points",
+      "page": 65,
+      "words": [
+        { "word": "从", "gloss": "from" },
+        { "word": "错", "gloss": "wrong; incorrect" },
+        { "word": "第一", "gloss": "first" },
+        { "word": "懂", "gloss": "to understand; to know" },
+        { "word": "上班", "gloss": "to go to work; to be on duty" },
+        { "word": "题", "gloss": "question; problem (in an exercise)" },
+        { "word": "跳舞", "gloss": "to dance" },
+        { "word": "完", "gloss": "to finish; to end" },
+        { "word": "希望", "gloss": "to hope; to wish" },
+        { "word": "问题", "gloss": "question; problem" },
+        { "word": "欢迎", "gloss": "to welcome", "star": true }
+      ],
+      "grammar": [
+        { "id": "g:result-comp", "title": "Complements of result", "pattern": "verb + 完/懂/到/错 …", "tip": "A result complement after a verb says how it turned out: 做完 = finish doing, 听懂 = understand (by listening), 做错 = do wrong.", "source": "authored" },
+        { "id": "g:prep-cong", "title": "The preposition 从", "pattern": "从 + place / time", "tip": "从 marks a starting point in space or time: 从这儿走 = go from here; 从九点开始。", "source": "authored" },
+        { "id": "g:di-order", "title": "第- indicating order", "pattern": "第 + number", "tip": "第 before a number makes an ordinal: 第一 = first, 第三 = third.", "source": "authored" }
+      ],
+      "sentences": [
+        { "zh": "题太多，我没有做完。", "tokens": ["题", "太", "多", "我", "没有", "做", "完"], "pinyin": "Tí tài duō, wǒ méiyǒu zuò wán.", "en": "There are too many questions; I didn't finish them.", "enTokens": ["There", "are", "too", "many", "questions", "I", "didn't", "finish", "them"], "grammar": ["g:result-comp"] },
+        { "zh": "我听懂了。", "tokens": ["我", "听", "懂", "了"], "pinyin": "Wǒ tīng dǒng le.", "en": "I understood what I heard.", "enTokens": ["I", "understood", "what", "I", "heard"], "grammar": ["g:result-comp"] },
+        { "zh": "这个字我不懂。", "tokens": ["这", "个", "字", "我", "不", "懂"], "pinyin": "Zhège zì wǒ bù dǒng.", "en": "I don't understand this character.", "enTokens": ["I", "don't", "understand", "this", "character"] },
+        { "zh": "我从九点开始上班。", "tokens": ["我", "从", "九", "点", "开始", "上班"], "pinyin": "Wǒ cóng jiǔ diǎn kāishǐ shàngbān.", "en": "I start work at nine.", "enTokens": ["I", "start", "work", "at", "nine"], "grammar": ["g:prep-cong"] },
+        { "zh": "他从中国来。", "tokens": ["他", "从", "中国", "来"], "pinyin": "Tā cóng Zhōngguó lái.", "en": "He comes from China.", "enTokens": ["He", "comes", "from", "China"], "grammar": ["g:prep-cong"] },
+        { "zh": "他是第一。", "tokens": ["他", "是", "第一"], "pinyin": "Tā shì dìyī.", "en": "He is first.", "enTokens": ["He", "is", "first"], "grammar": ["g:di-order"] },
+        { "zh": "我第一个到。", "tokens": ["我", "第一", "个", "到"], "pinyin": "Wǒ dìyī ge dào.", "en": "I arrived first.", "enTokens": ["I", "arrived", "first"], "grammar": ["g:di-order"] },
+        { "zh": "你这个题做错了。", "tokens": ["你", "这", "个", "题", "做", "错", "了"], "pinyin": "Nǐ zhège tí zuò cuò le.", "en": "You did this question wrong.", "enTokens": ["You", "did", "this", "question", "wrong"], "grammar": ["g:result-comp"] },
+        { "zh": "我希望明天不下雨。", "tokens": ["我", "希望", "明天", "不", "下雨"], "pinyin": "Wǒ xīwàng míngtiān bú xiàyǔ.", "en": "I hope it won't rain tomorrow.", "enTokens": ["I", "hope", "it", "won't", "rain", "tomorrow"] },
+        { "zh": "她很喜欢跳舞。", "tokens": ["她", "很", "喜欢", "跳舞"], "pinyin": "Tā hěn xǐhuan tiàowǔ.", "en": "She loves dancing.", "enTokens": ["She", "loves", "dancing"] },
+        { "zh": "这个问题很大。", "tokens": ["这", "个", "问题", "很", "大"], "pinyin": "Zhège wèntí hěn dà.", "en": "This is a big problem.", "enTokens": ["This", "is", "a", "big", "problem"] },
+        { "zh": "欢迎你来我家。", "tokens": ["欢迎", "你", "来", "我", "家"], "pinyin": "Huānyíng nǐ lái wǒ jiā.", "en": "Welcome to my home.", "enTokens": ["Welcome", "to", "my", "home"] }
+      ]
+    },
+    {
+      "lesson": 10,
+      "title": "别找了，手机在桌子上呢",
+      "titlePinyin": "Bié zhǎo le, shǒujī zài zhuōzi shàng ne",
+      "titleEn": "Stop looking for your cell phone; it's on the desk",
+      "topic": "Finding things, helping and what's happening now",
+      "page": 73,
+      "words": [
+        { "word": "帮助", "gloss": "to help; help" },
+        { "word": "别", "gloss": "don't" },
+        { "word": "哥哥", "gloss": "elder brother" },
+        { "word": "鸡蛋", "gloss": "egg" },
+        { "word": "课", "gloss": "class; lesson" },
+        { "word": "手机", "gloss": "cell phone" },
+        { "word": "西瓜", "gloss": "watermelon" },
+        { "word": "洗", "gloss": "to wash; to bathe" },
+        { "word": "正在", "gloss": "(be) in the process of; right now" }
+      ],
+      "grammar": [
+        { "id": "g:imperative-le", "title": "The imperative 不要……了 / 别……了", "pattern": "别/不要 + verb + 了", "tip": "别 or 不要 + verb + 了 tells someone to stop what they're doing: 别找了 = stop looking; 不要说了。", "source": "authored" },
+        { "id": "g:prep-dui", "title": "The preposition 对", "pattern": "对 + sb + verb", "tip": "对 points an action or attitude at someone: 对我说 = say to me; 他对我很好。", "source": "authored" }
+      ],
+      "sentences": [
+        { "zh": "别找了，手机在桌子上呢。", "tokens": ["别", "找", "了", "手机", "在", "桌子", "上", "呢"], "pinyin": "Bié zhǎo le, shǒujī zài zhuōzi shàng ne.", "en": "Stop looking, your phone is on the table.", "enTokens": ["Stop", "looking", "your", "phone", "is", "on", "the", "table"], "grammar": ["g:imperative-le", "g:particle-ne"] },
+        { "zh": "别说了。", "tokens": ["别", "说", "了"], "pinyin": "Bié shuō le.", "en": "Stop talking.", "enTokens": ["Stop", "talking"], "grammar": ["g:imperative-le"] },
+        { "zh": "我正在上课。", "tokens": ["我", "正在", "上", "课"], "pinyin": "Wǒ zhèngzài shàng kè.", "en": "I'm in class right now.", "enTokens": ["I'm", "in", "class", "right", "now"] },
+        { "zh": "他对我很好。", "tokens": ["他", "对", "我", "很", "好"], "pinyin": "Tā duì wǒ hěn hǎo.", "en": "He is very good to me.", "enTokens": ["He", "is", "very", "good", "to", "me"], "grammar": ["g:prep-dui"] },
+        { "zh": "谢谢你的帮助。", "tokens": ["谢谢", "你", "的", "帮助"], "pinyin": "Xièxie nǐ de bāngzhù.", "en": "Thank you for your help.", "enTokens": ["Thank", "you", "for", "your", "help"] },
+        { "zh": "我哥哥正在洗车。", "tokens": ["我", "哥哥", "正在", "洗", "车"], "pinyin": "Wǒ gēge zhèngzài xǐ chē.", "en": "My older brother is washing the car.", "enTokens": ["My", "older", "brother", "is", "washing", "the", "car"] },
+        { "zh": "早上我吃了一个鸡蛋。", "tokens": ["早上", "我", "吃", "了", "一", "个", "鸡蛋"], "pinyin": "Zǎoshang wǒ chī le yí gè jīdàn.", "en": "I ate an egg this morning.", "enTokens": ["I", "ate", "an", "egg", "this", "morning"] },
+        { "zh": "我喜欢吃西瓜。", "tokens": ["我", "喜欢", "吃", "西瓜"], "pinyin": "Wǒ xǐhuan chī xīguā.", "en": "I like eating watermelon.", "enTokens": ["I", "like", "eating", "watermelon"] },
+        { "zh": "你别对他说。", "tokens": ["你", "别", "对", "他", "说"], "pinyin": "Nǐ bié duì tā shuō.", "en": "Don't tell him.", "enTokens": ["Don't", "tell", "him"], "grammar": ["g:imperative-le", "g:prep-dui"] },
+        { "zh": "老师帮助我学习。", "tokens": ["老师", "帮助", "我", "学习"], "pinyin": "Lǎoshī bāngzhù wǒ xuéxí.", "en": "The teacher helps me study.", "enTokens": ["The", "teacher", "helps", "me", "study"] }
+      ]
+    },
+    {
+      "lesson": 11,
+      "title": "他比我大三岁",
+      "titlePinyin": "Tā bǐ wǒ dà sān suì",
+      "titleEn": "He is three years older than me",
+      "topic": "Comparing people and describing who they are",
+      "page": 81,
+      "words": [
+        { "word": "比", "gloss": "than; (compared) to" },
+        { "word": "唱歌", "gloss": "to sing" },
+        { "word": "孩子", "gloss": "child; kid" },
+        { "word": "可能", "gloss": "maybe; probably; may" },
+        { "word": "男", "gloss": "man; male" },
+        { "word": "女", "gloss": "woman; female" },
+        { "word": "便宜", "gloss": "cheap; inexpensive" },
+        { "word": "去年", "gloss": "last year" },
+        { "word": "说话", "gloss": "to speak; to talk" },
+        { "word": "姓", "gloss": "surname; to be surnamed" },
+        { "word": "右边", "gloss": "right side" }
+      ],
+      "grammar": [
+        { "id": "g:verb-attrib", "title": "A verb (phrase) used as an attributive modifier", "pattern": "verb phrase + 的 + noun", "tip": "A verb phrase + 的 describes a noun, like a relative clause: 说话的人 = the person who's speaking; 唱歌的孩子。", "source": "authored" },
+        { "id": "g:bi-1", "title": "The 比 sentence (1)", "pattern": "A + 比 + B + adjective", "tip": "A 比 B + adjective compares them — \"A is more … than B\": 他比我大。 Don't add 很 or 太 to the adjective.", "source": "authored" },
+        { "id": "g:aux-keneng", "title": "The auxiliary verb 可能", "pattern": "可能 + verb", "tip": "可能 before a verb marks a guess — \"may / might / probably\": 他可能不来了。", "source": "authored" }
+      ],
+      "sentences": [
+        { "zh": "他比我大。", "tokens": ["他", "比", "我", "大"], "pinyin": "Tā bǐ wǒ dà.", "en": "He is older than me.", "enTokens": ["He", "is", "older", "than", "me"], "grammar": ["g:bi-1"] },
+        { "zh": "这个比那个便宜。", "tokens": ["这", "个", "比", "那", "个", "便宜"], "pinyin": "Zhège bǐ nàge piányi.", "en": "This one is cheaper than that one.", "enTokens": ["This", "one", "is", "cheaper", "than", "that", "one"], "grammar": ["g:bi-1"] },
+        { "zh": "唱歌的人是我朋友。", "tokens": ["唱歌", "的", "人", "是", "我", "朋友"], "pinyin": "Chànggē de rén shì wǒ péngyou.", "en": "The person singing is my friend.", "enTokens": ["The", "person", "singing", "is", "my", "friend"], "grammar": ["g:verb-attrib"] },
+        { "zh": "他可能不来了。", "tokens": ["他", "可能", "不", "来", "了"], "pinyin": "Tā kěnéng bù lái le.", "en": "He may not come.", "enTokens": ["He", "may", "not", "come"], "grammar": ["g:aux-keneng"] },
+        { "zh": "那个男的是老师，女的是学生。", "tokens": ["那", "个", "男", "的", "是", "老师", "女", "的", "是", "学生"], "pinyin": "Nàge nán de shì lǎoshī, nǚ de shì xuésheng.", "en": "The man is a teacher, the woman is a student.", "enTokens": ["The", "man", "is", "a", "teacher", "the", "woman", "is", "a", "student"], "grammar": ["g:de-phrase"] },
+        { "zh": "你姓什么？", "tokens": ["你", "姓", "什么"], "pinyin": "Nǐ xìng shénme?", "en": "What's your surname?", "enTokens": ["What's", "your", "surname"] },
+        { "zh": "去年我去了北京。", "tokens": ["去年", "我", "去", "了", "北京"], "pinyin": "Qùnián wǒ qù le Běijīng.", "en": "Last year I went to Beijing.", "enTokens": ["Last", "year", "I", "went", "to", "Beijing"] },
+        { "zh": "商店在右边。", "tokens": ["商店", "在", "右边"], "pinyin": "Shāngdiàn zài yòubian.", "en": "The shop is on the right.", "enTokens": ["The", "shop", "is", "on", "the", "right"] },
+        { "zh": "这个孩子很喜欢说话。", "tokens": ["这", "个", "孩子", "很", "喜欢", "说话"], "pinyin": "Zhège háizi hěn xǐhuan shuōhuà.", "en": "This child loves to talk.", "enTokens": ["This", "child", "loves", "to", "talk"] },
+        { "zh": "唱歌的孩子可能是他儿子。", "tokens": ["唱歌", "的", "孩子", "可能", "是", "他", "儿子"], "pinyin": "Chànggē de háizi kěnéng shì tā érzi.", "en": "The singing child might be his son.", "enTokens": ["The", "singing", "child", "might", "be", "his", "son"], "grammar": ["g:verb-attrib", "g:aux-keneng"] }
+      ]
+    },
+    {
+      "lesson": 12,
+      "title": "你穿得太少了",
+      "titlePinyin": "Nǐ chuān de tài shǎo le",
+      "titleEn": "You wear too little",
+      "topic": "Weather, clothes and comparing amounts",
+      "page": 89,
+      "words": [
+        { "word": "穿", "gloss": "to wear; to put on" },
+        { "word": "得", "gloss": "(after a verb/adjective, introduces a degree complement)" },
+        { "word": "弟弟", "gloss": "younger brother" },
+        { "word": "进", "gloss": "to enter; to come/go in" },
+        { "word": "近", "gloss": "near; close" },
+        { "word": "零", "gloss": "zero" },
+        { "word": "妻子", "gloss": "wife" },
+        { "word": "雪", "gloss": "snow" },
+        { "word": "度", "gloss": "degree", "star": true }
+      ],
+      "grammar": [
+        { "id": "g:degree-comp", "title": "Complements of degree", "pattern": "verb/adjective + 得 + …", "tip": "得 links a verb or adjective to a comment on its degree: 穿得太少 = wear too little; 说得很好 = speak very well.", "source": "authored" },
+        { "id": "g:bi-2", "title": "The 比 sentence (2)", "pattern": "A + 比 + B + adjective + amount", "tip": "Put the amount of difference after the adjective: 他比我大三岁 = three years older; 便宜一点儿 = a bit cheaper.", "source": "authored" }
+      ],
+      "sentences": [
+        { "zh": "你穿得太少了。", "tokens": ["你", "穿", "得", "太", "少", "了"], "pinyin": "Nǐ chuān de tài shǎo le.", "en": "You're wearing too little.", "enTokens": ["You're", "wearing", "too", "little"], "grammar": ["g:degree-comp"] },
+        { "zh": "他说得很快。", "tokens": ["他", "说", "得", "很", "快"], "pinyin": "Tā shuō de hěn kuài.", "en": "He speaks very fast.", "enTokens": ["He", "speaks", "very", "fast"], "grammar": ["g:degree-comp"] },
+        { "zh": "他比我大三岁。", "tokens": ["他", "比", "我", "大", "三", "岁"], "pinyin": "Tā bǐ wǒ dà sān suì.", "en": "He is three years older than me.", "enTokens": ["He", "is", "three", "years", "older", "than", "me"], "grammar": ["g:bi-2"] },
+        { "zh": "这个比那个便宜一点儿。", "tokens": ["这", "个", "比", "那", "个", "便宜", "一点儿"], "pinyin": "Zhège bǐ nàge piányi yìdiǎnr.", "en": "This one is a bit cheaper than that.", "enTokens": ["This", "one", "is", "a", "bit", "cheaper", "than", "that"], "grammar": ["g:bi-2"] },
+        { "zh": "请进。", "tokens": ["请", "进"], "pinyin": "Qǐng jìn.", "en": "Please come in.", "enTokens": ["Please", "come", "in"] },
+        { "zh": "我家离这儿很近。", "tokens": ["我", "家", "离", "这儿", "很", "近"], "pinyin": "Wǒ jiā lí zhèr hěn jìn.", "en": "My home is close to here.", "enTokens": ["My", "home", "is", "close", "to", "here"], "grammar": ["g:verb-li"] },
+        { "zh": "我喜欢雪。", "tokens": ["我", "喜欢", "雪"], "pinyin": "Wǒ xǐhuan xuě.", "en": "I like snow.", "enTokens": ["I", "like", "snow"] },
+        { "zh": "我弟弟穿得很少。", "tokens": ["我", "弟弟", "穿", "得", "很", "少"], "pinyin": "Wǒ dìdi chuān de hěn shǎo.", "en": "My younger brother wears too little.", "enTokens": ["My", "younger", "brother", "wears", "too", "little"], "grammar": ["g:degree-comp"] },
+        { "zh": "我妻子是医生。", "tokens": ["我", "妻子", "是", "医生"], "pinyin": "Wǒ qīzi shì yīshēng.", "en": "My wife is a doctor.", "enTokens": ["My", "wife", "is", "a", "doctor"] },
+        { "zh": "现在是十点零五分。", "tokens": ["现在", "是", "十", "点", "零", "五", "分"], "pinyin": "Xiànzài shì shí diǎn líng wǔ fēn.", "en": "It's five past ten.", "enTokens": ["It's", "five", "past", "ten"] },
+        { "zh": "今天三十度。", "tokens": ["今天", "三", "十", "度"], "pinyin": "Jīntiān sānshí dù.", "en": "It's thirty degrees today.", "enTokens": ["It's", "thirty", "degrees", "today"] }
+      ]
+    },
+    {
+      "lesson": 13,
+      "title": "门开着呢",
+      "titlePinyin": "Mén kāi zhe ne",
+      "titleEn": "The door is open",
+      "topic": "States of things and giving directions",
+      "page": 97,
+      "words": [
+        { "word": "宾馆", "gloss": "hotel" },
+        { "word": "铅笔", "gloss": "pencil" },
+        { "word": "笑", "gloss": "to smile; to laugh" },
+        { "word": "往", "gloss": "to; towards" },
+        { "word": "着", "gloss": "(after a verb, marks an ongoing state)" },
+        { "word": "班", "gloss": "class; grade; team", "star": true },
+        { "word": "拿", "gloss": "to hold; to take; to bring", "star": true },
+        { "word": "一直", "gloss": "straight; all along", "star": true },
+        { "word": "路口", "gloss": "crossing; crossroads" },
+        { "word": "手", "gloss": "hand" },
+        { "word": "杨笑笑", "gloss": "Yang Xiaoxiao (a person's name)", "pinyin": "Yáng Xiào xiao" }
+      ],
+      "grammar": [
+        { "id": "g:particle-zhe", "title": "The structural particle 着", "pattern": "verb + 着", "tip": "Verb + 着 marks an ongoing state that stays put: 门开着 = the door is (standing) open; 拿着书 = holding a book.", "source": "authored" },
+        { "id": "g:rhetorical-bushi", "title": "The rhetorical question 不是……吗", "pattern": "不是 + …… + 吗?", "tip": "不是……吗？ states the obvious as a question — \"isn't it that …?\": 你不是有手机吗？ = don't you have a phone (so use it)!", "source": "authored" },
+        { "id": "g:prep-wang", "title": "The preposition 往", "pattern": "往 + direction + verb", "tip": "往 gives the direction of movement: 往前走 = go forward; 往右边走 = go to the right.", "source": "authored" }
+      ],
+      "sentences": [
+        { "zh": "门开着呢。", "tokens": ["门", "开", "着", "呢"], "pinyin": "Mén kāi zhe ne.", "en": "The door is open.", "enTokens": ["The", "door", "is", "open"], "grammar": ["g:particle-zhe", "g:particle-ne"] },
+        { "zh": "他手里拿着一本书。", "tokens": ["他", "手", "里", "拿", "着", "一", "本", "书"], "pinyin": "Tā shǒu lǐ ná zhe yì běn shū.", "en": "He's holding a book in his hand.", "enTokens": ["He's", "holding", "a", "book", "in", "his", "hand"], "grammar": ["g:particle-zhe"] },
+        { "zh": "你不是有手机吗？", "tokens": ["你", "不", "是", "有", "手机", "吗"], "pinyin": "Nǐ bú shì yǒu shǒujī ma?", "en": "Don't you have a cell phone?", "enTokens": ["Don't", "you", "have", "a", "cell", "phone"], "grammar": ["g:rhetorical-bushi"] },
+        { "zh": "往前走就到路口了。", "tokens": ["往", "前", "走", "就", "到", "路口", "了"], "pinyin": "Wǎng qián zǒu jiù dào lùkǒu le.", "en": "Go straight ahead and you'll reach the crossing.", "enTokens": ["Go", "straight", "ahead", "and", "you'll", "reach", "the", "crossing"], "grammar": ["g:prep-wang", "g:adv-jiu-time"] },
+        { "zh": "往右边走。", "tokens": ["往", "右边", "走"], "pinyin": "Wǎng yòubian zǒu.", "en": "Go to the right.", "enTokens": ["Go", "to", "the", "right"], "grammar": ["g:prep-wang"] },
+        { "zh": "杨笑笑在宾馆等你。", "tokens": ["杨笑笑", "在", "宾馆", "等", "你"], "pinyin": "Yáng Xiàoxiao zài bīnguǎn děng nǐ.", "en": "Yang Xiaoxiao is waiting for you at the hotel.", "enTokens": ["Yang", "Xiaoxiao", "is", "waiting", "for", "you", "at", "the", "hotel"] },
+        { "zh": "她笑着说。", "tokens": ["她", "笑", "着", "说"], "pinyin": "Tā xiào zhe shuō.", "en": "She said with a smile.", "enTokens": ["She", "said", "with", "a", "smile"], "grammar": ["g:particle-zhe"] },
+        { "zh": "这是我的铅笔。", "tokens": ["这", "是", "我", "的", "铅笔"], "pinyin": "Zhè shì wǒ de qiānbǐ.", "en": "This is my pencil.", "enTokens": ["This", "is", "my", "pencil"] },
+        { "zh": "他一直在上班。", "tokens": ["他", "一直", "在", "上班"], "pinyin": "Tā yìzhí zài shàngbān.", "en": "He's been working all along.", "enTokens": ["He's", "been", "working", "all", "along"] },
+        { "zh": "我们一个班。", "tokens": ["我们", "一", "个", "班"], "pinyin": "Wǒmen yí ge bān.", "en": "We're in the same class.", "enTokens": ["We're", "in", "the", "same", "class"] }
+      ]
+    },
+    {
+      "lesson": 14,
+      "title": "你看过那个电影吗",
+      "titlePinyin": "Nǐ kàn guò nàge diànyǐng ma",
+      "titleEn": "Have you seen that movie",
+      "topic": "Past experiences and weighing pros and cons",
+      "page": 105,
+      "words": [
+        { "word": "百", "gloss": "hundred" },
+        { "word": "次", "gloss": "(measure word) time; occurrence" },
+        { "word": "但是", "gloss": "but; still; yet" },
+        { "word": "晴", "gloss": "sunny; fine; clear" },
+        { "word": "虽然", "gloss": "although; though" },
+        { "word": "玩儿", "gloss": "to play; to have fun" },
+        { "word": "有意思", "gloss": "interesting; fun" }
+      ],
+      "grammar": [
+        { "id": "g:particle-guo", "title": "The structural particle 过", "pattern": "verb + 过", "tip": "Verb + 过 says something has been experienced at least once: 我看过那个电影 = I've seen that movie before.", "source": "authored" },
+        { "id": "g:suiran-danshi", "title": "The conjunctions 虽然……，但是……", "pattern": "虽然 …，但是 …", "tip": "虽然 concedes a point and 但是 gives the contrasting main idea; Chinese keeps both: 虽然很贵，但是很好。", "source": "authored" },
+        { "id": "g:freq-ci", "title": "The complement of frequency 次", "pattern": "verb + number + 次", "tip": "次 counts how many times an action happens, placed after the verb: 去过一次 = have been once; 看了两次。", "source": "authored" }
+      ],
+      "sentences": [
+        { "zh": "你看过那个电影吗？", "tokens": ["你", "看", "过", "那", "个", "电影", "吗"], "pinyin": "Nǐ kàn guò nàge diànyǐng ma?", "en": "Have you seen that movie?", "enTokens": ["Have", "you", "seen", "that", "movie"], "grammar": ["g:particle-guo"] },
+        { "zh": "我去过北京两次。", "tokens": ["我", "去", "过", "北京", "两", "次"], "pinyin": "Wǒ qù guò Běijīng liǎng cì.", "en": "I've been to Beijing twice.", "enTokens": ["I've", "been", "to", "Beijing", "twice"], "grammar": ["g:particle-guo", "g:freq-ci"] },
+        { "zh": "这个电影很有意思。", "tokens": ["这", "个", "电影", "很", "有意思"], "pinyin": "Zhège diànyǐng hěn yǒuyìsi.", "en": "This movie is very interesting.", "enTokens": ["This", "movie", "is", "very", "interesting"] },
+        { "zh": "虽然很贵，但是很好。", "tokens": ["虽然", "很", "贵", "但是", "很", "好"], "pinyin": "Suīrán hěn guì, dànshì hěn hǎo.", "en": "Although it's expensive, it's good.", "enTokens": ["Although", "it's", "expensive", "it's", "good"], "grammar": ["g:suiran-danshi"] },
+        { "zh": "今天天气很晴。", "tokens": ["今天", "天气", "很", "晴"], "pinyin": "Jīntiān tiānqì hěn qíng.", "en": "The weather is clear today.", "enTokens": ["The", "weather", "is", "clear", "today"] },
+        { "zh": "我看了两次。", "tokens": ["我", "看", "了", "两", "次"], "pinyin": "Wǒ kàn le liǎng cì.", "en": "I watched it twice.", "enTokens": ["I", "watched", "it", "twice"], "grammar": ["g:freq-ci"] },
+        { "zh": "我们去外面玩儿吧。", "tokens": ["我们", "去", "外面", "玩儿", "吧"], "pinyin": "Wǒmen qù wàimiàn wánr ba.", "en": "Let's go play outside.", "enTokens": ["Let's", "go", "play", "outside"] },
+        { "zh": "虽然下雨，但是我们还去玩儿。", "tokens": ["虽然", "下雨", "但是", "我们", "还", "去", "玩儿"], "pinyin": "Suīrán xiàyǔ, dànshì wǒmen hái qù wánr.", "en": "Although it's raining, we still go out to play.", "enTokens": ["Although", "it's", "raining", "we", "still", "go", "out", "to", "play"], "grammar": ["g:suiran-danshi", "g:modal-hai-2"] },
+        { "zh": "这个宾馆三百块钱。", "tokens": ["这", "个", "宾馆", "三", "百", "块", "钱"], "pinyin": "Zhège bīnguǎn sānbǎi kuài qián.", "en": "This hotel is three hundred yuan.", "enTokens": ["This", "hotel", "is", "three", "hundred", "yuan"] }
+      ]
+    },
+    {
+      "lesson": 15,
+      "title": "新年就要到了",
+      "titlePinyin": "Xīnnián jiù yào dào le",
+      "titleEn": "The New Year is coming",
+      "topic": "The New Year, the calendar and things about to happen",
+      "page": 113,
+      "words": [
+        { "word": "大家", "gloss": "all; everybody" },
+        { "word": "火车站", "gloss": "railway station" },
+        { "word": "妹妹", "gloss": "younger sister" },
+        { "word": "票", "gloss": "ticket" },
+        { "word": "日", "gloss": "day; date" },
+        { "word": "阴", "gloss": "overcast; cloudy" },
+        { "word": "更", "gloss": "more; even more", "star": true },
+        { "word": "新年", "gloss": "New Year" }
+      ],
+      "grammar": [
+        { "id": "g:yao-le", "title": "Indicating the state of an action: 要……了", "pattern": "(快)要 + verb + 了", "tip": "要……了 says something is about to happen: 要下雨了 = it's going to rain; 新年就要到了。", "source": "authored" },
+        { "id": "g:dou-le", "title": "The 都……了 construction", "pattern": "都 + …… + 了", "tip": "都……了 stresses that a point has already been reached — \"already\": 都十点了 = it's already ten; 都走了 = everyone's already left.", "source": "authored" }
+      ],
+      "sentences": [
+        { "zh": "新年就要到了。", "tokens": ["新年", "就", "要", "到", "了"], "pinyin": "Xīnnián jiù yào dào le.", "en": "The New Year is almost here.", "enTokens": ["The", "New", "Year", "is", "almost", "here"], "grammar": ["g:yao-le"] },
+        { "zh": "要下雨了。", "tokens": ["要", "下雨", "了"], "pinyin": "Yào xiàyǔ le.", "en": "It's going to rain.", "enTokens": ["It's", "going", "to", "rain"], "grammar": ["g:yao-le"] },
+        { "zh": "都十点了，大家都走了。", "tokens": ["都", "十", "点", "了", "大家", "都", "走", "了"], "pinyin": "Dōu shí diǎn le, dàjiā dōu zǒu le.", "en": "It's already ten o'clock; everyone has left.", "enTokens": ["It's", "already", "ten", "o'clock", "everyone", "has", "left"], "grammar": ["g:dou-le"] },
+        { "zh": "我去火车站买票。", "tokens": ["我", "去", "火车站", "买", "票"], "pinyin": "Wǒ qù huǒchēzhàn mǎi piào.", "en": "I'm going to the station to buy tickets.", "enTokens": ["I'm", "going", "to", "the", "station", "to", "buy", "tickets"] },
+        { "zh": "我妹妹很喜欢唱歌。", "tokens": ["我", "妹妹", "很", "喜欢", "唱歌"], "pinyin": "Wǒ mèimei hěn xǐhuan chànggē.", "en": "My younger sister loves singing.", "enTokens": ["My", "younger", "sister", "loves", "singing"] },
+        { "zh": "今天几月几日？", "tokens": ["今天", "几", "月", "几", "日"], "pinyin": "Jīntiān jǐ yuè jǐ rì?", "en": "What's the date today?", "enTokens": ["What's", "the", "date", "today"] },
+        { "zh": "今天天气很阴。", "tokens": ["今天", "天气", "很", "阴"], "pinyin": "Jīntiān tiānqì hěn yīn.", "en": "It's cloudy today.", "enTokens": ["It's", "cloudy", "today"] },
+        { "zh": "大家新年快乐！", "tokens": ["大家", "新年", "快乐"], "pinyin": "Dàjiā xīnnián kuàilè!", "en": "Happy New Year, everyone!", "enTokens": ["Happy", "New", "Year", "everyone"] },
+        { "zh": "今天比昨天更冷。", "tokens": ["今天", "比", "昨天", "更", "冷"], "pinyin": "Jīntiān bǐ zuótiān gèng lěng.", "en": "Today is even colder than yesterday.", "enTokens": ["Today", "is", "even", "colder", "than", "yesterday"], "grammar": ["g:bi-1"] },
+        { "zh": "都新年了，火车站人很多。", "tokens": ["都", "新年", "了", "火车站", "人", "很", "多"], "pinyin": "Dōu xīnnián le, huǒchēzhàn rén hěn duō.", "en": "It's already New Year; the station is crowded.", "enTokens": ["It's", "already", "New", "Year", "the", "station", "is", "crowded"], "grammar": ["g:dou-le"] }
+      ]
+    }
+  ]
+}

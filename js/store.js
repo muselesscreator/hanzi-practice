@@ -9,7 +9,7 @@ import {
 export { Rating, State };
 
 const KEY = 'hanzi-practice:v1';
-export const VERSION = 3;
+export const VERSION = 4;
 
 export const scheduler = fsrs(
   generatorParameters({ enable_fuzz: true, request_retention: 0.9 })
@@ -43,13 +43,20 @@ export const blank = () => ({
     xp: {}, // date -> xp earned
     streak: { n: 0, last: null, freeze: 1 },
   },
+  gamify: {
+    titles: [], // earned Dao-title ids
+    pills: [], // brewed pill ids
+    techniques: [], // learned technique (功法) ids
+  },
 });
 
 // v1 stored only the handwriting deck. Its card keys (`char:w`, `char:r`) are
 // already in the v2 shape, so the migration is additive: keep every FSRS card
 // and every introduction date, and graft the course state on beside them.
 // v2 -> v3 is additive too: the retrieval counter starts empty, so a word
-// learned before the bump reads as unexposed and review leans toward it.
+// learned before the bump reads as unexposed and review leans toward it. v3 ->
+// v4 is additive as well: the cosmetic gamify blob starts empty and its titles
+// and pills are re-earned from current standing on the next reward check.
 function migrate(raw) {
   const base = blank();
   if (raw.v === 1) {
@@ -60,7 +67,7 @@ function migrate(raw) {
       intro: raw.intro ?? {},
     };
   }
-  if (raw.v === 2 || raw.v === VERSION) {
+  if (raw.v >= 2 && raw.v <= VERSION) {
     return {
       ...base,
       ...raw,
@@ -72,6 +79,7 @@ function migrate(raw) {
         ...raw.course,
         streak: { ...base.course.streak, ...raw.course?.streak },
       },
+      gamify: { ...base.gamify, ...raw.gamify },
     };
   }
   return base;
@@ -213,7 +221,10 @@ export function addXp(n) {
 }
 
 // The streak counts days on which you earned any XP. One missed day is
-// forgiven if a freeze is in hand; a longer gap starts over.
+// forgiven if a freeze is in hand; a longer gap starts over. In cultivation
+// dress the freeze is a protective talisman (护身符) that auto-burns to bridge
+// the gap, and a lost streak reads as qi deviation (走火入魔). Either event
+// leaves an `omen` on the streak so the next session can announce it once.
 function bumpStreak() {
   const s = store.course.streak;
   const d = today();
@@ -223,10 +234,29 @@ function bumpStreak() {
   } else if (s.last === dayOffset(-2) && s.freeze > 0) {
     s.freeze -= 1;
     s.n += 1;
+    s.omen = 'talisman';
   } else {
+    if (s.last) s.omen = 'deviation';
     s.n = 1;
   }
   s.last = d;
+}
+
+// Protective talismans (护身符) in hand -- the streak freeze in cultivation
+// dress. Each auto-burns to bridge one missed day.
+export const talismans = () => store.course.streak.freeze;
+
+// The omen the streak last left, read once and cleared: `talisman` when one
+// burned to save the streak, `deviation` when the streak scattered. Returns
+// null when nothing happened, so a session announces each event a single time.
+export function takeStreakOmen() {
+  const s = store.course.streak;
+  const omen = s.omen ?? null;
+  if (omen) {
+    delete s.omen;
+    save();
+  }
+  return omen;
 }
 
 // A streak stays alive through today even before you have earned any XP.

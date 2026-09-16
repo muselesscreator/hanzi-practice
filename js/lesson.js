@@ -10,6 +10,8 @@ import {
   countExposure,
   keyOf,
 } from './store.js';
+import { realmFor } from './course.js';
+import { checkRewards } from './rewards.js';
 import { buildLesson, buildPractice, checkBank } from './exercises.js';
 import * as audio from './audio.js';
 import * as W from './writing.js';
@@ -813,7 +815,11 @@ function finish() {
     mode === 'lesson'
       ? XP_LESSON + (hard ? XP_HARD : 0) + (clean ? XP_CLEAN : 0)
       : plan.length * XP_PRACTICE_ITEM;
+  const before = realmFor();
   addXp(xp);
+  const after = realmFor();
+  const brokeThrough = after.index > before.index;
+  const spoils = checkRewards();
   // A hard replay is only offered once the unit is finished, so it has no
   // level to complete.
   const done = mode === 'lesson' && !hard ? completeLevel(unit.id, unit.levels) : 0;
@@ -832,6 +838,12 @@ function finish() {
   $('done-title').textContent =
     mode !== 'lesson' ? 'Practice complete' : hard ? 'Hard replay complete' : 'Lesson complete';
   $('done-again').textContent = mode === 'lesson' ? 'Next lesson' : 'Back to practice';
+  const bt = $('done-breakthrough');
+  if (brokeThrough) {
+    $('bt-realm').textContent = after.title;
+    $('bt-realm-en').textContent = `Broken through to ${after.titleEn}`;
+  }
+  bt.hidden = !brokeThrough;
   $('done-xp').textContent = `+${xp} XP`;
   $('done-line').textContent =
     `${accuracy}% accuracy · ${Math.floor(secs / 60)}m ${secs % 60}s` +
@@ -846,6 +858,19 @@ function finish() {
   $('done-note').textContent = shaky.length
     ? 'These come back sooner.'
     : 'Nothing needed a second pass.';
+  const spoilTag = {
+    title: (r) => r.en,
+    pill: (r) => `${r.en} · a pill for your hoard`,
+    technique: (r) => `${r.en} · a technique learned`,
+  };
+  $('done-rewards').innerHTML = spoils
+    .map(
+      (r) =>
+        `<span class="spoil ${r.kind}"><b>${esc(r.zh)}</b>${esc(
+          spoilTag[r.kind](r)
+        )}</span>`
+    )
+    .join('');
   onLeave('done');
 }
 

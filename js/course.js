@@ -76,3 +76,62 @@ export function sentencesThrough(unitId) {
 
 export const totalXp = () =>
   Object.values(store.course.xp).reduce((n, x) => n + x, 0);
+
+// ── cultivation realms ────────────────────────────────────────────────
+// Lifetime qì (total XP) refines the learner through a ladder of realms, each
+// with four sub-stages. The numbers are the qì needed to ENTER a stage: plain,
+// tunable data, set so an active learner breaks through every few days early on
+// and slows at the higher realms. Purely cosmetic -- nothing here feeds FSRS.
+const STAGE_ZH = ['初期', '中期', '后期', '大圆满'];
+const STAGE_EN = ['Early', 'Middle', 'Late', 'Peak'];
+
+// [realm-zh, realm-en, [enter-qì per stage]], ascending. The last realm is
+// terminal: a single stage with no breakthrough beyond it.
+const REALM_TABLE = [
+  ['炼气', 'Qi Condensation', [0, 30, 70, 120]],
+  ['筑基', 'Foundation Establishment', [200, 320, 460, 620]],
+  ['金丹', 'Golden Core', [850, 1150, 1500, 1900]],
+  ['元婴', 'Nascent Soul', [2400, 3000, 3700, 4500]],
+  ['化神', 'Soul Transformation', [5500, 6700, 8100, 9700]],
+  ['渡劫', 'Tribulation', [11500, 13600, 16000, 18700]],
+  ['飞升', 'Ascension', [22000]],
+];
+
+const STAGES = REALM_TABLE.flatMap(([zh, en, qis]) =>
+  qis.map((qi, i) => ({
+    qi,
+    realm: zh,
+    realmEn: en,
+    stage: qis.length > 1 ? STAGE_ZH[i] : '',
+    stageEn: qis.length > 1 ? STAGE_EN[i] : '',
+  }))
+);
+
+// The cultivation standing for a lifetime qì total: the current stage, and how
+// far it sits toward the next breakthrough.
+export function realmFor(qi = totalXp()) {
+  let i = 0;
+  while (i + 1 < STAGES.length && STAGES[i + 1].qi <= qi) i += 1;
+  const cur = STAGES[i];
+  const next = STAGES[i + 1] ?? null;
+  const floor = cur.qi;
+  const ceil = next ? next.qi : cur.qi;
+  const into = qi - floor;
+  const span = Math.max(1, ceil - floor);
+  return {
+    index: i,
+    qi,
+    realm: cur.realm,
+    realmEn: cur.realmEn,
+    stage: cur.stage,
+    stageEn: cur.stageEn,
+    title: cur.stage ? `${cur.realm} ${cur.stage}` : cur.realm,
+    titleEn: cur.stageEn ? `${cur.realmEn} · ${cur.stageEn}` : cur.realmEn,
+    next,
+    atPeak: !next,
+    into,
+    span,
+    toNext: next ? ceil - qi : 0,
+    pct: next ? Math.min(100, Math.round((into / span) * 100)) : 100,
+  };
+}

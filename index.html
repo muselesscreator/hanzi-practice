@@ -21,13 +21,26 @@
     <div class="stat">
       <b id="streak-n">0</b>
       <span>day streak</span>
+      <span id="streak-talisman" class="talisman" title="护身符 · a protective talisman auto-burns to bridge one missed day" hidden>符</span>
     </div>
     <div class="ring" id="goal-ring"><span id="goal-text"></span></div>
     <div class="path-links">
       <button class="linkish" data-go="practice">Practice</button>
+      <button class="linkish" data-go="hoard">Hoard</button>
       <button class="linkish" data-go="settings">Settings</button>
     </div>
   </header>
+
+  <div class="realm" id="realm-bar" hidden>
+    <span id="realm-pet" class="realm-pet" title=""></span>
+    <div class="realm-body">
+      <div class="realm-head">
+        <b id="realm-title"></b>
+        <span id="realm-note"></span>
+      </div>
+      <div class="realm-track"><i id="realm-fill"></i></div>
+    </div>
+  </div>
 
   <p id="path-note" class="path-note" hidden></p>
   <div id="sections" class="sections"></div>
@@ -87,14 +100,41 @@
 <!-- ── lesson summary ───────────────────────────────────────────────── -->
 <main id="done" class="screen done" hidden>
   <h2 id="done-title" class="done-title">Lesson complete</h2>
+  <div id="done-breakthrough" class="breakthrough" hidden>
+    <span class="breakthrough-flag">突破</span>
+    <b id="bt-realm"></b>
+    <span id="bt-realm-en"></span>
+  </div>
   <p id="done-xp" class="done-xp"></p>
   <p id="done-line" class="done-line"></p>
   <div id="done-shaky" class="done-shaky"></div>
   <p id="done-note" class="done-note"></p>
+  <div id="done-rewards" class="done-rewards"></div>
   <div class="field-stack">
     <button id="done-again" class="press">Next lesson</button>
     <button class="linkish" data-go="path">Back to the path</button>
   </div>
+</main>
+
+<!-- ── the hoard: earned titles and pills ───────────────────────────── -->
+<main id="hoard" class="screen hoard" hidden>
+  <header class="hoard-head">
+    <h2>The Hoard</h2>
+    <button class="linkish" data-go="path">Back to the path</button>
+  </header>
+  <p id="hoard-title-now" class="hoard-title-now"></p>
+
+  <h3 class="hoard-h">灵宠 · Spirit pet</h3>
+  <div id="hoard-pet" class="hoard-pet"></div>
+
+  <h3 class="hoard-h">道号 · Dao titles</h3>
+  <ul id="hoard-titles" class="hoard-list"></ul>
+
+  <h3 class="hoard-h">丹药 · Pill hoard</h3>
+  <ul id="hoard-pills" class="hoard-list"></ul>
+
+  <h3 class="hoard-h">功法 · Techniques</h3>
+  <ul id="hoard-techniques" class="hoard-list"></ul>
 </main>
 
 <!-- ── practice hub ─────────────────────────────────────────────────── -->

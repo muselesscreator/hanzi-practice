@@ -206,6 +206,40 @@ top. Practice earns 1 XP per item. The header on the path shows the day's XP
 against the goal set in Settings, and the streak, which counts days with any
 XP at all. One missed day is forgiven, once.
 
+## Cultivation realms
+
+Lifetime XP is read as qì (气), refining you through a ladder of cultivation
+realms borrowed from xianxia — 炼气 Qi Condensation up through 飞升 Ascension,
+each with four sub-stages. The path header shows your current realm and the qì
+left to the next breakthrough. Crossing a threshold at the end of a lesson
+raises a 突破 banner naming the realm you have reached. It is purely cosmetic:
+the realm ladder only reads XP and never touches scheduling. The thresholds
+live as plain data in `js/course.js` (`realmFor`), tuned to break through every
+few days early on and slow down higher up.
+
+Milestones also grant collectibles, kept in the Hoard (a link on the path
+header): Dao titles (道号) for reaching realms, holding streaks, and finishing
+levels; pills (丹药) the streak furnace brews at streak and realm marks; and
+techniques (功法) learned by drilling — gated on lifetime retrieval counts and
+how many cards you have practised past the mastery target. The catalogue and
+the rules for earning each one live in `js/rewards.js`; they are flavour only,
+stored in the cosmetic `gamify` blob and re-earned from current standing when
+an old save is opened.
+
+A spirit pet (灵宠) ascends alongside you, egg to true dragon (灵卵 → 灵蛇 →
+蛟 → 螭龙 → 真龙). Its stage is derived from your realm, so it holds no stored
+state; it shows small beside the realm bar and in full on the Hoard, with its
+ascension ladder. The stages and art live in `js/pets.js`. The pet icons are by
+Lorc from [game-icons.net](https://game-icons.net/) under CC BY 3.0 — see
+`CREDITS.md`.
+
+The streak wears cultivation dress too. The streak freeze is a protective
+talisman (护身符), shown as a cinnabar 符 chip on the path header while one is in
+hand; it auto-burns to bridge a single missed day, and the next session says so.
+A streak lost outright reads as qi deviation (走火入魔). None of this changes the
+underlying streak or freeze mechanics — it is language and one toast. See
+`docs/cultivation-gamify.md` for the wider plan.
+
 ## Running it
 
 ```sh

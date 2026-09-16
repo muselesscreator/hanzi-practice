@@ -11,6 +11,8 @@
   --grid:       #C8493A;
   --seal:       #B02F26;
   --jade:       #3F6B5C;
+  --gold:       #B8893A;
+  --gold-ghost: rgba(184, 137, 58, 0.4);
 
   --sans:  "Avenir Next", Avenir, "Segoe UI", system-ui, sans-serif;
   --serif: Charter, Palatino, "Palatino Linotype", Georgia, serif;
@@ -32,6 +34,8 @@
     --grid:       #A84034;
     --seal:       #C4443A;
     --jade:       #6FA08C;
+    --gold:       #D9A94E;
+    --gold-ghost: rgba(217, 169, 78, 0.45);
   }
 }
 
@@ -612,6 +616,19 @@ button, label.linkish {
   text-transform: uppercase;
   color: var(--ink-faint);
 }
+/* The protective talisman (护身符): the streak freeze, made visible in-theme. */
+.stat .talisman {
+  margin-top: 3px;
+  align-self: flex-start;
+  padding: 1px 6px;
+  font-family: var(--han);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--paper);
+  background: var(--seal);
+  border-radius: 4px;
+}
 
 /* Daily goal, drawn as a ring filling clockwise. */
 .ring {
@@ -638,6 +655,56 @@ button, label.linkish {
   color: var(--ink-soft);
 }
 .ring.met span { color: var(--jade); }
+
+/* Cultivation realm: current standing and qì toward the next breakthrough. */
+.realm {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.realm-body { flex: 1; min-width: 0; }
+.realm-pet {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  color: var(--jade);
+}
+.realm.peak .realm-pet { color: var(--gold); }
+.realm-pet .pet-art { width: 100%; height: 100%; display: block; }
+.realm-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.realm-head b {
+  font-family: var(--han);
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+.realm-head span {
+  font-size: 11px;
+  text-align: right;
+  color: var(--ink-faint);
+}
+.realm-track {
+  margin-top: 7px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--rule);
+  overflow: hidden;
+}
+.realm-track i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--jade);
+  transition: width 0.6s ease;
+}
+.realm.peak .realm-head b { color: var(--gold); }
+.realm.peak .realm-track i { width: 100% !important; background: var(--gold); }
 
 .path-links {
   display: flex;
@@ -1309,6 +1376,60 @@ button, label.linkish {
 
 .done { justify-content: center; text-align: center; }
 .done-title { margin-bottom: 10px; }
+
+/* Breakthrough: the payoff when lifetime qì crosses into a new realm. */
+.breakthrough {
+  position: relative;
+  overflow: hidden;
+  max-width: 320px;
+  margin: 14px auto 18px;
+  padding: 18px 22px;
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  animation: bt-rise 0.5s ease both;
+}
+.breakthrough::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(from 0deg, transparent, var(--gold-ghost), transparent 42%);
+  opacity: 0.55;
+  animation: bt-spin 5s linear infinite;
+}
+.breakthrough > * { position: relative; }
+.breakthrough-flag {
+  font-family: var(--han);
+  font-size: 12px;
+  letter-spacing: 0.32em;
+  color: var(--gold);
+  text-shadow: 0 0 8px var(--gold-ghost);
+}
+.breakthrough b {
+  display: block;
+  margin: 5px 0 3px;
+  font-family: var(--han);
+  font-size: 30px;
+  color: var(--ink);
+  animation: bt-glow 1.9s ease-in-out infinite;
+}
+#bt-realm-en {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+@keyframes bt-rise {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes bt-spin { to { transform: rotate(1turn); } }
+@keyframes bt-glow {
+  0%, 100% { text-shadow: 0 0 10px var(--gold-ghost); }
+  50%      { text-shadow: 0 0 20px var(--gold-ghost), 0 0 34px var(--gold-ghost); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .breakthrough,
+  .breakthrough::before,
+  .breakthrough b { animation: none; }
+}
 .done-xp {
   margin: 0;
   font-family: var(--serif);
@@ -1335,6 +1456,116 @@ button, label.linkish {
   font-size: 12px;
   color: var(--ink-faint);
 }
+.done-rewards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0 0;
+}
+.spoil {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 5px 11px;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+.spoil b {
+  font-family: var(--han);
+  font-size: 13px;
+  color: var(--gold);
+}
+
 .done .field-stack { align-items: stretch; }
+
+/* ── the hoard: earned titles and pills ───────────────────────────── */
+.hoard-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.hoard-head h2 { margin: 0; }
+.hoard-title-now {
+  margin: 0 0 18px;
+  font-size: 13px;
+  color: var(--jade);
+}
+.hoard-h {
+  margin: 26px 0 12px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+/* The spirit pet: the current stage, its flavour, and the ascension ladder. */
+.pet-art { width: 100%; height: 100%; display: block; }
+.pet-now {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.pet-now .pet-art {
+  width: 72px;
+  height: 72px;
+  flex: none;
+  color: var(--jade);
+}
+.pet-say { display: flex; flex-direction: column; gap: 4px; }
+.pet-say b { font-family: var(--han); font-size: 15px; color: var(--jade); }
+.pet-say span { font-size: 12px; line-height: 1.5; color: var(--ink-faint); }
+.pet-next { font-style: italic; }
+.pet-ladder {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  gap: 10px;
+}
+.pet-step {
+  width: 40px;
+  height: 40px;
+  padding: 6px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  color: var(--ink-faint);
+  opacity: 0.55;
+}
+.pet-step.have { opacity: 1; color: var(--jade); }
+.pet-step.now { border-color: var(--jade); }
+
+.hoard-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.hoard-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: 3px 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+}
+.hoard-item b {
+  grid-row: span 2;
+  align-self: center;
+  font-family: var(--han);
+  font-size: 22px;
+  color: var(--ink);
+}
+.hoard-en { font-size: 13px; color: var(--ink); }
+.hoard-sub { grid-column: 2; font-size: 12px; line-height: 1.4; color: var(--ink-faint); }
+.hoard-item.locked { opacity: 0.55; }
+.hoard-item.locked b { color: var(--ink-faint); }
+.hoard-item.have { border-color: var(--gold); }
+.hoard-item.have b { color: var(--gold); }
 
 .colophon a { color: inherit; }

@@ -3,7 +3,7 @@
 // before you have ever opened them. Bundles from the old HSK-band deck are
 // cached the first time a character from it comes up.
 
-const VERSION = 'hanzi-v10';
+const VERSION = 'hanzi-v12';
 const SHELL = [
   './',
   'index.html',
@@ -13,6 +13,8 @@ const SHELL = [
   'js/course.js',
   'js/exercises.js',
   'js/lesson.js',
+  'js/rewards.js',
+  'js/pets.js',
   'js/audio.js',
   'js/writing.js',
   'manifest.webmanifest',

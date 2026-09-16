@@ -15,12 +15,16 @@ import {
   xpToday,
   goalMet,
   streakDays,
+  talismans,
+  takeStreakOmen,
   importBackup,
   eraseAll,
   exportBlob,
   setStorageFullHandler,
 } from './js/store.js';
 import * as C from './js/course.js';
+import { TITLES, PILLS, TECHNIQUES, checkRewards } from './js/rewards.js';
+import { PET_STAGES, petFor, injectPetSprite, petArt } from './js/pets.js';
 import * as W from './js/writing.js';
 import * as audio from './js/audio.js';
 import { startLesson, startPractice, lessonMode } from './js/lesson.js';
@@ -93,7 +97,7 @@ function buildBatches() {
 // ── screens ───────────────────────────────────────────────────────────
 
 const screens = [
-  'path', 'guide', 'lesson', 'done', 'practice', 'deck', 'session', 'summary', 'settings',
+  'path', 'guide', 'lesson', 'done', 'practice', 'deck', 'session', 'summary', 'settings', 'hoard',
 ];
 function go(name) {
   for (const s of screens) $(s).hidden = s !== name;
@@ -103,6 +107,7 @@ function go(name) {
   if (name === 'practice') paintPractice();
   if (name === 'deck') paintDeck();
   if (name === 'settings') paintSettings();
+  if (name === 'hoard') paintHoard();
 }
 
 function toast(msg) {
@@ -119,9 +124,25 @@ function paintPath() {
   const goal = store.settings.dailyGoal;
   const xp = xpToday();
   $('streak-n').textContent = streakDays();
+  const tal = talismans();
+  $('streak-talisman').hidden = tal <= 0;
+  $('streak-talisman').textContent = tal > 1 ? `符×${tal}` : '符';
   $('goal-ring').style.setProperty('--pct', `${Math.min(100, Math.round((xp / goal) * 100))}%`);
   $('goal-ring').classList.toggle('met', goalMet());
   $('goal-text').textContent = `${xp}/${goal}`;
+
+  const r = C.realmFor();
+  $('realm-title').textContent = r.title;
+  $('realm-note').textContent = r.atPeak
+    ? `${r.titleEn} · the peak of cultivation`
+    : `${r.titleEn} · ${r.toNext} 气 to 突破`;
+  $('realm-fill').style.width = `${r.pct}%`;
+  $('realm-bar').classList.toggle('peak', r.atPeak);
+  $('realm-bar').hidden = false;
+
+  const pet = petFor(r.index);
+  $('realm-pet').innerHTML = petArt(pet.id);
+  $('realm-pet').title = `${pet.zh} · ${pet.en}`;
 
   const current = C.currentUnit();
   $('path-note').textContent = C.course.spine.verified
@@ -415,6 +436,60 @@ function lanes() {
       run: () => go('deck'),
     },
   ];
+}
+
+function paintHoard() {
+  const g = store.gamify;
+
+  const pet = petFor();
+  $('hoard-pet').innerHTML = `
+    <div class="pet-now">
+      ${petArt(pet.id)}
+      <div class="pet-say">
+        <b>${esc(pet.zh)} — ${esc(pet.en)}</b>
+        <span>${esc(pet.note)}</span>
+        ${pet.next ? `<span class="pet-next">Ascends to ${esc(pet.next.zh)} ${esc(pet.next.en)} at the next realm band.</span>` : `<span class="pet-next">Fully ascended.</span>`}
+      </div>
+    </div>
+    <ol class="pet-ladder">
+      ${PET_STAGES.map((s) => {
+        const have = pet.min >= s.min;
+        const isNow = s.id === pet.id;
+        return `<li class="pet-step ${have ? 'have' : 'locked'} ${isNow ? 'now' : ''}" title="${esc(s.zh)} · ${esc(s.en)}">${petArt(s.id)}</li>`;
+      }).join('')}
+    </ol>`;
+
+  const cur = TITLES.find((t) => t.id === g.titles[g.titles.length - 1]);
+  $('hoard-title-now').textContent = cur
+    ? `Your title: ${cur.zh} — ${cur.en}`
+    : 'No title yet. Break through to earn your first.';
+
+  $('hoard-titles').innerHTML = TITLES.map((t) => {
+    const have = g.titles.includes(t.id);
+    return `<li class="hoard-item ${have ? 'have' : 'locked'}">
+      <b>${esc(t.zh)}</b>
+      <span class="hoard-en">${esc(t.en)}</span>
+      <span class="hoard-sub">${have ? 'Earned' : esc(t.hint)}</span>
+    </li>`;
+  }).join('');
+
+  $('hoard-pills').innerHTML = PILLS.map((p) => {
+    const have = g.pills.includes(p.id);
+    return `<li class="hoard-item ${have ? 'have' : 'locked'}">
+      <b>${esc(p.zh)}</b>
+      <span class="hoard-en">${esc(p.en)}</span>
+      <span class="hoard-sub">${have ? esc(p.flavor) : esc(p.hint)}</span>
+    </li>`;
+  }).join('');
+
+  $('hoard-techniques').innerHTML = TECHNIQUES.map((t) => {
+    const have = g.techniques.includes(t.id);
+    return `<li class="hoard-item ${have ? 'have' : 'locked'}">
+      <b>${esc(t.zh)}</b>
+      <span class="hoard-en">${esc(t.en)}</span>
+      <span class="hoard-sub">${have ? esc(t.flavor) : esc(t.hint)}</span>
+    </li>`;
+  }).join('');
 }
 
 function paintPractice() {
@@ -1149,7 +1224,15 @@ $('done-again').addEventListener('click', () => {
 
 (async () => {
   await Promise.all([W.loadDeck(), C.loadCourse()]);
+  injectPetSprite();
+  checkRewards();
   go('path');
+  const omen = takeStreakOmen();
+  if (omen === 'talisman') {
+    toast('护身符 burned — a talisman bridged your missed day. The streak holds.');
+  } else if (omen === 'deviation') {
+    toast('走火入魔 — your cultivation scattered. The streak begins anew.');
+  }
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js').catch(() => {});
   }

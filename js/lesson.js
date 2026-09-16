@@ -2,6 +2,9 @@ import {
   Rating,
   grade,
   start,
+  seen,
+  introduce,
+  store,
   addXp,
   completeLevel,
   countExposure,
@@ -9,10 +12,12 @@ import {
 } from './store.js';
 import { buildLesson, buildPractice, checkBank } from './exercises.js';
 import * as audio from './audio.js';
+import * as W from './writing.js';
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) =>
   String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const cssVar = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 
 // A lesson is a queue of exercises. Every exercise has to be answered
 // correctly once before the lesson ends; a missed one goes to the back of the
@@ -156,6 +161,8 @@ function render(ex) {
   box.className = `ex ex-${ex.type}`;
   const draw = {
     meet: renderMeet,
+    trace: renderTrace,
+    traceWord: renderTraceWord,
     selectHanzi: renderSelectHanzi,
     selectMeaning: renderSelectMeaning,
     match: renderMatch,
@@ -238,15 +245,16 @@ function narrowHint(ex, box) {
 
 function renderMeet(ex, box) {
   const w = ex.word;
+  // Under each character, the named sub-components it is built from, with their
+  // readings -- the pieces the writing slots that follow will trace.
+  const partLabel = (p) => `${p.char}${p.pinyin ? ` ${p.pinyin}` : ''}`;
   const parts = ex.chars
-    .map(
-      (c) =>
-        `<span class="char-part"><b>${esc(c.char)}</b>${
-          c.parts.length
-            ? `<em>${esc(c.parts.map((p) => p.char).join(' + '))}</em>`
-            : ''
-        }</span>`
-    )
+    .map((c) => {
+      const named = c.parts.filter((p) => p.gloss && p.char !== c.char);
+      return `<span class="char-part"><b>${esc(c.char)}</b>${
+        named.length ? `<em>${esc(named.map(partLabel).join(' + '))}</em>` : ''
+      }</span>`;
+    })
     .join('');
   const hear = audio.available();
   box.innerHTML =
@@ -290,6 +298,240 @@ function askMeetCheck(ex, box) {
     if (!ok) markCorrect(wrap, ex.check, (y) => y.id === ex.answer);
     resolve(ok, `${w.word} ${w.pinyin} — ${w.meaning}`);
   });
+}
+
+// -- tracing a character -------------------------------------------------
+
+// One 米字格 grid, hosted inside the lesson exercise box, for the HanziWriter
+// quiz to draw into.
+const MIZIGE_HTML = `
+  <div class="mizige" id="ex-mizige">
+    <svg class="grid" viewBox="0 0 100 100" aria-hidden="true">
+      <rect x="0.5" y="0.5" width="99" height="99" class="grid-edge"/>
+      <path d="M50 0V100M0 50H100M0 0L100 100M100 0L0 100" class="grid-line"/>
+    </svg>
+    <div id="ex-target" class="target"></div>
+    <div id="ex-seal" class="seal" aria-hidden="true"></div>
+  </div>`;
+
+function makeWriter(char) {
+  const size = $('ex-mizige').clientWidth || 300;
+  $('ex-target').innerHTML = '';
+  return HanziWriter.create($('ex-target'), char, {
+    width: size,
+    height: size,
+    padding: Math.round(size * 0.06),
+    charDataLoader: (ch, onLoad) => onLoad(W.strokeData(ch)),
+    showCharacter: false,
+    showOutline: false,
+    strokeColor: cssVar('--ink'),
+    outlineColor: cssVar('--ink-faint'),
+    drawingColor: cssVar('--ink'),
+    drawingWidth: 8,
+    highlightColor: cssVar('--seal'),
+    strokeAnimationSpeed: 1.1,
+    delayBetweenStrokes: 130,
+  });
+}
+
+// The named sub-components a character is built from, each with its reading and
+// meaning -- the display the learner reads while tracing the whole.
+function builtFrom(card) {
+  const parts = (card.parts ?? []).filter((p) => p.gloss && p.char !== card.char);
+  if (!parts.length) return '';
+  return (
+    '<p class="built-lead">Built from</p>' +
+    parts
+      .map(
+        (p) =>
+          `<span class="built-part"><b>${esc(p.char)}</b>` +
+          (p.pinyin ? `<i>${esc(p.pinyin)}</i>` : '') +
+          `<span>${esc(p.gloss)}</span>` +
+          (p.known ? '<em>· you know this</em>' : '') +
+          '</span>'
+      )
+      .join('')
+  );
+}
+
+const traceRating = (missed, fast) =>
+  missed ? Rating.Hard : fast ? Rating.Easy : Rating.Good;
+
+// A character's first trace is its first exposure: it starts the writing card
+// (and, like the writing track, an optional reading card) and counts against
+// the day's new-character budget. Later traces grade off how the trace went.
+function gradeTrace(ch, missed, fast) {
+  if (!seen(ch, 'w')) {
+    introduce();
+    if (store.settings.readCards) start(ch, 'r');
+    grade(ch, 'w', Rating.Good);
+    return;
+  }
+  grade(ch, 'w', traceRating(missed, fast));
+}
+
+// A word card is a new arrangement of shapes already learned, not a new shape,
+// so it never counts against the new-character budget.
+function gradeTraceWord(id, missed, fast) {
+  grade(id, 'w', seen(id, 'w') ? traceRating(missed, fast) : Rating.Good);
+}
+
+// Trace controls live inside the exercise box so they clear on the next slot.
+function traceButtons() {
+  return `<div class="trace-controls">
+       <button class="trace-btn" type="button" data-act="stroke">Show a stroke</button>
+       <button class="trace-btn" type="button" data-act="reveal">Show me</button>
+     </div>`;
+}
+
+function renderTrace(ex, box) {
+  const card = ex.card;
+  // A character new to the writing track is scaffolded -- animated once in
+  // full, its components named, a stroke hint after the first miss. A character
+  // already started is drilled bare.
+  const scaffold = !seen(card.char, 'w');
+  box.innerHTML =
+    ask(ex.block ? 'Trace this building block' : 'Write this character') +
+    `<div class="cue trace-cue">
+       <p class="cue-hanzi trace-glyph">${esc(card.char)}</p>
+       <p class="cue-pinyin">${esc(card.pinyin ?? '')}</p>
+       <p class="cue-en">${esc(card.meaning ?? '')}</p>
+     </div>
+     <div class="trace-stage">${MIZIGE_HTML}</div>
+     <div class="card-meta trace-meta">${
+       scaffold
+         ? builtFrom(card) + (card.hint ? `<span class="hint">${esc(card.hint)}</span>` : '')
+         : ''
+     }</div>` +
+    traceButtons();
+
+  const writer = makeWriter(card.char);
+  let mistakes = 0;
+  let hinted = false;
+  let revealed = false;
+  let strokeNum = 0;
+  const began = Date.now();
+
+  const settle = () => {
+    box.querySelector('.trace-controls')?.remove();
+    const missed = revealed || hinted || mistakes >= 3;
+    if (!missed) $('ex-seal')?.classList.add('press');
+    const fast =
+      !missed && mistakes === 0 && (Date.now() - began) / 1000 < (card.strokes ?? 6) * 1.1;
+    gradeTrace(card.char, missed, fast);
+    resolve(true, `${card.char} ${card.pinyin ?? ''} — ${card.meaning ?? ''}`.trim());
+  };
+
+  const runQuiz = () =>
+    writer.quiz({
+      leniency: 1.05,
+      showHintAfterMisses: scaffold ? 1 : false,
+      onMistake: (d) => {
+        mistakes += 1;
+        strokeNum = d.strokeNum;
+      },
+      onCorrectStroke: (d) => {
+        strokeNum = d.strokeNum + 1;
+      },
+      onComplete: () => {
+        writer.showCharacter();
+        settle();
+      },
+    });
+
+  box.querySelector('[data-act="stroke"]').onclick = () => {
+    hinted = true;
+    writer.highlightStroke(strokeNum);
+  };
+  box.querySelector('[data-act="reveal"]').onclick = () => {
+    revealed = true;
+    writer.cancelQuiz();
+    writer.animateCharacter({
+      onComplete: () => {
+        writer.showCharacter();
+        settle();
+      },
+    });
+  };
+
+  if (scaffold) writer.animateCharacter({ onComplete: runQuiz });
+  else runQuiz();
+}
+
+function renderTraceWord(ex, box) {
+  const w = ex.word;
+  const seq = ex.seq;
+  box.innerHTML =
+    ask('Write this word') +
+    `<div class="cue trace-cue">
+       <p class="cue-hanzi trace-glyph">${esc(w.word)}</p>
+       <p class="cue-pinyin">${esc(w.pinyin)}</p>
+       <p class="cue-en">${esc(w.meaning)}</p>
+     </div>
+     <div class="trace-stage">${MIZIGE_HTML}</div>
+     <div class="card-meta trace-meta"><span class="word-seq" id="ex-seq"></span></div>` +
+    traceButtons();
+
+  const strokeTotal = seq.reduce((n, ch) => n + (W.card(ch)?.strokes ?? 0), 0);
+  let at = 0;
+  let mistakes = 0;
+  let hinted = false;
+  let revealed = false;
+  let strokeNum = 0;
+  const began = Date.now();
+  let writer = null;
+
+  const paintSeq = () => {
+    $('ex-seq').innerHTML = seq
+      .map((ch, i) => `<b class="${i < at ? 'written' : i === at ? 'now' : ''}">${esc(ch)}</b>`)
+      .join('');
+  };
+
+  const settle = () => {
+    box.querySelector('.trace-controls')?.remove();
+    if (writer) writer.showCharacter();
+    const missed = revealed || hinted || mistakes >= 3;
+    if (!missed) $('ex-seal')?.classList.add('press');
+    const fast = !missed && mistakes === 0 && (Date.now() - began) / 1000 < strokeTotal * 1.1;
+    gradeTraceWord(w.id, missed, fast);
+    resolve(true, `${w.word} ${w.pinyin} — ${w.meaning}`);
+  };
+
+  const advance = () => {
+    at += 1;
+    if (at < seq.length) return step();
+    settle();
+  };
+
+  const step = () => {
+    paintSeq();
+    writer = makeWriter(seq[at]);
+    strokeNum = 0;
+    writer.quiz({
+      leniency: 1.05,
+      showHintAfterMisses: false,
+      onMistake: (d) => {
+        mistakes += 1;
+        strokeNum = d.strokeNum;
+      },
+      onCorrectStroke: (d) => {
+        strokeNum = d.strokeNum + 1;
+      },
+      onComplete: advance,
+    });
+  };
+
+  box.querySelector('[data-act="stroke"]').onclick = () => {
+    hinted = true;
+    writer?.highlightStroke(strokeNum);
+  };
+  box.querySelector('[data-act="reveal"]').onclick = () => {
+    revealed = true;
+    writer?.cancelQuiz();
+    writer?.animateCharacter({ onComplete: advance });
+  };
+
+  step();
 }
 
 function tiles(box, options, label, onPick) {
@@ -536,10 +778,13 @@ function finish() {
   // An introduction is not evidence, so it grades nothing -- it has already
   // started the card, and whichever retrieval follows it in this lesson is
   // what says how well the word landed.
+  // Slots that grade their own card as they resolve, or that are not a
+  // retrieval at all: the introduction, and the two writing slots.
+  const selfGraded = new Set(['meet', 'trace', 'traceWord']);
   const byKey = new Map(); // card key -> { missed, hinted }
   const reps = new Map(); // card key -> active retrievals to count
   for (const ex of plan) {
-    if (ex.type === 'meet') continue;
+    if (selfGraded.has(ex.type)) continue;
     const m = misses.get(ex) ?? 0;
     for (const k of ex.keys ?? (ex.key ? [ex.key] : [])) {
       const worst = byKey.get(k) ?? { missed: 0, hinted: false };

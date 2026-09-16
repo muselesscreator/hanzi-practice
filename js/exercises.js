@@ -243,6 +243,25 @@ const makers = {
       answer: w.tones[at],
     };
   },
+
+  // Trace a character, or a named building block (口, 亻 ...), stroke by
+  // stroke. The card already carries its reading, gloss, stroke count, hint and
+  // named sub-components -- all resolved at build time. The runner grades the
+  // writing card itself, so this slot is left out of the lesson's own grading.
+  trace: (ch) => {
+    const card = C.course.chars[ch];
+    return { type: 'trace', key: keyOf(ch, 'w'), char: ch, card, block: Boolean(card?.block) };
+  },
+
+  // Trace a whole word: its characters in sequence in one grid. It comes after
+  // every character in the word has been traced on its own, so the shape is
+  // never new -- what is tested is the word.
+  traceWord: (w) => ({
+    type: 'traceWord',
+    key: keyOf(w.id, 'w'),
+    word: w,
+    seq: w.chars,
+  }),
 };
 
 const TONES = [1, 2, 3, 4, 0];
@@ -405,6 +424,66 @@ export function buildLesson(u, level, opts = {}) {
   }
 }
 
+// The new writing cards a teaching level calls for, grouped under the batch
+// word that first needs each. The unit's writing track (u.writing) is already
+// components-first and de-duplicated across the whole course, so a character
+// written in an earlier lesson is never taught again; what is left is narrowed
+// to the characters this level's batch words reach -- directly, or through a
+// named sub-component (口, 亻 ...) -- and kept in track order, so a character
+// never arrives before its parts.
+function traceGroups(u, level) {
+  const batch = C.introBatch(u, level).map(C.word).filter(Boolean);
+  const trackPos = new Map((u.writing ?? []).map((ch, i) => [ch, i]));
+  const partsOf = (ch) => (C.course.chars[ch]?.parts ?? []).map((p) => p.char);
+
+  // The new-this-unit characters a batch word reaches, itself included.
+  const reaches = (w) => {
+    const got = new Set();
+    const walk = (ch) => {
+      if (!trackPos.has(ch) || got.has(ch)) return;
+      got.add(ch);
+      for (const p of partsOf(ch)) walk(p);
+    };
+    for (const ch of w.chars) walk(ch);
+    return got;
+  };
+
+  const owner = new Map(); // char -> the earliest batch word that reaches it
+  const needed = new Set();
+  for (const w of batch) {
+    for (const ch of reaches(w)) {
+      needed.add(ch);
+      if (!owner.has(ch)) owner.set(ch, w.id);
+    }
+  }
+
+  const groups = new Map(batch.map((w) => [w.id, []]));
+  for (const ch of [...needed].sort((a, b) => trackPos.get(a) - trackPos.get(b))) {
+    groups.get(owner.get(ch))?.push(ch);
+  }
+  return { batch, groups };
+}
+
+// A teaching level's word exercises, with its writing woven in: each word's new
+// characters (their named sub-components first, then the character itself) are
+// traced right after the word is met, and a whole-word trace of every
+// multi-character word the level taught comes at the very end.
+function weaveTraces(plan, u, level) {
+  if (!(u.writing ?? []).length) return plan; // conversation-track unit: no writing
+  const { batch, groups } = traceGroups(u, level);
+  const out = [];
+  for (const ex of plan) {
+    out.push(ex);
+    if (ex.type === 'meet') {
+      for (const ch of groups.get(ex.word.id) ?? []) out.push(makers.trace(ch));
+    }
+  }
+  const traceable = (w) =>
+    w.chars.length > 1 && w.chars.every((ch) => C.course.chars[ch]?.strokes);
+  for (const w of batch) if (traceable(w)) out.push(makers.traceWord(w));
+  return out;
+}
+
 // A teaching level: introduce this level's batch, interleaved rather than
 // blocked, and give every word of it a retrieval ladder inside the lesson.
 function teachLesson(u, level) {
@@ -464,7 +543,7 @@ function teachLesson(u, level) {
   }
 
   fillRest(slots, ctx, counts, put);
-  return slots.filter(Boolean);
+  return weaveTraces(slots.filter(Boolean), u, level);
 }
 
 // Whatever slots the ladders did not claim, filled with the least-used type

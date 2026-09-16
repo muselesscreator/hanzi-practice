@@ -274,8 +274,8 @@ const E = await import('../js/exercises.js');
 await C.loadCourse(co);
 
 const KNOWN = new Set([
-  'meet', 'selectHanzi', 'selectMeaning', 'match', 'bankZh', 'bankEn', 'cloze',
-  'listenWord', 'listenSent', 'tone',
+  'meet', 'trace', 'traceWord', 'selectHanzi', 'selectMeaning', 'match', 'bankZh',
+  'bankEn', 'cloze', 'listenWord', 'listenSent', 'tone',
 ]);
 const AUDIO = new Set(['listenWord', 'listenSent', 'tone']);
 
@@ -291,6 +291,16 @@ function faults(ex, where) {
   }
   if (ex.type === 'cloze' && !ex.options.includes(ex.answer)) {
     bad('cloze has no right answer');
+  }
+  // A trace slot needs stroke data to draw and a card to read from; a
+  // whole-word trace needs a stroke-bearing card for each of its characters.
+  if (ex.type === 'trace') {
+    if (!ex.card || !ex.card.strokes) bad(`trace ${ex.char} has no stroke data`);
+    if (!ex.card?.pinyin || !ex.card?.meaning) bad(`trace ${ex.char} lacks a reading or gloss`);
+  }
+  if (ex.type === 'traceWord') {
+    if (!(ex.seq?.length > 1)) bad(`traceWord ${ex.word?.word} is not multi-character`);
+    if (!ex.seq?.every((ch) => co.chars[ch]?.strokes)) bad(`traceWord ${ex.word?.word} has a strokeless character`);
   }
   if (AUDIO.has(ex.type)) {
     if (!ex.audio || !ex.say || !ex.fallback) bad(`${ex.type} lacks a sound or a pinyin fallback`);
@@ -325,6 +335,12 @@ function faults(ex, where) {
   return out;
 }
 
+// A teaching level weaves its writing in among the word exercises: the trace
+// and whole-word-trace slots are a separate modality with their own count and
+// grading, so the structural checks on the reading lesson read past them.
+const WRITE = new Set(['trace', 'traceWord']);
+const wordSlots = (items) => items.filter((ex) => !WRITE.has(ex.type));
+
 // Every level of every unit, checked for playability and the type cap. Run
 // once in silence and again with a voice, since the generator has two shapes.
 function generationFaults() {
@@ -332,13 +348,18 @@ function generationFaults() {
   for (const u of readyUnits) {
     for (let level = 1; level <= u.levels; level++) {
       const items = E.buildLesson(u, level);
-      if (items.length !== E.LESSON_SIZE) {
-        out.push(`${u.id} L${level}: ${items.length} items`);
+      const words = wordSlots(items);
+      // A teaching level fills its fifteen word slots exactly; a review level
+      // may fall short only when the unit has too little material to fill them
+      // (the conversation-track units carry no sentences), never overflow.
+      const teach = level <= u.intro.length;
+      if (teach ? words.length !== E.LESSON_SIZE : words.length > E.LESSON_SIZE) {
+        out.push(`${u.id} L${level}: ${words.length} word items`);
         continue;
       }
       for (const ex of items) out.push(...faults(ex, `${u.id} L${level}`));
       const counts = {};
-      for (const ex of items) counts[ex.type] = (counts[ex.type] ?? 0) + 1;
+      for (const ex of words) counts[ex.type] = (counts[ex.type] ?? 0) + 1;
       for (const [type, n] of Object.entries(counts)) {
         if (type !== 'meet' && n > 4) out.push(`${u.id} L${level}: ${n}x ${type}`);
       }
@@ -436,7 +457,9 @@ function teachingFaults() {
       const taught = new Set([...earlier, ...u.intro.slice(0, level).flat()]);
       for (let run = 0; run < RUNS; run++) {
         mem.clear();
-        const items = E.buildLesson(u, level);
+        // The retrieval ladder is a property of the reading lesson, so it is
+        // measured over the word exercises, past the woven-in trace slots.
+        const items = wordSlots(E.buildLesson(u, level));
         const where = `${u.id} L${level}`;
         const intros = items.filter((ex) => ex.type === 'meet').map((ex) => ex.word.id);
         if (intros.join('|') !== batch.join('|')) bump(`${where}: introduces ${intros.length}, expected ${batch.length}`);
@@ -487,6 +510,59 @@ function teachingFaults() {
 const teachFail = teachingFaults();
 check(`every taught word is drilled ${MIN_RETRIEVALS}x in the lesson that teaches it`,
   teachFail.length === 0, teachFail.slice(0, 5).join('; '));
+
+// 20b'. a teaching level also writes: every new character it introduces is
+//       traced, its named sub-components are traced first, tracing follows the
+//       introduction, and a multi-character word is traced whole once its
+//       characters have their own cards.
+function writingFaults() {
+  const bad = [];
+  const bump = (m) => {
+    if (!bad.includes(m)) bad.push(m);
+  };
+  for (const u of readyUnits) {
+    const track = new Set(u.writing ?? []);
+    if (!track.size) continue; // a conversation-track unit does no handwriting
+    for (let level = 1; level <= u.intro.length; level++) {
+      const items = E.buildLesson(u, level);
+      const where = `${u.id} L${level}`;
+      const firstMeet = items.findIndex((ex) => ex.type === 'meet');
+      const traceAt = new Map();
+      items.forEach((ex, i) => {
+        if (ex.type === 'trace') traceAt.set(ex.char, i);
+      });
+
+      for (const [ch, i] of traceAt) {
+        if (!track.has(ch)) bump(`${where}: traces ${ch}, not in the writing track`);
+        if (firstMeet < 0 || i < firstMeet) bump(`${where}: ${ch} traced before any word is met`);
+        for (const p of co.chars[ch].parts) {
+          if (traceAt.has(p.char) && traceAt.get(p.char) > i) {
+            bump(`${where}: ${ch} traced before its part ${p.char}`);
+          }
+        }
+      }
+
+      const batch = (u.intro[level - 1] ?? []).map((id) => co.words[id]).filter(Boolean);
+      for (const w of batch) {
+        for (const ch of w.chars) {
+          if (track.has(ch) && !traceAt.has(ch)) bump(`${where}: introduces ${ch} but never traces it`);
+        }
+      }
+
+      const wordTraced = new Set(
+        items.filter((ex) => ex.type === 'traceWord').map((ex) => ex.word.id)
+      );
+      for (const w of batch) {
+        const writable = w.chars.length > 1 && w.chars.every((ch) => co.chars[ch]?.strokes);
+        if (writable && !wordTraced.has(w.id)) bump(`${where}: ${w.word} never traced whole`);
+      }
+    }
+  }
+  return bad;
+}
+const writeFail = writingFaults();
+check('a teaching level traces the characters it introduces, components first',
+  writeFail.length === 0, writeFail.slice(0, 5).join('; '));
 
 // 20c. a hint costs a grade, the way it already does on the writing cards
 const L = await import('../js/lesson.js');

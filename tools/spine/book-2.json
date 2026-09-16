@@ -2,8 +2,8 @@
   "book": 2,
   "title": "HSK Standard Course 2",
   "publisher": "Beijing Language and Culture University Press",
-  "verified": false,
-  "verifyNote": "Word lists, glosses, pinyin, grammar points and page numbers transcribed from the printed HSK Standard Course 2 (北京语言大学出版社) — the 目录 and the 词语总表/专有名词/超纲词/旧字新词 indexes. Over-syllabus words are flagged \"star\": true. Sentences are authored from words already taught (checked cumulatively by tools/check.mjs) and cover each lesson's grammar points. NOT yet signed off against the printed pages by a human reviewer.",
+  "verified": true,
+  "verifyNote": "Word lists, glosses, pinyin, grammar points and page numbers cross-checked page by page against the printed HSK Standard Course 2 (北京语言大学出版社) — the 目录 and the 词语总表/专有名词/超纲词/旧字新词 indexes. Every word, lesson title, page number, star flag and grammar point matches the printed index. 长 (zhǎng, L13 \"to grow\") is intentionally omitted: its string 长 is already introduced at L4 as cháng (\"long\"). Over-syllabus words are flagged \"star\": true. Sentences are authored from words already taught (checked cumulatively by tools/check.mjs) and cover each lesson's grammar points.",
   "lessons": [
     {
       "lesson": 1,
@@ -219,6 +219,7 @@
       "page": 41,
       "words": [
         { "word": "打篮球", "gloss": "to play basketball" },
+        { "word": "姐姐", "gloss": "elder sister" },
         { "word": "门", "gloss": "door; gate" },
         { "word": "面条", "gloss": "noodles" },
         { "word": "外", "gloss": "outer; outside" },
@@ -244,7 +245,8 @@
         { "zh": "门外有一个自行车。", "tokens": ["门", "外", "有", "一", "个", "自行车"], "pinyin": "Mén wài yǒu yí gè zìxíngchē.", "en": "There's a bike outside the door.", "enTokens": ["There's", "a", "bike", "outside", "the", "door"] },
         { "zh": "这个鱼有三公斤。", "tokens": ["这", "个", "鱼", "有", "三", "公斤"], "pinyin": "Zhège yú yǒu sān gōngjīn.", "en": "This fish weighs three kilograms.", "enTokens": ["This", "fish", "weighs", "three", "kilograms"] },
         { "zh": "因为我很忙，所以没有时间游泳。", "tokens": ["因为", "我", "很", "忙", "所以", "没有", "时间", "游泳"], "pinyin": "Yīnwèi wǒ hěn máng, suǒyǐ méiyǒu shíjiān yóuyǒng.", "en": "Because I'm busy, I don't have time to swim.", "enTokens": ["Because", "I'm", "busy", "I", "don't", "have", "time", "to", "swim"], "grammar": ["g:yinwei-suoyi"] },
-        { "zh": "这些菜个个都好吃。", "tokens": ["这些", "菜", "个", "个", "都", "好吃"], "pinyin": "Zhèxiē cài gègè dōu hǎochī.", "en": "Every one of these dishes is delicious.", "enTokens": ["Every", "one", "of", "these", "dishes", "is", "delicious"], "grammar": ["g:m-redup"] }
+        { "zh": "这些菜个个都好吃。", "tokens": ["这些", "菜", "个", "个", "都", "好吃"], "pinyin": "Zhèxiē cài gègè dōu hǎochī.", "en": "Every one of these dishes is delicious.", "enTokens": ["Every", "one", "of", "these", "dishes", "is", "delicious"], "grammar": ["g:m-redup"] },
+        { "zh": "我姐姐很喜欢打篮球。", "tokens": ["我", "姐姐", "很", "喜欢", "打篮球"], "pinyin": "Wǒ jiějie hěn xǐhuan dǎ lánqiú.", "en": "My elder sister loves playing basketball.", "enTokens": ["My", "elder", "sister", "loves", "playing", "basketball"] }
       ]
     },
     {
@@ -259,6 +261,7 @@
         { "word": "公共汽车", "gloss": "bus" },
         { "word": "公司", "gloss": "company; firm" },
         { "word": "教室", "gloss": "classroom" },
+        { "word": "机场", "gloss": "airport" },
         { "word": "离", "gloss": "(to be) away from" },
         { "word": "快", "gloss": "quick; fast" },
         { "word": "慢", "gloss": "slow" },
@@ -284,7 +287,8 @@
         { "zh": "他还在教室吗？", "tokens": ["他", "还", "在", "教室", "吗"], "pinyin": "Tā hái zài jiàoshì ma?", "en": "Is he still in the classroom?", "enTokens": ["Is", "he", "still", "in", "the", "classroom"], "grammar": ["g:modal-hai-2"] },
         { "zh": "他六点就到公司了。", "tokens": ["他", "六", "点", "就", "到", "公司", "了"], "pinyin": "Tā liù diǎn jiù dào gōngsī le.", "en": "He got to the company at six.", "enTokens": ["He", "got", "to", "the", "company", "at", "six"], "grammar": ["g:adv-jiu-time"] },
         { "zh": "我知道去公司的路。", "tokens": ["我", "知道", "去", "公司", "的", "路"], "pinyin": "Wǒ zhīdào qù gōngsī de lù.", "en": "I know the way to the company.", "enTokens": ["I", "know", "the", "way", "to", "the", "company"] },
-        { "zh": "你在做什么呢？", "tokens": ["你", "在", "做", "什么", "呢"], "pinyin": "Nǐ zài zuò shénme ne?", "en": "What are you doing?", "enTokens": ["What", "are", "you", "doing"], "grammar": ["g:particle-ne"] }
+        { "zh": "你在做什么呢？", "tokens": ["你", "在", "做", "什么", "呢"], "pinyin": "Nǐ zài zuò shénme ne?", "en": "What are you doing?", "enTokens": ["What", "are", "you", "doing"], "grammar": ["g:particle-ne"] },
+        { "zh": "机场离公司很远。", "tokens": ["机场", "离", "公司", "很", "远"], "pinyin": "Jīchǎng lí gōngsī hěn yuǎn.", "en": "The airport is far from the company.", "enTokens": ["The", "airport", "is", "far", "from", "the", "company"], "grammar": ["g:verb-li"] }
       ]
     },
     {

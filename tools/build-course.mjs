@@ -25,6 +25,10 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CACHE = path.join(ROOT, 'tools', 'cache');
 const SPINE = path.join(ROOT, 'tools', 'spine');
 const DATA = path.join(ROOT, 'data');
+// The scanned course books. Gitignored (copyrighted), so a fork checked out
+// without them builds a course with no PDF pointers and the app hides the
+// viewer and its access-phrase setting.
+const PRIVATE = path.join(ROOT, 'docs', 'private');
 
 const args = Object.fromEntries(
   process.argv.slice(2).map((a) => {
@@ -220,6 +224,7 @@ function charCard(ch, knownBefore) {
     seen.add(p);
     parts.push({
       char: p,
+      pinyin: charPinyin(p),
       gloss: shortGloss(mmah.get(p)?.definition),
       known: knownBefore.has(p),
     });
@@ -268,6 +273,8 @@ const taughtWords = new Set(); // word strings taught so far, cumulatively
 const wordChars = new Set(); // characters that appear in a taught word
 const knownChars = new Set(); // characters whose writing card has been placed
 let verified = true;
+
+const hasScan = (ref) => Boolean(ref?.file) && fs.existsSync(path.join(PRIVATE, ref.file));
 
 for (const file of spineFiles) {
   const book = readJson(path.join(SPINE, file));
@@ -417,15 +424,16 @@ for (const file of spineFiles) {
     // spine. The stored page is the physical PDF page -- the printed lesson
     // page shifted by the book's front-matter offset -- so a viewer opened at
     // #page= lands on the lesson. A conversation-track book (the Ving Tsun
-    // vocabulary) has no scanned course book, so it gets none.
+    // vocabulary) has no scanned course book, so it gets none, and a book
+    // whose scan is not on disk gets none either.
     const pdf = {};
-    if (book.pdf?.textbook && lesson.page != null) {
+    if (hasScan(book.pdf?.textbook) && lesson.page != null) {
       pdf.textbook = {
         slug: book.pdf.textbook.slug,
         page: lesson.page + (book.pdf.textbook.pageOffset ?? 0),
       };
     }
-    if (book.pdf?.workbook && lesson.wbPage != null) {
+    if (hasScan(book.pdf?.workbook) && lesson.wbPage != null) {
       pdf.workbook = {
         slug: book.pdf.workbook.slug,
         page: lesson.wbPage + (book.pdf.workbook.pageOffset ?? 0),

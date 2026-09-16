@@ -186,8 +186,14 @@ function paintPath() {
 
 // A finished unit replays on hard: the same fifteen slots, production first,
 // no hints, more to choose between. The path does not move.
-function openLesson(u) {
+async function openLesson(u) {
   const hard = C.unitDone(u);
+  // A teaching level traces its new characters, so the stroke data for
+  // everything the unit could ask to write is loaded before the lesson starts.
+  await W.loadStrokes([
+    ...(u.writing ?? []),
+    ...u.words.flatMap((id) => C.word(id).chars),
+  ]);
   go('lesson');
   startLesson(u, hard ? u.levels : C.nextLevel(u), {
     hard,
@@ -325,6 +331,9 @@ function paintSettings() {
   $('set-new').value = store.settings.newPerDay;
   $('set-read').checked = store.settings.readCards;
   $('set-goal').value = store.settings.dailyGoal;
+  // The access phrase only matters when the build found scanned books to
+  // gate; a checkout without them has nothing for the phrase to unlock.
+  $('token-field').hidden = !C.course.units.some((u) => u.pdf);
   $('set-token').value = store.settings.bookToken ?? '';
   paintVoice();
 }
@@ -698,7 +707,8 @@ function showIntro(state, card) {
         .slice(0, shown)
         .map(
           (p) =>
-            `<span class="part-row"><b>${p.char}</b>${p.gloss}` +
+            `<span class="part-row"><b>${p.char}</b>` +
+            `${p.pinyin ? `<i>${p.pinyin}</i> ` : ''}${p.gloss}` +
             `${p.known ? ' <em>· you know this</em>' : ''}</span>`
         )
         .join('');
@@ -993,12 +1003,15 @@ function showWordCard(state, word) {
 
 function metaHtml(card) {
   const parts = card.parts.filter((p) => p.gloss);
+  const built = parts.length
+    ? '<span class="built">Built from ' +
+      parts
+        .map((p) => `<b>${p.char}</b>${p.pinyin ? ` ${p.pinyin}` : ''} ${p.gloss}`)
+        .join('; ') +
+      '</span>'
+    : '';
   return [
-    parts.length
-      ? `<span class="parts">${parts.map((p) => p.char).join(' ')}</span> — ${parts
-          .map((p) => p.gloss)
-          .join(', ')}`
-      : '',
+    built,
     card.hint ? `<span class="hint">${card.hint}</span>` : '',
     examplesHtml(card),
   ]

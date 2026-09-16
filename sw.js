@@ -3,7 +3,7 @@
 // before you have ever opened them. Bundles from the old HSK-band deck are
 // cached the first time a character from it comes up.
 
-const VERSION = 'hanzi-v8';
+const VERSION = 'hanzi-v10';
 const SHELL = [
   './',
   'index.html',
@@ -55,6 +55,23 @@ self.addEventListener('fetch', (e) => {
   // The scanned textbook PDFs are large, token-gated and read online only, so
   // they go straight to the network and never enter the offline cache.
   if (new URL(e.request.url).pathname.includes('/textbooks/')) return;
+  // Navigations are network-first: an off-app page (e.g. a captive router) that
+  // once answered a shell request must never lock the app to a cached copy, so
+  // the fresh page always wins when online and the cache is only a fallback.
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      fetch(e.request)
+        .then((res) => {
+          if (res.ok && new URL(e.request.url).origin === location.origin) {
+            const copy = res.clone();
+            caches.open(VERSION).then((c) => c.put(e.request, copy));
+          }
+          return res;
+        })
+        .catch(() => caches.match(e.request).then((hit) => hit || caches.match('index.html')))
+    );
+    return;
+  }
   e.respondWith(
     caches.match(e.request).then(
       (hit) =>

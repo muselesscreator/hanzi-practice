@@ -334,6 +334,17 @@ button, label.linkish {
   font-style: normal;
   color: var(--jade);
 }
+.card-meta .part-row i {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--jade);
+  margin-right: 4px;
+}
+.card-meta .built b {
+  font-family: var(--han);
+  font-weight: 400;
+  color: var(--ink);
+}
 
 .choices {
   display: grid;
@@ -770,6 +781,7 @@ button, label.linkish {
   flex-direction: column;
   background: var(--paper);
 }
+.pdf-viewer[hidden] { display: none; }
 .pdf-bar {
   display: flex;
   align-items: center;
@@ -918,7 +930,11 @@ button, label.linkish {
 
 /* ── lesson ───────────────────────────────────────────────────────── */
 
-.lesson { justify-content: flex-start; }
+.lesson {
+  justify-content: flex-start;
+  /* The footer carries the bottom padding so it can sit flush on the viewport edge. */
+  padding-bottom: 0;
+}
 
 .lesson-head {
   display: flex;
@@ -990,6 +1006,53 @@ button, label.linkish {
   color: var(--ink-soft);
   margin-top: 4px !important;
 }
+
+/* ── tracing inside a lesson ───────────────────────────────────────── */
+.trace-cue { text-align: center; }
+.trace-cue .cue-hanzi { font-size: 30px; }
+.trace-cue .cue-pinyin { font-size: 20px; }
+.trace-cue .cue-en { font-size: 18px; color: var(--ink-soft); }
+.trace-stage { display: flex; justify-content: center; }
+.trace-stage .mizige { width: min(72vw, 300px); }
+.trace-meta { text-align: center; }
+.built-lead {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.built-part {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0 8px 4px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.built-part b {
+  font-family: var(--han);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--ink);
+}
+.built-part i {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--jade);
+}
+.built-part em { font-style: normal; color: var(--ink-faint); }
+.trace-controls { display: flex; gap: 10px; justify-content: center; }
+.trace-btn {
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink-soft);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+.trace-btn:active { background: var(--paper-sunk); }
 
 /* Meeting a word: the word, its sound, its meaning, and what it is built of. */
 .meet { text-align: center; margin: auto 0; }
@@ -1189,7 +1252,14 @@ button, label.linkish {
 /* ── feedback and footer ──────────────────────────────────────────── */
 
 .lesson-foot {
+  /* Feedback and the Continue button appear only after an answer. Pinning the
+     footer keeps them on screen when they push the page past the viewport. */
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
   margin-top: 16px;
+  padding: 10px 0 calc(var(--safe-b) + 18px);
+  background: var(--paper);
   display: flex;
   flex-direction: column;
   gap: 12px;

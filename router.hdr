@@ -1,0 +1,12 @@
+HTTP/2 200 
+content-type: text/html
+last-modified: Mon, 01 Jun 2026 10:01:45 GMT
+content-length: 610
+strict-transport-security: max-age=63072000
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+cache-control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+accept-ranges: bytes
+date: Thu, 03 Sep 2026 18:00:26 GMT
+
